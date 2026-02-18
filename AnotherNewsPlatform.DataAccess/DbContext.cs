@@ -1,4 +1,5 @@
-﻿using AnotherNewsPlatform.DataAccess.Entities;
+﻿using AnotherNewsPlatform.DataAccess.Configuration;
+using AnotherNewsPlatform.DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -14,9 +15,15 @@ namespace AnotherNewsPlatform.DataAccess
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var connectionString = "Server=(localdb)\\MSSQLLocalDB;Database=AnotherNewsPlatformDb;Trusted_Connection=True;TrustedServerCertificate=True";
+            var connectionString = "Server=(localdb)\v11.0;Integrated Security=true;";
             optionsBuilder.UseSqlServer(connectionString);
         }
-
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfiguration(new AuthorConfiguration());
+            modelBuilder.ApplyConfiguration(new NewsConfiguration());
+            modelBuilder.ApplyConfiguration(new NewsPublisherConfiguration());
+            modelBuilder.ApplyConfiguration(new UserConfiguration());
+        }
     }
 }

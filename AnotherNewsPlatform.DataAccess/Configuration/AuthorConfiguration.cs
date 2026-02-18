@@ -11,9 +11,14 @@ namespace AnotherNewsPlatform.DataAccess.Configuration
     {
         public void Configure(EntityTypeBuilder<Author> builder)
         {
-            builder.ToTable("Users");
+            builder.ToTable("Authors");
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).ValueGeneratedOnAdd();
+            builder.Property(a => a.Name).HasMaxLength(100).IsRequired();
+            builder.Property(a => a.Bio).HasMaxLength(500);
+            builder.HasMany(a => a.News).WithOne(n => n.author)
+                .HasForeignKey(n => n.AuthorId)
+                .OnDelete(DeleteBehavior.Cascade);
 
         }
     }

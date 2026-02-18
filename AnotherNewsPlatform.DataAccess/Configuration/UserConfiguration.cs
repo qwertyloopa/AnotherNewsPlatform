@@ -11,6 +11,7 @@ namespace AnotherNewsPlatform.DataAccess.Configuration
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
+            builder.ToTable("Users");
             builder.HasKey(u => u.Id);
             builder.Property(u => u.Id).ValueGeneratedOnAdd();
             builder.Property(u => u.Username).HasMaxLength(50)
