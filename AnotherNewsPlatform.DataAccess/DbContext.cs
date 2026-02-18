@@ -1,15 +1,15 @@
-﻿using AnotherNewsPlatform.DataAccess.Models;
+﻿using AnotherNewsPlatform.DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 
 namespace AnotherNewsPlatform.DataAccess
 {
-    internal class AnpDbContext : DbContext
+    internal class DbContext : Microsoft.EntityFrameworkCore.DbContext
     {
         public DbSet<Author> authors {  get; set; }
         public DbSet<News> news { get; set; }
-        public DbSet<NewsPublishers> newsPublishers { get; set; }
+        public DbSet<NewsPublisher> newsPublishers { get; set; }
         public DbSet<User> users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
