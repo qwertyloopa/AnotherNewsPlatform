@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="AnotherNewsPlatform.DataAccess/AnotherNewsPlatform.DataAccess.csproj" Id="bc64af9e-e819-4181-bc09-39efbc62b6ed" />
+  <Project Path="AnotherNewsPlatform/AnotherNewsPlatform.API.csproj" />
+</Solution>
