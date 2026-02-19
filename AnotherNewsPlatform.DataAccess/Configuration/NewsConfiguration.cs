@@ -22,7 +22,7 @@ namespace AnotherNewsPlatform.DataAccess.Configuration
             builder.HasOne(p => p.author).WithMany(n => n.News)
                 .HasForeignKey(k => k.AuthorId)
                 .IsRequired();
-            builder.HasOne(n => n.Publisher)
+            builder.HasOne(n => n.publisher)
                 .WithMany(p => p.News)
                 .HasForeignKey(n => n.PublisherId)
                 .IsRequired();

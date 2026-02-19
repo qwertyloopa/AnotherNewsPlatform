@@ -15,7 +15,7 @@ namespace AnotherNewsPlatform.DataAccess.Entities
         public long AuthorId { get; set; }
         public Author author { get; set; }
 
-        public int PublisherId { get; set; }
+        public long PublisherId { get; set; }
         public NewsPublisher publisher { get; set; }
     }
 }

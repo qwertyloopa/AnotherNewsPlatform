@@ -15,7 +15,7 @@ namespace AnotherNewsPlatform.DataAccess
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var connectionString = "Server=(localdb)\v11.0;Integrated Security=true;";
+            var connectionString = "Server=MASHINA3000;Database=AnotherNewsPortalDb;Trusted_Connection=True;TrustServerCertificate=True";
             optionsBuilder.UseSqlServer(connectionString);
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
