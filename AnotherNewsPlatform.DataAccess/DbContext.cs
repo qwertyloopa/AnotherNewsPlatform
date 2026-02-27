@@ -15,7 +15,7 @@ namespace AnotherNewsPlatform.DataAccess
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var connectionString = "Server=127.0.0.1;Port=5432;Database=AnotherNewsPlatform;User Id=postgres;Password=etobaza;";
+            var connectionString = "Server=127.0.0.1;Port=5432;Database=AnotherNewsPlatformDb;User Id=postgres;Password=rootroot;";
             optionsBuilder.UseNpgsql(connectionString);
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
