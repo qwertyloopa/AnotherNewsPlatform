@@ -3,6 +3,7 @@ using System;
 using AnotherNewsPlatform.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AnotherNewsPlatform.DataAccess.Migrations
 {
     [DbContext(typeof(DbContext))]
-    partial class DbContextModelSnapshot : ModelSnapshot
+    [Migration("20260302222836_RenameNews")]
+    partial class RenameNews
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -56,6 +59,11 @@ namespace AnotherNewsPlatform.DataAccess.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<string>("Article")
+                        .IsRequired()
+                        .HasMaxLength(78)
+                        .HasColumnType("character varying(78)");
+
                     b.Property<long>("AuthorId")
                         .HasColumnType("bigint");
 
@@ -72,11 +80,6 @@ namespace AnotherNewsPlatform.DataAccess.Migrations
                     b.Property<string>("Text")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(78)
-                        .HasColumnType("character varying(78)");
 
                     b.HasKey("Id");
 

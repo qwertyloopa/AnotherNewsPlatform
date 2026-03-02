@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AnotherNewsPlatform.DataAccess.Migrations
 {
     [DbContext(typeof(DbContext))]
-    [Migration("20260227132604_Init")]
+    [Migration("20260302222641_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -130,7 +130,7 @@ namespace AnotherNewsPlatform.DataAccess.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
-                    b.Property<string>("Password")
+                    b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasColumnType("text");
 

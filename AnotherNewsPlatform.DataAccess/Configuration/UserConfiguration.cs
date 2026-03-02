@@ -18,7 +18,7 @@ namespace AnotherNewsPlatform.DataAccess.Configuration
                 .IsRequired();
             builder.Property(u => u.Email).HasMaxLength(100)
                 .IsRequired();
-            builder.Property(p => p.Password).IsRequired();
+            builder.Property(p => p.PasswordHash).IsRequired();
             builder.HasIndex(u => u.Email).IsUnique();
             builder.HasIndex(u => u.Username).IsUnique();
         }
