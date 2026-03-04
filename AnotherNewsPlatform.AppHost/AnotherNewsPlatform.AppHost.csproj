@@ -1,23 +1,16 @@
-﻿<Project Sdk="Aspire.AppHost.Sdk/13.1.1">
+<Project Sdk="Aspire.AppHost.Sdk/13.1.0">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <UserSecretsId>4e441e7d-8284-4b52-9a13-56afa5e7ac0c</UserSecretsId>
+    <UserSecretsId>e514aed0-579d-4548-b01c-19aa6072aef2</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.3">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\AnotherNewsPlatform.DataAccess\AnotherNewsPlatform.DataAccess.csproj" />
-    <ProjectReference Include="..\AnotherNewsPlatform.Mvc\AnotherNewsPlatform.Mvc.csproj" />
+    <ProjectReference Include="..\AnotherNewsPlatform.ApiService\AnotherNewsPlatform.ApiService.csproj" />
+    <ProjectReference Include="..\AnotherNewsPlatform.Web\AnotherNewsPlatform.Web.csproj" />
   </ItemGroup>
 
 </Project>

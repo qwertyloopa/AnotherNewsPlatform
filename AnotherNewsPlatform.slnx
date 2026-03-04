@@ -1,6 +1,7 @@
 <Solution>
-  <Project Path="AnotherNewsPlatform.AppHost/AnotherNewsPlatform.AppHost.csproj" Id="225fa3c4-ac73-402f-9508-12a2254350d3" />
+  <Project Path="AnotherNewsPlatform.ApiService/AnotherNewsPlatform.ApiService.csproj" />
+  <Project Path="AnotherNewsPlatform.AppHost/AnotherNewsPlatform.AppHost.csproj" Id="dfcd029b-fee8-41b2-be4f-86c04c27ada6" />
   <Project Path="AnotherNewsPlatform.DataAccess/AnotherNewsPlatform.DataAccess.csproj" Id="bc64af9e-e819-4181-bc09-39efbc62b6ed" />
-  <Project Path="AnotherNewsPlatform.Mvc/AnotherNewsPlatform.Mvc.csproj" />
   <Project Path="AnotherNewsPlatform.ServiceDefaults/AnotherNewsPlatform.ServiceDefaults.csproj" />
+  <Project Path="AnotherNewsPlatform.Web/AnotherNewsPlatform.Web.csproj" />
 </Solution>
