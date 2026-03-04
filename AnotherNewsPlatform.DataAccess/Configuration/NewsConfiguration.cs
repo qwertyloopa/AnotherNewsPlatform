@@ -26,7 +26,9 @@ namespace AnotherNewsPlatform.DataAccess.Configuration
                 .WithMany(p => p.News)
                 .HasForeignKey(n => n.PublisherId)
                 .IsRequired();
-
+            builder.HasOne(n => n.category).WithMany(c => c.News)
+                .HasForeignKey(c => c.CategoryId)
+                .IsRequired();
         }
     }
 }

@@ -10,6 +10,7 @@ namespace AnotherNewsPlatform.DataAccess.Entities
         public string Title { get; set; } = string.Empty;
         public string Content { get; set; } =string.Empty;
         public DateTime PublishDate { get; set; } = DateTime.UtcNow;
+        public DateTime UpdateDate { get; set; }
         public string Text { get; set; } = string.Empty;
 
         public long AuthorId { get; set; }
@@ -17,5 +18,7 @@ namespace AnotherNewsPlatform.DataAccess.Entities
 
         public long PublisherId { get; set; }
         public NewsPublisher publisher { get; set; }
+        public long CategoryId {  get; set; }
+        public Category category { get; set; }
     }
 }
