@@ -5,12 +5,11 @@
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <UserSecretsId>e514aed0-579d-4548-b01c-19aa6072aef2</UserSecretsId>
+    <UserSecretsId>d0227cfa-de56-44fa-a811-52a9ce98d627</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AnotherNewsPlatform.ApiService\AnotherNewsPlatform.ApiService.csproj" />
-    <ProjectReference Include="..\AnotherNewsPlatform.Web\AnotherNewsPlatform.Web.csproj" />
+    <ProjectReference Include="..\AnotherNewsPlatform.App\AnotherNewsPlatform.App.csproj" />
   </ItemGroup>
 
 </Project>
