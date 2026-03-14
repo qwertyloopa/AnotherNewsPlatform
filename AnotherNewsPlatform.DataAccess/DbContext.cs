@@ -8,10 +8,12 @@ namespace AnotherNewsPlatform.DataAccess
 {
     public class DbContext : Microsoft.EntityFrameworkCore.DbContext
     {
-        public DbSet<Author> authors {  get; set; }
-        public DbSet<News> news { get; set; }
-        public DbSet<NewsPublisher> newsPublishers { get; set; }
-        public DbSet<User> users { get; set; }
+        public DbSet<Author> Authors {  get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<News> News { get; set; }
+        public DbSet<Source> Source { get; set; }
+        public DbSet<User> Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -22,7 +24,7 @@ namespace AnotherNewsPlatform.DataAccess
         {
             modelBuilder.ApplyConfiguration(new AuthorConfiguration());
             modelBuilder.ApplyConfiguration(new NewsConfiguration());
-            modelBuilder.ApplyConfiguration(new NewsPublisherConfiguration());
+            modelBuilder.ApplyConfiguration(new SourceConfiguration());
             modelBuilder.ApplyConfiguration(new UserConfiguration());
         }
     }

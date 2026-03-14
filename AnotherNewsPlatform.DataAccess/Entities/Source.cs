@@ -4,7 +4,7 @@ using System.Text;
 
 namespace AnotherNewsPlatform.DataAccess.Entities
 {
-    public class NewsPublisher
+    public class Source
     {
         public long Id { get; set; }
         public string Name { get; set; }

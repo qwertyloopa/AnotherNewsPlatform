@@ -7,9 +7,9 @@ using System.Text;
 
 namespace AnotherNewsPlatform.DataAccess.Configuration
 {
-    public class NewsPublisherConfiguration : IEntityTypeConfiguration<NewsPublisher>
+    public class SourceConfiguration : IEntityTypeConfiguration<Source>
     {
-        public void Configure(EntityTypeBuilder<NewsPublisher> builder)
+        public void Configure(EntityTypeBuilder<Source> builder)
         {
             builder.ToTable("NewsPublishers");
             builder.HasKey(p => p.Id);
