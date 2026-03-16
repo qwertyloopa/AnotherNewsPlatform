@@ -16,7 +16,7 @@ namespace AnotherNewsPlatform.DataAccess.Configuration
             builder.Property(x => x.Id).ValueGeneratedOnAdd();
             builder.Property(a => a.Name).HasMaxLength(100).IsRequired();
             builder.Property(a => a.Bio).HasMaxLength(500);
-            builder.HasMany(a => a.News).WithOne(n => n.author)
+            builder.HasMany(a => a.News).WithOne(n => n.Author)
                 .HasForeignKey(n => n.AuthorId)
                 .OnDelete(DeleteBehavior.Cascade);
 

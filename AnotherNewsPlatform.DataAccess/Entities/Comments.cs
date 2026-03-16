@@ -1,0 +1,24 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Text;
+
+namespace AnotherNewsPlatform.DataAccess.Entities
+{
+    [Table("Comments")]
+    public class Comments
+    {
+        [Key]
+        public Guid Id {  get; set; }
+
+        public long UserId { get; set; }
+        public User User { get; set; }
+
+        public Guid NewsId { get; set; }
+        public News News { get; set; }
+
+
+        public string Text { get; set; }
+    }
+}

@@ -11,7 +11,7 @@ namespace AnotherNewsPlatform.DataAccess.Entities
         public string Adress {  get; set; }
         public string Url { get; set; }
 
-        public ICollection<News> News { get; set; }
+        public List<News> News { get; set; }
 
     }
 }

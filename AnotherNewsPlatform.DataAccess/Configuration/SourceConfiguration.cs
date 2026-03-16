@@ -17,8 +17,8 @@ namespace AnotherNewsPlatform.DataAccess.Configuration
             builder.Property(p => p.Name).HasMaxLength(100)
                 .IsRequired();
             builder.Property(p => p.Url).HasMaxLength(500);
-            builder.HasMany(p => p.News).WithOne(n => n.publisher)
-                .HasForeignKey(n => n.PublisherId)
+            builder.HasMany(p => p.News).WithOne(n => n.Source)
+                .HasForeignKey(n => n.SourceId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }
