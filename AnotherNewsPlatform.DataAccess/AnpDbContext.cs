@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace AnotherNewsPlatform.DataAccess
 {
-    public class DbContext : Microsoft.EntityFrameworkCore.DbContext
+    public class AnpDbContext : Microsoft.EntityFrameworkCore.DbContext
     {
         public DbSet<Author> Authors {  get; set; }
         public DbSet<Category> Categories { get; set; }

@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AnotherNewsPlatform.ServiceDefaults\AnotherNewsPlatform.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\AnotherNewsPlatform.Services.ArticleService\AnotherNewsPlatform.Services.NewsService.csproj" />
   </ItemGroup>
 
 </Project>

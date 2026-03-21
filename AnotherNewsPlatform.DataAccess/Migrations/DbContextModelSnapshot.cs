@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace AnotherNewsPlatform.DataAccess.Migrations
 {
-    [DbContext(typeof(DbContext))]
+    [DbContext(typeof(AnpDbContext))]
     partial class DbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
@@ -161,10 +161,6 @@ namespace AnotherNewsPlatform.DataAccess.Migrations
                         .HasColumnType("bigint");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
-
-                    b.Property<string>("Adress")
-                        .IsRequired()
-                        .HasColumnType("text");
 
                     b.Property<string>("DomainUrl")
                         .IsRequired()

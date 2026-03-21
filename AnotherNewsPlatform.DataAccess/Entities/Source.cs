@@ -8,7 +8,6 @@ namespace AnotherNewsPlatform.DataAccess.Entities
     {
         public long Id { get; set; }
         public string Name { get; set; }
-        public string Adress {  get; set; }
         public string DomainUrl { get; set; }
         public string RssUrl { get; set; }
         public List<News> News { get; set; }

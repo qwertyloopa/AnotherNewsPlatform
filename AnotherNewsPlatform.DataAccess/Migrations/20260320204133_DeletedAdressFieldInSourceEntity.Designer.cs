@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AnotherNewsPlatform.DataAccess.Migrations
 {
     [DbContext(typeof(AnpDbContext))]
-    [Migration("20260316001317_DbExtended")]
-    partial class DbExtended
+    [Migration("20260320204133_DeletedAdressFieldInSourceEntity")]
+    partial class DeletedAdressFieldInSourceEntity
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -35,11 +35,13 @@ namespace AnotherNewsPlatform.DataAccess.Migrations
 
                     b.Property<string>("Bio")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<long>("newsPublisherId")
                         .HasColumnType("bigint");
@@ -48,7 +50,7 @@ namespace AnotherNewsPlatform.DataAccess.Migrations
 
                     b.HasIndex("newsPublisherId");
 
-                    b.ToTable("Authors");
+                    b.ToTable("Authors", (string)null);
                 });
 
             modelBuilder.Entity("AnotherNewsPlatform.DataAccess.Entities.Category", b =>
@@ -121,7 +123,8 @@ namespace AnotherNewsPlatform.DataAccess.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(78)
+                        .HasColumnType("character varying(78)");
 
                     b.Property<DateTime?>("UpdateDate")
                         .HasColumnType("timestamp with time zone");
@@ -134,7 +137,7 @@ namespace AnotherNewsPlatform.DataAccess.Migrations
 
                     b.HasIndex("SourceId");
 
-                    b.ToTable("News");
+                    b.ToTable("News", (string)null);
                 });
 
             modelBuilder.Entity("AnotherNewsPlatform.DataAccess.Entities.Role", b =>
@@ -162,21 +165,24 @@ namespace AnotherNewsPlatform.DataAccess.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
-                    b.Property<string>("Adress")
+                    b.Property<string>("DomainUrl")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
-                    b.Property<string>("Url")
+                    b.Property<string>("RssUrl")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(550)
+                        .HasColumnType("character varying(550)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Source");
+                    b.ToTable("Sources", (string)null);
                 });
 
             modelBuilder.Entity("AnotherNewsPlatform.DataAccess.Entities.User", b =>
@@ -189,7 +195,8 @@ namespace AnotherNewsPlatform.DataAccess.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
@@ -200,13 +207,20 @@ namespace AnotherNewsPlatform.DataAccess.Migrations
 
                     b.Property<string>("Username")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Email")
+                        .IsUnique();
+
                     b.HasIndex("RoleId");
 
-                    b.ToTable("Users");
+                    b.HasIndex("Username")
+                        .IsUnique();
+
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("AnotherNewsPlatform.DataAccess.Entities.Author", b =>
@@ -256,7 +270,7 @@ namespace AnotherNewsPlatform.DataAccess.Migrations
                     b.HasOne("AnotherNewsPlatform.DataAccess.Entities.Source", "Source")
                         .WithMany("News")
                         .HasForeignKey("SourceId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Author");

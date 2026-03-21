@@ -11,7 +11,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace AnotherNewsPlatform.DataAccess.Migrations
 {
-    [DbContext(typeof(DbContext))]
+    [DbContext(typeof(AnpDbContext))]
     [Migration("20260317223409_EntityCorrection")]
     partial class EntityCorrection
     {

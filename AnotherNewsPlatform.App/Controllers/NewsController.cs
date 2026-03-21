@@ -1,0 +1,23 @@
+﻿using AnotherNewsPlatform.Services.NewsService;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+
+namespace AnotherNewsPlatform.App.Controllers
+{
+    public class NewsController : ControllerBase
+    {
+        private readonly INewsService _newsService;
+
+        public NewsController(INewsService newsService)
+        {
+            _newsService = newsService;
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            var articles = await _newsService.GetNewsAsync();
+            return Ok(articles);
+        }
+    }
+}

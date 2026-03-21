@@ -1,3 +1,6 @@
+using AnotherNewsPlatform.DataAccess;
+using AnotherNewsPlatform.Services.NewsService;
+
 namespace AnotherNewsPlatform.App;
 
 public class Program
@@ -8,7 +11,9 @@ public class Program
         builder.AddServiceDefaults();
 
         // Add services to the container.
+        builder.Services.AddDbContext<AnpDbContext>();
         builder.Services.AddControllersWithViews();
+        builder.Services.AddScoped<INewsService, NewsService>();
 
         var app = builder.Build();
 
