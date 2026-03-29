@@ -8,5 +8,6 @@ namespace AnotherNewsPlatform.Services.NewsService
     public interface INewsService
     {
         public Task<News[]> GetNewsAsync();
+        public Task
     }
 }

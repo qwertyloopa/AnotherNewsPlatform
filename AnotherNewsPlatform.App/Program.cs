@@ -14,7 +14,6 @@ public class Program
         builder.Services.AddDbContext<AnpDbContext>();
         builder.Services.AddControllersWithViews();
         builder.Services.AddScoped<INewsService, NewsService>();
-
         var app = builder.Build();
 
         app.MapDefaultEndpoints();

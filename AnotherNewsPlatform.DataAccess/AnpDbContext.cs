@@ -10,6 +10,7 @@ namespace AnotherNewsPlatform.DataAccess
     {
         public DbSet<Author> Authors {  get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Comments> Comments { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<News> News { get; set; }
         public DbSet<Source> Source { get; set; }

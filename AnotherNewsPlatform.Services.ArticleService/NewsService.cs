@@ -16,6 +16,7 @@ namespace AnotherNewsPlatform.Services.NewsService
 
         public async Task<News[]> GetNewsAsync()
         {
+            //var query = _dbContext.FindAsync
             return await _dbContext.News.ToArrayAsync();
         }
 
