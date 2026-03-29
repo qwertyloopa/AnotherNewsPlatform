@@ -7,7 +7,8 @@ namespace AnotherNewsPlatform.Services.NewsService
 {
     public interface INewsService
     {
-        public Task<News[]> GetNewsAsync();
-        public Task
+        public Task<NewsDto[]> GetNewsAsync();
+        public Task<NewsDto?> GetByIdAsync(Guid id);
+        //public Task<List<NewsDto>> SearchAsync(string query);
     }
 }

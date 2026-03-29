@@ -1,16 +1,16 @@
-﻿using System;
+﻿using AnotherNewsPlatform.DataAccess.Entities;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace AnotherNewsPlatform.DataAccess.Entities
+namespace AnotherNewsPlatform.Services.NewsService
 {
-    public class News
-    { 
+    public class NewsDto
+    {
         public Guid Id { get; set; }
         public string Title { get; set; }
         public string Content { get; set; }
         public DateTime PublishDate { get; set; }
-        public DateTime? UpdateDate { get; set; }
         public string Text { get; set; }
 
         public long AuthorId { get; set; }
@@ -18,9 +18,9 @@ namespace AnotherNewsPlatform.DataAccess.Entities
 
         public long SourceId { get; set; }
         public Source Source { get; set; }
-        public long CategoryId {  get; set; }
-        public Category Category { get; set; }
+        public long CategoryId { get; set; }
+        public string CategoryName { get; set; }
 
-        public List<Comments> Comments { get; set; }
+        public IEnumerable<string> Comments { get; set; }
     }
 }

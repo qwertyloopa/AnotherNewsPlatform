@@ -9,6 +9,7 @@ namespace AnotherNewsPlatform.DataAccess.Entities
         public long Id { get; set; }
         public string Name { get; set; }
         public string Bio { get; set; }
+        public long newsPublisherId { get; set; }
         public Source newsPublisher { get; set; }
         public ICollection<News> News { get; set; }
     }

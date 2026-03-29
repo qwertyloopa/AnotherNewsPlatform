@@ -7,8 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.5">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="10.0.2" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.1" />
     <ProjectReference Include="..\AnotherNewsPlatform.ServiceDefaults\AnotherNewsPlatform.ServiceDefaults.csproj" />
-    <ProjectReference Include="..\AnotherNewsPlatform.Services.ArticleService\AnotherNewsPlatform.Services.NewsService.csproj" />
+    <ProjectReference Include="..\AnotherNewsPlatform.Services.ArticleService\AnotherNewsPlatform.Services.csproj" />
+    <ProjectReference Include="..\AnotherNewsPlatform.DataAccess\AnotherNewsPlatform.DataAccess.csproj" />
   </ItemGroup>
 
 </Project>
