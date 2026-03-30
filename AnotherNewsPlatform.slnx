@@ -1,7 +1,5 @@
 <Solution>
-  <Folder Name="/Services/">
-    <Project Path="AnotherNewsPlatform.Services.ArticleService/AnotherNewsPlatform.Services.csproj" Id="59eb76dc-c73f-4f88-922d-17afe21a5182" />
-  </Folder>
+  <Folder Name="/Services/" />
   <Project Path="AnotherNewsPlatform.App/AnotherNewsPlatform.App.csproj" />
   <Project Path="AnotherNewsPlatform.AppHost/AnotherNewsPlatform.AppHost.csproj" Id="ca87485d-72b8-4a3c-8ff9-0afb27fec05d" />
   <Project Path="AnotherNewsPlatform.DataAccess/AnotherNewsPlatform.DataAccess.csproj" Id="bc64af9e-e819-4181-bc09-39efbc62b6ed" />

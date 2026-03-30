@@ -18,7 +18,12 @@ namespace AnotherNewsPlatform.App.Controllers
         public async Task<IActionResult> Index()
         {
             var articles = await _newsService.GetNewsAsync();
-            return Ok(articles);
+            return View(articles);
+        }
+
+        public async Task<IActionResult> Aggregate()
+        {
+            return View();
         }
     }
 }

@@ -16,4 +16,8 @@
     <ProjectReference Include="..\AnotherNewsPlatform.DataAccess\AnotherNewsPlatform.DataAccess.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="NewsService\" />
+  </ItemGroup>
+
 </Project>
