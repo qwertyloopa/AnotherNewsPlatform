@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace AnotherNewsPlatform.App.Controllers
 {
-    public class NewsController : Controller
+    public class NewsController : ControllerBase
     {
         private readonly INewsService _newsService;
 

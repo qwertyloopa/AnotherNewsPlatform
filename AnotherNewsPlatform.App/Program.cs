@@ -1,6 +1,5 @@
 using AnotherNewsPlatform.DataAccess;
 using AnotherNewsPlatform.Services.NewsService;
-using Microsoft.EntityFrameworkCore;
 
 namespace AnotherNewsPlatform.App;
 
@@ -12,11 +11,9 @@ public class Program
         builder.AddServiceDefaults();
 
         // Add services to the container.
-        builder.Services.AddDbContext<AnpDbContext>(options =>
-            options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+        builder.Services.AddDbContext<AnpDbContext>();
         builder.Services.AddControllersWithViews();
         builder.Services.AddScoped<INewsService, NewsService>();
-        builder.Configuration.AddJsonFile("appsettings.json");
         var app = builder.Build();
 
         app.MapDefaultEndpoints();
