@@ -3,11 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace AnotherNewsPlatform.Services.NewsService
+namespace AnotherNewsPlatform.NewsService
 {
     public interface INewsService
     {
-        public Task<News[]> GetNewsAsync();
-        public Task
+        Task<List<NewsDto>> GetNewsAsync();
+        Task<NewsDto?> GetByIdAsync(Guid id);
+        Task AggregateNews(CancellationToken cancellationToken);
     }
 }

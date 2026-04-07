@@ -1,12 +1,11 @@
-﻿using AnotherNewsPlatform.Services.NewsService;
+﻿using AnotherNewsPlatform.NewsService;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
+
 
 namespace AnotherNewsPlatform.App.Controllers
 {
-    public class NewsController : ControllerBase
+    public class NewsController : Controller
     {
         private readonly INewsService _newsService;
 
