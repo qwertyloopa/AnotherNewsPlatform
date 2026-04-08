@@ -26,9 +26,8 @@ namespace AnotherNewsPlatform.NewsService
         {
             var result = await _dbContext.News
             .AsNoTracking()
-            .Include(n => n.Author)
             .Include(n => n.Source)
-            .Include(n => n.Category)
+            //.Include(n => n.Category)
             .Include(n => n.Comments)
             .OrderByDescending(n => n.PublishDate)
             .Select(n => new NewsDto
@@ -36,14 +35,13 @@ namespace AnotherNewsPlatform.NewsService
                 Id = n.Id,
                 Title = n.Title,
                 Content = n.Content,
-                Text = n.Text,
                 PublishDate = n.PublishDate,
-                AuthorId = n.AuthorId,
-                AuthorName = n.Author.Name,
+                //AuthorId = n.AuthorId,
+                //AuthorName = n.Author.Name,
                 SourceId = n.SourceId,
                 SourceName = n.Source.Name,
-                CategoryId = n.CategoryId,
-                CategoryName = n.Category.Name,
+                //CategoryId = n.CategoryId,
+                //CategoryName = n.Category.Name,
                 Comments = n.Comments.Select(c => c.Text).ToList()
             })
             .ToListAsync();
@@ -52,7 +50,7 @@ namespace AnotherNewsPlatform.NewsService
 
         public async Task<NewsDto?> GetByIdAsync(Guid id)
         {
-            return await _dbContext.News
+            var result = await _dbContext.News
                 .AsNoTracking()
                 .Where(n => n.Id == id)
                 .Select(n => new NewsDto
@@ -60,17 +58,17 @@ namespace AnotherNewsPlatform.NewsService
                     Id = n.Id,
                     Title = n.Title,
                     Content = n.Content,
-                    Text = n.Text,
                     PublishDate = n.PublishDate,
-                    AuthorId = n.AuthorId,
-                    AuthorName = n.Author.Name,
+                    //AuthorId = n.AuthorId,
+                    //AuthorName = n.Author.Name,
                     SourceId = n.SourceId,
                     SourceName = n.Source.Name,
-                    CategoryId = n.CategoryId,
-                    CategoryName = n.Category.Name,
+                    //CategoryId = n.CategoryId,
+                    //CategoryName = n.Category.Name,
                     Comments = n.Comments.Select(c => c.Text).ToList()
                 })
                 .FirstOrDefaultAsync();
+            return result;
         }
 
         public async Task AggregateNews(CancellationToken cancellationToken)
@@ -131,10 +129,34 @@ namespace AnotherNewsPlatform.NewsService
             {
                 var web = new HtmlWeb();
                 var doc = await web.LoadFromWebAsync(article.OriginalUrl);
+
+                var articleDto = new NewsDto()
+                {
+                    Title = article.Title,
+                    Content = ParseOnlinerData(doc),
+                    PublishDate = article.PublishDate,
+                    SourceId = article.SourceId,
+                };
+
+                articleList.Add(articleDto);
             }
 
             return articleList.AsReadOnly();
         }
 
+        private string ParseOnlinerData(HtmlDocument doc)
+        {
+            try
+            {
+                var article = doc.DocumentNode.SelectSingleNode(".//div[@class='news-text']");
+                string scriptRegex = @"<script.*?>.*?</script>";
+                return article.InnerText;
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Error parsing onliner data");
+                return string.Empty;
+            }
+        }
     }
 }

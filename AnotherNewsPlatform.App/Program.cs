@@ -1,5 +1,7 @@
 using AnotherNewsPlatform.DataAccess;
 using AnotherNewsPlatform.NewsService;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 namespace AnotherNewsPlatform.App;
 
@@ -10,7 +12,7 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
         builder.AddServiceDefaults();
 
-        builder.Services.AddDbContext<AnpDbContext>();
+        builder.Services.AddDbContext<AnpDbContext>(opt => opt.UseNpgsql(builder.Configuration.GetValue<string>("ConnectionStrings:Default")));
         builder.Services.AddControllersWithViews();
         builder.Services.AddScoped<INewsService, AnotherNewsPlatform.NewsService.NewsService>();
         var app = builder.Build();
@@ -26,7 +28,7 @@ public class Program
         app.UseHttpsRedirection();
         app.UseRouting();
 
-        app.UseAuthorization();
+        //app.UseAuthorization();
 
         app.MapStaticAssets();
         app.MapControllerRoute(

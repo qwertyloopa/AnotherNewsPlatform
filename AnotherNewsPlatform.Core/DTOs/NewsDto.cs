@@ -12,14 +12,8 @@ namespace AnotherNewsPlatform.NewsService
         public string Text { get; set; } = string.Empty;
         public DateTime PublishDate { get; set; }
 
-        public long AuthorId { get; set; }
-        public string AuthorName { get; set; } = string.Empty;
-
         public long SourceId { get; set; }
         public string SourceName { get; set; } = string.Empty;
-
-        public long CategoryId { get; set; }
-        public string CategoryName { get; set; } = string.Empty;
 
         public List<string> Comments { get; set; } = new();
     }
