@@ -7,6 +7,7 @@ using Serilog;
 using System.Collections.Concurrent;
 using System.Collections.ObjectModel;
 using System.ServiceModel.Syndication;
+using System.Text.RegularExpressions;
 using System.Xml;
 using System.Xml.Serialization;
 
@@ -149,7 +150,15 @@ namespace AnotherNewsPlatform.NewsService
             try
             {
                 var article = doc.DocumentNode.SelectSingleNode(".//div[@class='news-text']");
+
+                var unusedContent = doc.DocumentNode.SelectSingleNode(".//div[@class = 'ad']");
+                if (unusedContent != null) doc.DocumentNode.RemoveChild(unusedContent);
+                var unusedContent2 = doc.DocumentNode.SelectSingleNode(".//div[@class = 'ad-block']");
+                if (unusedContent2 != null) doc.DocumentNode.RemoveChild(unusedContent2);
+
+
                 string scriptRegex = @"<script.*?>.*?</script>";
+                var result = Regex.Replace(article.InnerText, scriptRegex, string.Empty);
                 return article.InnerText;
             }
             catch (Exception ex)
