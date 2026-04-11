@@ -9,6 +9,8 @@ namespace AnotherNewsPlatform.DataAccess.Entities
         public Guid Id { get; set; }
         public string Title { get; set; } = string.Empty;
         public string Content { get; set; } =string.Empty;
+        public string Text { get; set; } = string.Empty;
+        public string OriginalUrl { get; set; } = string.Empty;
         public DateTime PublishDate { get; set; } = DateTime.UtcNow;
         
         public long SourceId { get; set; }

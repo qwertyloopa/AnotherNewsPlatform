@@ -8,6 +8,7 @@ namespace AnotherNewsPlatform.App.Controllers
     public class NewsController : Controller
     {
         private readonly INewsService _newsService;
+        private CancellationToken token;
 
         public NewsController(INewsService newsService)
         {
@@ -20,9 +21,16 @@ namespace AnotherNewsPlatform.App.Controllers
             return View(articles);
         }
 
-        public async Task<IActionResult> Aggregate()
+        [HttpGet]
+        public IActionResult Aggregate()
         {
-            return View();
+            return View(new Models.CreateArticleModel());
+        }
+
+        public async Task<IActionResult> ProcessAggregation()
+        {
+            await _newsService.AggregateNewsAsync(token);
+            return Ok();
         }
     }
 }

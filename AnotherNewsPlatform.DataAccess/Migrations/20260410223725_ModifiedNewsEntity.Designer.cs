@@ -3,6 +3,7 @@ using System;
 using AnotherNewsPlatform.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AnotherNewsPlatform.DataAccess.Migrations
 {
     [DbContext(typeof(AnpDbContext))]
-    partial class DbContextModelSnapshot : ModelSnapshot
+    [Migration("20260410223725_ModifiedNewsEntity")]
+    partial class ModifiedNewsEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -54,10 +57,6 @@ namespace AnotherNewsPlatform.DataAccess.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("Content")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("OriginalUrl")
                         .IsRequired()
                         .HasColumnType("text");
 
