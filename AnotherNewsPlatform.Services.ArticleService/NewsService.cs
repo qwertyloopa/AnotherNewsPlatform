@@ -68,7 +68,7 @@ namespace AnotherNewsPlatform.NewsService
             return result;
         }
 
-        public async Task AggregateNewsAsync(CancellationToken cancellationToken)
+        public async Task AggregateNews(CancellationToken cancellationToken)
         {
             //1. Get data from RSS
             //2. Web scrapping

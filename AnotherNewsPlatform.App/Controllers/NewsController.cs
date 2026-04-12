@@ -1,4 +1,5 @@
-﻿using AnotherNewsPlatform.NewsService;
+﻿using AnotherNewsPlatform.App.Extensions;
+using AnotherNewsPlatform.NewsService;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,8 +18,22 @@ namespace AnotherNewsPlatform.App.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var articles = await _newsService.GetNewsAsync();
-            return View(articles);
+            var newsDtos = await _newsService.GetNewsAsync();
+            var articleModels = newsDtos.ToArticleModels();
+            return View(articleModels);
+        }
+
+        public async Task<IActionResult> Details(Guid id)
+        {
+            var newsDto = await _newsService.GetByIdAsync(id);
+
+            if (newsDto == null)
+            {
+                return NotFound();
+            }
+
+            var articleModel = newsDto.ToArticleModel();
+            return View(articleModel);
         }
 
         [HttpGet]
@@ -27,9 +42,10 @@ namespace AnotherNewsPlatform.App.Controllers
             return View(new Models.CreateArticleModel());
         }
 
+        [HttpPost]
         public async Task<IActionResult> ProcessAggregation()
         {
-            await _newsService.AggregateNewsAsync(token);
+            await _newsService.AggregateNews(token);
             return Ok();
         }
     }

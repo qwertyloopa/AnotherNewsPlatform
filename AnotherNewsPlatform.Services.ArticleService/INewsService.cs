@@ -9,6 +9,6 @@ namespace AnotherNewsPlatform.NewsService
     {
         Task<List<NewsDto>> GetNewsAsync();
         Task<NewsDto?> GetByIdAsync(Guid id);
-        Task AggregateNewsAsync(CancellationToken cancellationToken);
+        Task AggregateNews(CancellationToken cancellationToken);
     }
 }
