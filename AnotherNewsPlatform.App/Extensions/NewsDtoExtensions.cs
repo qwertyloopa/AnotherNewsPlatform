@@ -5,9 +5,7 @@ namespace AnotherNewsPlatform.App.Extensions
 {
     public static class NewsDtoExtensions
     {
-        /// <summary>
-        /// Преобразует NewsDto в ArticleModel
-        /// </summary>
+        //for objects
         public static ArticleModel? ToArticleModel(this NewsDto? newsDto)
         {
             if (newsDto == null)
@@ -26,9 +24,7 @@ namespace AnotherNewsPlatform.App.Extensions
             };
         }
 
-        /// <summary>
-        /// Преобразует коллекцию NewsDto в коллекцию ArticleModel
-        /// </summary>
+        // for lists
         public static List<ArticleModel> ToArticleModels(this IEnumerable<NewsDto> newsDtos)
         {
             if (newsDtos == null)
