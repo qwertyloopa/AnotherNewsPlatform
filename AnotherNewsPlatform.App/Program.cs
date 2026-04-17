@@ -14,7 +14,7 @@ public class Program
 
         builder.Services.AddDbContext<AnpDbContext>(opt => opt.UseNpgsql(builder.Configuration.GetValue<string>("ConnectionStrings:Default")));
         builder.Services.AddControllersWithViews();
-        builder.Services.AddScoped<INewsService, AnotherNewsPlatform.NewsService.NewsService>();
+        builder.RegisterNewsService();
         var app = builder.Build();
 
         app.MapDefaultEndpoints();
@@ -29,6 +29,7 @@ public class Program
         app.UseRouting();
 
         //app.UseAuthorization();
+        //app.UseAuthentication();
 
         app.MapStaticAssets();
         app.MapControllerRoute(

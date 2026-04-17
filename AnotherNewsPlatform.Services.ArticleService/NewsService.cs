@@ -14,7 +14,8 @@ using System.Xml.Serialization;
 
 namespace AnotherNewsPlatform.NewsService
 {
-    public class NewsService: INewsService
+    
+    public class NewsService : INewsService
     {
         private readonly AnpDbContext _dbContext;
 
@@ -67,7 +68,6 @@ namespace AnotherNewsPlatform.NewsService
                 .FirstOrDefaultAsync();
             return result;
         }
-
         public async Task AggregateNews(CancellationToken cancellationToken)
         {
             //1. Get data from RSS
@@ -89,9 +89,9 @@ namespace AnotherNewsPlatform.NewsService
             }
 
             var articles = await WebScrapNewsText(articlesFromSources);
+            
 
         }
-
         private IEnumerable<RssNewsInfoDto> GetDataFromRssAsync(string url, long id, CancellationToken cancellationToken)
         {
             using (var reader = XmlReader.Create(url))

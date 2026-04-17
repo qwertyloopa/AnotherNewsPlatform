@@ -8,13 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="10.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="10.0.6" />
     <PackageReference Include="Serilog" Version="4.3.1" />
-    <PackageReference Include="System.ServiceModel.Syndication" Version="8.0.0" />
+    <PackageReference Include="System.ServiceModel.Syndication" Version="10.0.6" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AnotherNewsPlatform.DataAccess\AnotherNewsPlatform.DataAccess.csproj" />
+    <ProjectReference Include="..\AnotherNewsPlatform.DataAccess\AnotherNewsPlatform.Database.csproj" />
 	<ProjectReference Include="..\AnotherNewsPlatform.Core\AnotherNewsPlatform.Core.csproj" />
   </ItemGroup>
 

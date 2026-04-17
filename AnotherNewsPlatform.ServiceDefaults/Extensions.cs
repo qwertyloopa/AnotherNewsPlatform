@@ -1,3 +1,4 @@
+using AnotherNewsPlatform.NewsService;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.DependencyInjection;
@@ -75,6 +76,12 @@ public static class Extensions
 
         builder.AddOpenTelemetryExporters();
 
+        return builder;
+    }
+
+    public static TBuilder RegisterNewsService<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
+    {
+        builder.Services.AddScoped<INewsService, AnotherNewsPlatform.NewsService.NewsService>();
         return builder;
     }
 

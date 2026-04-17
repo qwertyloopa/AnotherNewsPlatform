@@ -9,7 +9,7 @@ namespace AnotherNewsPlatform.App.Controllers
     public class NewsController : Controller
     {
         private readonly INewsService _newsService;
-        private CancellationToken token;
+        CancellationToken token = new CancellationToken();
 
         public NewsController(INewsService newsService)
         {
