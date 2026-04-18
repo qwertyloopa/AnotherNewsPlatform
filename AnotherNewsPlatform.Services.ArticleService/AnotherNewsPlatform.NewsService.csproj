@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AnotherNewsPlatform.DataAccess\AnotherNewsPlatform.Database.csproj" />
+    <ProjectReference Include="..\AnotherNewsPlatform.Database\AnotherNewsPlatform.Database.csproj" />
 	<ProjectReference Include="..\AnotherNewsPlatform.Core\AnotherNewsPlatform.Core.csproj" />
   </ItemGroup>
 

@@ -1,4 +1,4 @@
-﻿using AnotherNewsPlatform.DataAccess.Entities;
+﻿using AnotherNewsPlatform.Database.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,3 +12,4 @@ namespace AnotherNewsPlatform.NewsService
         Task AggregateNews(CancellationToken cancellationToken);
     }
 }
+

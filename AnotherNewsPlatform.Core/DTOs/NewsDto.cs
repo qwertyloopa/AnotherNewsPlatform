@@ -18,3 +18,4 @@ namespace AnotherNewsPlatform.NewsService
         public List<string> Comments { get; set; } = new();
     }
 }
+

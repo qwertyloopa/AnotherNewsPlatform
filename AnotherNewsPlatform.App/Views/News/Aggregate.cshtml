@@ -5,8 +5,10 @@
 
 <h1>Aggregate</h1>
 <br />
-<form asp-controller="News">
-    <h3>Are you seriously want to update an States</h3>
-    <button class="btn btn-primary" asp-action="Aggregate">Aggregate</button>
+<form asp-controller="News" asp-action="ProcessAggregation" asp-antiforgery="false" method="post">
+    <div>
+        <h3>Do you want to update the wall?</h3>
+    </div>
+    <button class="btn btn-primary" type="submit">Aggregate</button>
     <button class="btn btn-danger" asp-action="Index" asp-controller="News">Back</button>
 </form>

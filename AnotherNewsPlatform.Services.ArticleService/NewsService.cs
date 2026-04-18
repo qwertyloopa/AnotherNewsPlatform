@@ -1,6 +1,6 @@
 ﻿using AnotherNewsPlatform.Core.DTOs;
-using AnotherNewsPlatform.DataAccess;
-using AnotherNewsPlatform.DataAccess.Entities;
+using AnotherNewsPlatform.Database;
+using AnotherNewsPlatform.Database.Entities;
 using HtmlAgilityPack;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
@@ -90,7 +90,7 @@ namespace AnotherNewsPlatform.NewsService
 
             var articles = await WebScrapNewsText(articlesFromSources);
             
-
+            await InsertParsedNewsAsync(articles, cancellationToken);
         }
         private IEnumerable<RssNewsInfoDto> GetDataFromRssAsync(string url, long id, CancellationToken cancellationToken)
         {
@@ -146,7 +146,7 @@ namespace AnotherNewsPlatform.NewsService
                     }
                     catch (Exception ex)
                     {
-                        Log.Error(ex, "Error scraping article from {Url}", rssArticleInfo.OriginalUrl);
+                        Log.Error(ex, $"Error scraping article from {rssArticleInfo.OriginalUrl}");
                         // Continue scraping other articles
                     }
                 });
@@ -172,14 +172,58 @@ namespace AnotherNewsPlatform.NewsService
 
 
                 const string scriptRegex = "/<script.*?>.*?</script>";
-                var result = Regex.Replace(article.InnerText, scriptRegex, string.Empty);
+                var result = Regex.Replace(article.InnerText, scriptRegex, string.Empty).Trim();
                 return result;
             }
             catch (Exception ex)
             {
-                Log.Error(ex, "Error parsing onliner data");
+                Log.Error(ex, "Error parsing data from Onliner");
                 return string.Empty;
             }
         }
+
+        private string ParseBTRCData(HtmlDocument doc)
+        {
+            try
+            {
+                var article = doc.DocumentNode.SelectSingleNode(".//div[@class='news-text']");
+
+                var unusedContent = doc.DocumentNode.SelectSingleNode(".//div[@class = 'ad']");
+                if (unusedContent != null) doc.DocumentNode.RemoveChild(unusedContent);
+                var unusedContent2 = doc.DocumentNode.SelectSingleNode(".//div[@class = 'news-reference']");
+                if (unusedContent2 != null) doc.DocumentNode.RemoveChild(unusedContent2);
+                var unusedContent3 = doc.DocumentNode.SelectSingleNode(".//div[@class = 'news-widget]");
+                if (unusedContent3 != null) doc.DocumentNode.RemoveChild(unusedContent3);
+                var unusedContent4 = doc.DocumentNode.SelectSingleNode(".//p[last()]");
+                if (unusedContent4 != null) doc.DocumentNode.RemoveChild(unusedContent4);
+
+
+
+                const string scriptRegex = "/<script.*?>.*?</script>";
+                var result = Regex.Replace(article.InnerText, scriptRegex, string.Empty).Trim();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Error parsing data from БТ");
+                return string.Empty;
+            }
+        }
+
+        private async Task InsertParsedNewsAsync(IEnumerable<NewsDto> news, CancellationToken token)
+        {
+            var articleEntities = news.Select(n => new News
+            {
+                Id = n.Id,
+                Title = n.Title,
+                Content = n.Content,
+                Text = n.Text,
+                PublishDate = n.PublishDate,
+                SourceId = n.SourceId,
+            });
+            await _dbContext.News.AddRangeAsync(articleEntities, token);
+            await _dbContext.SaveChangesAsync(token);
+        }
     }
 }
+

@@ -1,4 +1,4 @@
-using AnotherNewsPlatform.DataAccess;
+﻿using AnotherNewsPlatform.Database;
 using AnotherNewsPlatform.NewsService;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -40,3 +40,4 @@ public class Program
         app.Run();
     }
 }
+

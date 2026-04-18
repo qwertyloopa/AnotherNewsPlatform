@@ -1,0 +1,17 @@
+﻿@model ArticlePreviewModel
+
+@{
+    Layout = null;
+}
+
+<div>
+    <div>
+        <h2>@Model.Title - @Model.Id</h2>
+    </div>
+    <div>
+        @Html.Raw(Model.Content);
+    </div>
+    <div>
+        <p>Publish date: @Model.PublishDate</p>
+    </div>
+</div>
