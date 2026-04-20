@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace AnotherNewsPlatform.NewsService
+namespace AnotherNewsPlatform.Core.DTOs
 {
     public class NewsDto
     {

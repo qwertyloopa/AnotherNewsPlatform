@@ -1,4 +1,5 @@
 ﻿using AnotherNewsPlatform.App.Models;
+using AnotherNewsPlatform.Core.DTOs;
 using AnotherNewsPlatform.NewsService;
 
 namespace AnotherNewsPlatform.App.Extensions
@@ -36,5 +37,16 @@ namespace AnotherNewsPlatform.App.Extensions
                 .Select(article => article!)
                 .ToList();
         }
+
+        public static ArticleMainPageModel ToArticleMainPageModel(this IEnumerable<NewsDto> newsDtos)
+        {
+            var articleModels = newsDtos.ToArticleModels();
+            return new ArticleMainPageModel
+            {
+                AllArticles = articleModels,
+                HotArticles = null
+            };
+        }
+
     }
 }

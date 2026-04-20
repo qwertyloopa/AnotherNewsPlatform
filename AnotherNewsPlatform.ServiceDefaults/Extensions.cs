@@ -1,4 +1,5 @@
 ﻿using AnotherNewsPlatform.NewsService;
+using AnotherNewsPlatform.SourceService;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.DependencyInjection;
@@ -82,6 +83,12 @@ public static class Extensions
     public static TBuilder RegisterNewsService<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
     {
         builder.Services.AddScoped<INewsService, AnotherNewsPlatform.NewsService.NewsService>();
+        return builder;
+    }
+
+    public static TBuilder RegisterSourceService<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
+    {
+        builder.Services.AddScoped<ISourceService, SourceService>();
         return builder;
     }
 

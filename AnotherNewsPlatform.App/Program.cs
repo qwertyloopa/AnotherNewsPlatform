@@ -1,5 +1,4 @@
 ﻿using AnotherNewsPlatform.Database;
-using AnotherNewsPlatform.NewsService;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
@@ -15,6 +14,7 @@ public class Program
         builder.Services.AddDbContext<AnpDbContext>(opt => opt.UseNpgsql(builder.Configuration.GetValue<string>("ConnectionStrings:Default")));
         builder.Services.AddControllersWithViews();
         builder.RegisterNewsService();
+        builder.RegisterSourceService();
         var app = builder.Build();
 
         app.MapDefaultEndpoints();

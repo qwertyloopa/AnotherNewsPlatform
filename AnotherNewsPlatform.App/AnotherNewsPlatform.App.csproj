@@ -15,7 +15,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AnotherNewsPlatform.ServiceDefaults\AnotherNewsPlatform.ServiceDefaults.csproj" />
-    <ProjectReference Include="..\AnotherNewsPlatform.Services.ArticleService\AnotherNewsPlatform.NewsService.csproj" />
   </ItemGroup>
 
 </Project>

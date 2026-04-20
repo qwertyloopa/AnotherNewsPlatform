@@ -18,7 +18,7 @@ namespace AnotherNewsPlatform.App.Controllers
         public async Task<IActionResult> Index()
         {
             var newsDtos = await _newsService.GetNewsAsync();
-            var articleModels = newsDtos.ToArticleModels();
+            var articleModels = newsDtos.ToArticleMainPageModel();
             return View(articleModels);
         }
 

@@ -11,7 +11,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="NewsCQS\" />
+    <Folder Include="NewsCQS\Commands\" />
+    <Folder Include="NewsCQS\Queries\" />
+    <Folder Include="SourceCQS\Commands\" />
+    <Folder Include="SourceCQS\Queries\" />
   </ItemGroup>
 
 

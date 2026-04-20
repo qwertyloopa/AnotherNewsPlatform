@@ -1,4 +1,5 @@
-﻿using AnotherNewsPlatform.Database.Entities;
+﻿using AnotherNewsPlatform.Core.DTOs;
+using AnotherNewsPlatform.Database.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;

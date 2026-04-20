@@ -21,7 +21,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AnotherNewsPlatform.Services.ArticleService\AnotherNewsPlatform.NewsService.csproj" />
+    <ProjectReference Include="..\AnotherNewsPlatform.Services.ArticleService\AnotherNewsPlatform.Services.NewsService.csproj" />
+    <ProjectReference Include="..\AnotherNewsPlatform.SourceService\AnotherNewsPlatform.Services.SourceService.csproj" />
   </ItemGroup>
 
 </Project>
