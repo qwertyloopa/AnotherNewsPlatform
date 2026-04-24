@@ -6,8 +6,7 @@ using System.Text;
 
 namespace AnotherNewsPlatform.Database.Entities
 {
-    [Table("Comments")]
-    public class Comments
+    public class Commentaries
     {
         [Key]
         public Guid Id {  get; set; }
@@ -16,7 +15,7 @@ namespace AnotherNewsPlatform.Database.Entities
         public User User { get; set; }
 
         public Guid NewsId { get; set; }
-        public News News { get; set; }
+        public Article Article { get; set; }
 
 
         public string Text { get; set; }

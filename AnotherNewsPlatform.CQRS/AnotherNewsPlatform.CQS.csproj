@@ -7,14 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MediatR" Version="13.1.0" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Folder Include="NewsCQS\Commands\" />
     <Folder Include="NewsCQS\Queries\" />
     <Folder Include="SourceCQS\Commands\" />
     <Folder Include="SourceCQS\Queries\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="13.1.0" />
+    <PackageReference Include="Riok.Mapperly" Version="4.3.1" />
   </ItemGroup>
 
 

@@ -1,16 +1,18 @@
-﻿using AnotherNewsPlatform.Core.DTOs;
+using AnotherNewsPlatform.Core.DTOs;
 
-namespace AnotherNewsPlatform.SourceService;
-
-public class SourceService : ISourceService
+namespace AnotherNewsPlatform.Services.SourceService
 {
-    public async Task GetSourceAsync()
+    public class SourceService : ISourceService
     {
-       
-    }
-    
-    public async Task CreateSourceAsync(SourceDto source)
-    {
-        
+        public async Task GetSourceAsync()
+        {
+
+        }
+
+        public async Task CreateSourceAsync(SourceDto source)
+        {
+
+        }
     }
 }
+

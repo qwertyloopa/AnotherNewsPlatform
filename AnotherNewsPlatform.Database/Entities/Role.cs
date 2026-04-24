@@ -6,7 +6,6 @@ using System.Text;
 
 namespace AnotherNewsPlatform.Database.Entities
 {
-    [Table("Roles")]
     public class Role
     {
         [Key]

@@ -1,6 +1,6 @@
 using AnotherNewsPlatform.Core.DTOs;
 
-namespace AnotherNewsPlatform.SourceService;
+namespace AnotherNewsPlatform.Services.SourceService;
 public interface ISourceService
 {
     public Task GetSourceAsync();

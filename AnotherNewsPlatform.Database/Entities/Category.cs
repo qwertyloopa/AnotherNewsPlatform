@@ -8,7 +8,7 @@ namespace AnotherNewsPlatform.Database.Entities
     {
         public long Id { get; set; }
         public string Name { get; set; }
-        public ICollection<News> News { get; set; }
+        public ICollection<Article> News { get; set; }
     }
 }
 

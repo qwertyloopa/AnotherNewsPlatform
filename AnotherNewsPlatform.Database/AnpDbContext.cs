@@ -1,4 +1,4 @@
-﻿using AnotherNewsPlatform.Database.Configuration;
+﻿//using AnotherNewsPlatform.Database.Configuration;
 using AnotherNewsPlatform.Database.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -8,20 +8,14 @@ namespace AnotherNewsPlatform.Database
 {
     public class AnpDbContext : DbContext
     {
+        public DbSet<Article> Articles { get; set; }
         //public DbSet<Category> Categories { get; set; }
-        public DbSet<Comments> Comments { get; set; }
+        public DbSet<Commentaries> Commentaries { get; set; }
         public DbSet<Role> Roles { get; set; }
-        public DbSet<News> News { get; set; }
-        public DbSet<Source> Source { get; set; }
+        public DbSet<Source> Sources { get; set; }
         public DbSet<User> Users { get; set; }
 
         
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.ApplyConfiguration(new NewsConfiguration());
-            modelBuilder.ApplyConfiguration(new SourceConfiguration());
-            modelBuilder.ApplyConfiguration(new UserConfiguration());
-        }
         public AnpDbContext(DbContextOptions<AnpDbContext> options) : base(options) { }
     }
 }

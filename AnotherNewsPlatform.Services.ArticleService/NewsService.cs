@@ -2,8 +2,8 @@
 using AnotherNewsPlatform.Database;
 using AnotherNewsPlatform.Database.Entities;
 using HtmlAgilityPack;
-using Microsoft.EntityFrameworkCore;
 using Serilog;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Concurrent;
 using System.Collections.ObjectModel;
 using System.ServiceModel.Syndication;
@@ -12,7 +12,7 @@ using System.Xml;
 using System.Xml.Serialization;
 
 
-namespace AnotherNewsPlatform.NewsService
+namespace AnotherNewsPlatform.Services.NewsService
 {
     
     public class NewsService : INewsService
@@ -24,46 +24,44 @@ namespace AnotherNewsPlatform.NewsService
             _dbContext = dbContext;
         }
 
-        public async Task<List<NewsDto>> GetNewsAsync()
+        public async Task<List<ArticleDto>> GetNewsAsync()
         {
-            var result = await _dbContext.News
+            var result = await _dbContext.Articles
             .AsNoTracking()
             .Include(n => n.Source)
             //.Include(n => n.Category)
             .Include(n => n.Comments)
             .OrderByDescending(n => n.PublishDate)
-            .Select(n => new NewsDto
+            .Select(n => new ArticleDto
             {
                 Id = n.Id,
                 Title = n.Title,
                 Content = n.Content,
                 PublishDate = n.PublishDate,
-                //AuthorId = n.AuthorId,
-                //AuthorName = n.Author.Name,
+                OriginalUrl = n.OriginalUrl,
                 SourceId = n.SourceId,
-                SourceName = n.Source.Name,
                 //CategoryId = n.CategoryId,
                 //CategoryName = n.Category.Name,
-                Comments = n.Comments.Select(c => c.Text).ToList()
+                //Comments = n.Comments.Select(c => c.Text).ToList()
             })
             .ToListAsync();
             return result;
         }
 
-        public async Task<NewsDto?> GetByIdAsync(Guid id)
+        public async Task<ArticleDto?> GetByIdAsync(Guid id)
         {
-            var result = await _dbContext.News
+            var result = await _dbContext.Articles
                 .AsNoTracking()
                 .Where(n => n.Id == id)
-                .Select(n => new NewsDto
+                .Select(n => new ArticleDto
                 {
                     Id = n.Id,
                     Title = n.Title,
                     Content = n.Content,
                     PublishDate = n.PublishDate,
+                    OriginalUrl = n.OriginalUrl,
                     SourceId = n.SourceId,
-                    SourceName = n.Source.Name,
-                    Comments = n.Comments.Select(c => c.Text).ToList()
+                    //Comments = n.Comments.Select(c => c.Text).ToList()
                 })
                 .FirstOrDefaultAsync();
             return result;
@@ -74,25 +72,39 @@ namespace AnotherNewsPlatform.NewsService
             //2. Web scrapping
             //3. Writing to database
 
-            var rssUrls = (await _dbContext.Source
+            var rssUrls = (await _dbContext.Sources
                 .Where(s => !string.IsNullOrWhiteSpace(s.RssUrl))
                 .Select(s => new Tuple<long, string>(s.Id, s.RssUrl))
                 .ToArrayAsync(cancellationToken))
                .AsReadOnly();
 
+            var existingUrls= await GetExsistingNews(cancellationToken);
+
+            var newRssUrls = rssUrls.Where(rssUrlTuple => !existingUrls.Contains(rssUrlTuple.Item2))
+            .ToArray()
+            .AsReadOnly();
+
             var articlesFromSources = new List<RssNewsInfoDto>();
 
-            foreach (var rssUrlTuple in rssUrls)
+            //var urlsToProcess = newRssUrls.Count > 0 ? newRssUrls : rssUrls;
+            foreach (var rssUrlTuple in newRssUrls)
             {
-                var articleRssData = GetDataFromRssAsync(rssUrlTuple.Item2, rssUrlTuple.Item1, cancellationToken);
+                var articleRssData = await GetDataFromRss(rssUrlTuple.Item2, rssUrlTuple.Item1, cancellationToken);
                 articlesFromSources.AddRange(articleRssData);
             }
+
+            
 
             var articles = await WebScrapNewsText(articlesFromSources);
             
             await InsertParsedNewsAsync(articles, cancellationToken);
         }
-        private IEnumerable<RssNewsInfoDto> GetDataFromRssAsync(string url, long id, CancellationToken cancellationToken)
+
+        async Task<ReadOnlyCollection<string>> GetExsistingNews(CancellationToken cancellationToken)
+        {
+            return (await _dbContext.Articles.Select(n => n.OriginalUrl).ToArrayAsync(cancellationToken)).AsReadOnly();
+        }
+        private async Task<IEnumerable<RssNewsInfoDto>> GetDataFromRss(string url, long id, CancellationToken cancellationToken)
         {
             using (var reader = XmlReader.Create(url))
             {
@@ -116,13 +128,10 @@ namespace AnotherNewsPlatform.NewsService
             }
         }
 
-        private async Task<ReadOnlyCollection<NewsDto>> WebScrapNewsText(IEnumerable<RssNewsInfoDto> articleToParse)
+        private async Task<ReadOnlyCollection<ArticleDto>> WebScrapNewsText(IEnumerable<RssNewsInfoDto> articleToParse)
         {
-            var articleList = new ConcurrentBag<NewsDto>();
-            var parallelOptions = new ParallelOptions
-            {
-                MaxDegreeOfParallelism = 5 // Set the maximum degree of parallelism (to don't exceed the number of CPU cores)
-            };
+            var articleList = new ConcurrentBag<ArticleDto>();
+            
 
             await Parallel.ForEachAsync(
                 articleToParse,
@@ -133,11 +142,12 @@ namespace AnotherNewsPlatform.NewsService
                         var web = new HtmlWeb();
                         var doc = await web.LoadFromWebAsync(rssArticleInfo.OriginalUrl);
 
-                        var articleDto = new NewsDto()
+                        var articleDto = new ArticleDto()
                         {
                             Title = rssArticleInfo.Title,
                             Content = rssArticleInfo.Content,
-                            Text = ParseOnlinerData(doc),
+                            Text = ScrapSelector(rssArticleInfo, doc),
+                            OriginalUrl = rssArticleInfo.OriginalUrl,
                             PublishDate = rssArticleInfo.PublishDate,
                             SourceId = rssArticleInfo.SourceId,
                         };
@@ -182,20 +192,20 @@ namespace AnotherNewsPlatform.NewsService
             }
         }
 
-        private string ParseBTRCData(HtmlDocument doc)
+        private string ParseBTData(HtmlDocument doc)
         {
             try
             {
-                var article = doc.DocumentNode.SelectSingleNode(".//div[@class='news-text']");
+                var article = doc.DocumentNode.SelectSingleNode(".//div[@class='flex flex-col gap-10 overflow-visible h-full']");
 
-                var unusedContent = doc.DocumentNode.SelectSingleNode(".//div[@class = 'ad']");
+                var unusedContent = doc.DocumentNode.SelectSingleNode(".//img");
                 if (unusedContent != null) doc.DocumentNode.RemoveChild(unusedContent);
-                var unusedContent2 = doc.DocumentNode.SelectSingleNode(".//div[@class = 'news-reference']");
+                /*var unusedContent2 = doc.DocumentNode.SelectSingleNode(".//div[@class = 'news-reference']");
                 if (unusedContent2 != null) doc.DocumentNode.RemoveChild(unusedContent2);
                 var unusedContent3 = doc.DocumentNode.SelectSingleNode(".//div[@class = 'news-widget]");
                 if (unusedContent3 != null) doc.DocumentNode.RemoveChild(unusedContent3);
                 var unusedContent4 = doc.DocumentNode.SelectSingleNode(".//p[last()]");
-                if (unusedContent4 != null) doc.DocumentNode.RemoveChild(unusedContent4);
+                if (unusedContent4 != null) doc.DocumentNode.RemoveChild(unusedContent4);*/
 
 
 
@@ -205,23 +215,62 @@ namespace AnotherNewsPlatform.NewsService
             }
             catch (Exception ex)
             {
-                Log.Error(ex, "Error parsing data from БТ");
+                Log.Error(ex, "Error parsing data from sb.by");
                 return string.Empty;
             }
         }
 
-        private async Task InsertParsedNewsAsync(IEnumerable<NewsDto> news, CancellationToken token)
+        private string ParseLentaData(HtmlDocument doc)
         {
-            var articleEntities = news.Select(n => new News
+            try
             {
-                Id = n.Id,
+                var article = doc.DocumentNode.SelectSingleNode(".//div[@class='b-topic__content']");
+
+                /*var unusedContent = doc.DocumentNode.SelectSingleNode(".//div[@class = 'ad']");
+                if (unusedContent != null) doc.DocumentNode.RemoveChild(unusedContent);
+                var unusedContent2 = doc.DocumentNode.SelectSingleNode(".//div[@class = 'news-reference']");
+                if (unusedContent2 != null) doc.DocumentNode.RemoveChild(unusedContent2);
+                var unusedContent3 = doc.DocumentNode.SelectSingleNode(".//div[@class = 'news-widget]");
+                if (unusedContent3 != null) doc.DocumentNode.RemoveChild(unusedContent3);
+                var unusedContent4 = doc.DocumentNode.SelectSingleNode(".//p[last()]");
+                if (unusedContent4 != null) doc.DocumentNode.RemoveChild(unusedContent4);*/
+
+                const string scriptRegex = "/<script.*?>.*?</script>";
+                var result = Regex.Replace(article.InnerText, scriptRegex, string.Empty).Trim();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Error parsing data from lenta.ru");
+                return string.Empty;
+            }
+        }
+
+        private string ScrapSelector(RssNewsInfoDto rss, HtmlDocument doc) //костылики
+        {
+            switch ((int)rss.SourceId)
+            {
+                case 1:
+                    return ParseOnlinerData(doc);
+                case 2:
+                    return ParseBTData(doc);
+                default:
+                    return $"Sorry, but now we can't parse data from this source. You need to go for this link {rss.OriginalUrl} to read the article.";
+            }
+        }
+
+        private async Task InsertParsedNewsAsync(IEnumerable<ArticleDto> news, CancellationToken token)
+        {
+            var articleEntities = news.Select(n => new Article
+            {
                 Title = n.Title,
                 Content = n.Content,
                 Text = n.Text,
+                OriginalUrl = n.OriginalUrl,
                 PublishDate = n.PublishDate,
                 SourceId = n.SourceId,
             });
-            await _dbContext.News.AddRangeAsync(articleEntities, token);
+            await _dbContext.Articles.AddRangeAsync(articleEntities, token);
             await _dbContext.SaveChangesAsync(token);
         }
     }
