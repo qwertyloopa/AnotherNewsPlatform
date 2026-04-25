@@ -4,7 +4,9 @@ using AnotherNewsPlatform.MVC.Models;
 
 namespace AnotherNewsPlatform.MVC.Mappers.Articles;
 
-public partial class NewsDtoToArticlePreviewHandler
+[Mapper]
+public partial class NewsDtoToArticlePreview
 {
+    [MapperIgnoreSource(nameof(ArticleDto.SourceId))]
     public partial ArticlePreviewModel ToArticlePreview(ArticleDto dto);
 }

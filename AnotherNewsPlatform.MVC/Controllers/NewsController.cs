@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
+using AnotherNewsPlatform.MVC.Mappers;
 using AnotherNewsPlatform.Services.NewsService;
+using AnotherNewsPlatform.MVC.Mappers.Articles;
 
 namespace AnotherNewsPlatform.MVC.Controllers
 {
@@ -15,7 +17,7 @@ namespace AnotherNewsPlatform.MVC.Controllers
         public async Task<IActionResult> Index()
         {
             var news = await _newsService.GetNewsAsync();
-            return View(news);
+            return View();
         }
 
     }
