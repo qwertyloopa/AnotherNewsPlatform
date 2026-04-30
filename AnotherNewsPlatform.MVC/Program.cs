@@ -8,6 +8,8 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<AnpDbContext>(opt => opt.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.RegisterNewsService();
 builder.RegisterSourceService();
+builder.Services.AddScoped<AnotherNewsPlatform.MVC.Mappers.Articles.DtoToArticlePreviewMapper>();
+builder.Services.AddScoped<AnotherNewsPlatform.MVC.Mappers.Articles.CreateArticleModelToDtoMapper>();
 
 var app = builder.Build();
 
@@ -23,6 +25,7 @@ app.UseHttpsRedirection();
 app.UseRouting();
 
 app.UseAuthorization();
+app.UseAuthentication();
 
 app.MapStaticAssets();
 

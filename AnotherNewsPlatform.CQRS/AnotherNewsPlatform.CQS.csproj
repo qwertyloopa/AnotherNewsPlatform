@@ -7,15 +7,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="NewsCQS\Commands\" />
-    <Folder Include="NewsCQS\Queries\" />
-    <Folder Include="SourceCQS\Commands\" />
-    <Folder Include="SourceCQS\Queries\" />
+    <PackageReference Include="MediatR" Version="13.1.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="MediatR" Version="13.1.0" />
-    <PackageReference Include="Riok.Mapperly" Version="4.3.1" />
+    <Folder Include="CommandHandlers\" />
+    <Folder Include="Commands\" />
+    <Folder Include="Query\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AnotherNewsPlatform.Core\AnotherNewsPlatform.Core.csproj" />
+    <ProjectReference Include="..\AnotherNewsPlatform.Database\AnotherNewsPlatform.Database.csproj" />
   </ItemGroup>
 
 

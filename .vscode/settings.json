@@ -23,5 +23,6 @@
                 "progressive": false
             }
         }
-    ]
+    ],
+    "editor.fontFamily": "JetBrains Mono, Consolas, 'Courier New', monospace"
 }

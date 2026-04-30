@@ -1,5 +1,6 @@
 ﻿using AnotherNewsPlatform.Core.DTOs;
 using AnotherNewsPlatform.Database;
+using AnotherNewsPlatform.CQS;
 using AnotherNewsPlatform.Database.Entities;
 using HtmlAgilityPack;
 using Serilog;
@@ -10,23 +11,19 @@ using System.ServiceModel.Syndication;
 using System.Text.RegularExpressions;
 using System.Xml;
 using System.Xml.Serialization;
+using MediatR;
+using AnotherNewsPlatform.CQS.Commands;
 
 
 namespace AnotherNewsPlatform.Services.NewsService
 {
     
-    public class NewsService : INewsService
+    public class NewsService(IMediator mediator, AnpDbContext dbContext) : INewsService
     {
-        private readonly AnpDbContext _dbContext;
-
-        public NewsService(AnpDbContext dbContext)
-        {
-            _dbContext = dbContext;
-        }
-
+     
         public async Task<List<ArticleDto>> GetNewsAsync()
         {
-            var result = await _dbContext.Articles
+            var result = await dbContext.Articles
             .AsNoTracking()
             .Include(n => n.Source)
             //.Include(n => n.Category)
@@ -50,7 +47,7 @@ namespace AnotherNewsPlatform.Services.NewsService
 
         public async Task<ArticleDto?> GetByIdAsync(Guid id)
         {
-            var result = await _dbContext.Articles
+            var result = await dbContext.Articles
                 .AsNoTracking()
                 .Where(n => n.Id == id)
                 .Select(n => new ArticleDto
@@ -72,7 +69,7 @@ namespace AnotherNewsPlatform.Services.NewsService
             //2. Web scrapping
             //3. Writing to database
 
-            var rssUrls = (await _dbContext.Sources
+            var rssUrls = (await dbContext.Sources
                 .Where(s => !string.IsNullOrWhiteSpace(s.RssUrl))
                 .Select(s => new Tuple<long, string>(s.Id, s.RssUrl))
                 .ToArrayAsync(cancellationToken))
@@ -102,7 +99,7 @@ namespace AnotherNewsPlatform.Services.NewsService
 
         async Task<ReadOnlyCollection<string>> GetExsistingNews(CancellationToken cancellationToken)
         {
-            return (await _dbContext.Articles.Select(n => n.OriginalUrl).ToArrayAsync(cancellationToken)).AsReadOnly();
+            return (await dbContext.Articles.Select(n => n.OriginalUrl).ToArrayAsync(cancellationToken)).AsReadOnly();
         }
         private async Task<IEnumerable<RssNewsInfoDto>> GetDataFromRss(string url, long id, CancellationToken cancellationToken)
         {
@@ -261,17 +258,7 @@ namespace AnotherNewsPlatform.Services.NewsService
 
         private async Task InsertParsedNewsAsync(IEnumerable<ArticleDto> news, CancellationToken token)
         {
-            var articleEntities = news.Select(n => new Article
-            {
-                Title = n.Title,
-                Content = n.Content,
-                Text = n.Text,
-                OriginalUrl = n.OriginalUrl,
-                PublishDate = n.PublishDate,
-                SourceId = n.SourceId,
-            });
-            await _dbContext.Articles.AddRangeAsync(articleEntities, token);
-            await _dbContext.SaveChangesAsync(token);
+            await mediator.Send(new InsertArticleDataCommand(dbContext){ Articles = news }, token);
         }
     }
 }

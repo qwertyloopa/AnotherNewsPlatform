@@ -8,8 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <FrameworkReference Include="Microsoft.AspNetCore.App" />
-
+    <PackageReference Include="MediatR" Version="13.1.0" />
     <PackageReference Include="Microsoft.Extensions.Http.Resilience" Version="10.5.0" />
     <PackageReference Include="Microsoft.Extensions.ServiceDiscovery" Version="10.5.0" />
     <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.15.3" />
@@ -21,7 +20,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AnotherNewsPlatform.CQRS\AnotherNewsPlatform.CQS.csproj" />
     <ProjectReference Include="..\AnotherNewsPlatform.Services.ArticleService\AnotherNewsPlatform.Services.NewsService.csproj" />
+    <ProjectReference Include="..\AnotherNewsPlatform.Services.UserService\AnotherNewsPlatform.Services.UserService.csproj" />
     <ProjectReference Include="..\AnotherNewsPlatform.SourceService\AnotherNewsPlatform.Services.SourceService.csproj" />
   </ItemGroup>
 

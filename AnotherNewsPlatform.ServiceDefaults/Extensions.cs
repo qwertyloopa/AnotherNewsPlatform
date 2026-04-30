@@ -1,7 +1,12 @@
+using AnotherNewsPlatform.CQS.Commands;
+using AnotherNewsPlatform.CQS;
 using AnotherNewsPlatform.Services.NewsService;
 using AnotherNewsPlatform.Services.SourceService;
+using AnotherNewsPlatform.Services.UserService;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Logging;
@@ -27,7 +32,6 @@ public static class Extensions
         builder.AddDefaultHealthChecks();
 
         builder.Services.AddServiceDiscovery();
-
         builder.Services.ConfigureHttpClientDefaults(http =>
         {
             // Turn on resilience by default
@@ -83,12 +87,19 @@ public static class Extensions
     public static TBuilder RegisterNewsService<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
     {
         builder.Services.AddScoped<INewsService, AnotherNewsPlatform.Services.NewsService.NewsService>();
+        builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<InsertArticleDataCommand>());
         return builder;
     }
 
     public static TBuilder RegisterSourceService<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
     {
         builder.Services.AddScoped<ISourceService, SourceService>();
+        return builder;
+    }
+
+    public static TBuilder RegisterUserService<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
+    {
+        builder.Services.AddScoped<IUserService, UserService>();
         return builder;
     }
 
