@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using AnotherNewsPlatform.Database;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +11,9 @@ builder.RegisterNewsService();
 builder.RegisterSourceService();
 builder.Services.AddScoped<AnotherNewsPlatform.MVC.Mappers.Articles.DtoToArticlePreviewMapper>();
 builder.Services.AddScoped<AnotherNewsPlatform.MVC.Mappers.Articles.CreateArticleModelToDtoMapper>();
+// Log.Logger = new LoggerConfiguration().WriteTo.Console().CreateLogger();
+// Log.Information("Первый пошёл");
+builder.Services.AddAuthentication().AddCookie();
 
 var app = builder.Build();
 
@@ -24,8 +28,8 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseRouting();
 
-app.UseAuthorization();
 app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapStaticAssets();
 

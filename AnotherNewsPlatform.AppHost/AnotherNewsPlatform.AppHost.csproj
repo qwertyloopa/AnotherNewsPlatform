@@ -1,4 +1,4 @@
-<Project Sdk="Aspire.AppHost.Sdk/13.2.3">
+﻿<Project Sdk="Aspire.AppHost.Sdk/13.2.3">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AnotherNewsPlatform.MVC\AnotherNewsPlatform.MVC.csproj" />
+    <ProjectReference Include="..\AnotherNewsPlatform.WebApi\AnotherNewsPlatform.WebApi.csproj" />
   </ItemGroup>
 
 </Project>

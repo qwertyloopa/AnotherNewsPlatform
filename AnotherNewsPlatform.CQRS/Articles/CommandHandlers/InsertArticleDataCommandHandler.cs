@@ -1,10 +1,10 @@
 ﻿using AnotherNewsPlatform.Core.Mappers;
-using AnotherNewsPlatform.CQS.Commands;
+using AnotherNewsPlatform.CQS.Articles.Commands;
 using AnotherNewsPlatform.Database;
 using AnotherNewsPlatform.Database.Entities;
 using MediatR;
 
-namespace AnotherNewsPlatform.CQS.CommandHandlers
+namespace AnotherNewsPlatform.CQS.Articles.CommandHandlers
 {
     internal class InsertArticleDataCommandHandler(AnpDbContext dbContext) : IRequestHandler<InsertArticleDataCommand>
     {

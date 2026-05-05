@@ -6,5 +6,6 @@ namespace AnotherNewsPlatform.Services.UserService
 {
     public interface IUserService
     {
+        
     }
 }

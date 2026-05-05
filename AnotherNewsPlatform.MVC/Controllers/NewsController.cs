@@ -3,6 +3,7 @@ using AnotherNewsPlatform.MVC.Mappers;
 using AnotherNewsPlatform.MVC.Models;
 using AnotherNewsPlatform.Services.NewsService;
 using AnotherNewsPlatform.MVC.Mappers.Articles;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AnotherNewsPlatform.MVC.Controllers
 {
@@ -33,6 +34,8 @@ namespace AnotherNewsPlatform.MVC.Controllers
             return View();
         }
         // GET: NewsController/Aggregate
+        [HttpGet]
+        [Authorize]
         public ActionResult Aggregate()
         {
             return View();
@@ -43,6 +46,7 @@ namespace AnotherNewsPlatform.MVC.Controllers
         public async Task<IActionResult> ProcessAggregation()
         {
             await _newsService.AggregateNews(HttpContext.RequestAborted);
+            await Index();
             return Ok();
         }
     }

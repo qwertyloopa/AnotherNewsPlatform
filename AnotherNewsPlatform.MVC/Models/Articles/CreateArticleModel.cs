@@ -1,4 +1,4 @@
-﻿namespace AnotherNewsPlatform.App.Models
+﻿namespace AnotherNewsPlatform.MVC.Models.Articles
 {
     public class CreateArticleModel
     {

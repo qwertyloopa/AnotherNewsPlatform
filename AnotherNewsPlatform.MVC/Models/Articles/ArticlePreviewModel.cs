@@ -1,6 +1,6 @@
 ﻿using System;
 using AnotherNewsPlatform.Core.DTOs;
-namespace AnotherNewsPlatform.MVC.Models;
+namespace AnotherNewsPlatform.MVC.Models.Articles;
 
 public class ArticlePreviewModel
 {

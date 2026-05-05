@@ -13,8 +13,12 @@
   <ItemGroup>
     <ProjectReference Include="..\AnotherNewsPlatform.Database\AnotherNewsPlatform.Database.csproj" />
     <ProjectReference Include="..\AnotherNewsPlatform.ServiceDefaults\AnotherNewsPlatform.ServiceDefaults.csproj" />
-    <ProjectReference Include="..\AnotherNewsPlatform.Services.ArticleService\AnotherNewsPlatform.Services.NewsService.csproj" />
-    <ProjectReference Include="..\AnotherNewsPlatform.SourceService\AnotherNewsPlatform.Services.SourceService.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Mappers\Users\" />
+    <Folder Include="Models\Articles\" />
+    <Folder Include="Views\User\" />
   </ItemGroup>
 
 </Project>

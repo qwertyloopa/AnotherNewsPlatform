@@ -12,7 +12,7 @@ using System.Text.RegularExpressions;
 using System.Xml;
 using System.Xml.Serialization;
 using MediatR;
-using AnotherNewsPlatform.CQS.Commands;
+using AnotherNewsPlatform.CQS.Articles.Commands;
 
 
 namespace AnotherNewsPlatform.Services.NewsService
@@ -258,7 +258,61 @@ namespace AnotherNewsPlatform.Services.NewsService
 
         private async Task InsertParsedNewsAsync(IEnumerable<ArticleDto> news, CancellationToken token)
         {
-            await mediator.Send(new InsertArticleDataCommand(dbContext){ Articles = news }, token);
+            if (!news.Any())
+                return;
+
+            Log.Information("Начало обработки {Count} статей", news.Count());
+
+            // Используем транзакцию с уровнем изоляции Serializable
+            // для предотвращения race condition между проверкой и вставкой
+            using var transaction = await dbContext.Database
+                .BeginTransactionAsync(System.Data.IsolationLevel.Serializable, token);
+
+            try
+            {
+                // 1. Получаем все существующие URL одним запросом
+                // Создаем HashSet URL из входящих статей для быстрой проверки
+                var incomingUrls = news.Select(a => a.OriginalUrl).ToHashSet();
+                
+                var existingUrls = await dbContext.Articles
+                    .Where(a => incomingUrls.Contains(a.OriginalUrl))
+                    .Select(a => a.OriginalUrl)
+                    .ToHashSetAsync(token);
+
+                // 2. Фильтруем только новые статьи
+                var newArticles = news
+                    .Where(article => !existingUrls.Contains(article.OriginalUrl))
+                    .ToList();
+
+                var duplicateCount = news.Count() - newArticles.Count;
+                
+                foreach (var duplicateUrl in news.Select(a => a.OriginalUrl).Except(newArticles.Select(a => a.OriginalUrl)))
+                {
+                    Log.Debug("Пропущен дубликат: {Url}", duplicateUrl);
+                }
+
+                Log.Information("Найдено {DuplicateCount} дубликатов, {NewCount} новых статей",
+                    duplicateCount, newArticles.Count);
+
+                // 3. Вставляем только новые статьи
+                if (newArticles.Count > 0)
+                {
+                    await mediator.Send(new InsertArticleDataCommand(dbContext) { Articles = newArticles }, token);
+                    await transaction.CommitAsync(token);
+                    Log.Information("Успешно сохранено {Count} новых статей", newArticles.Count);
+                }
+                else
+                {
+                    await transaction.CommitAsync(token); // Все равно коммитим пустую транзакцию
+                    Log.Information("Нет новых статей для сохранения");
+                }
+            }
+            catch (Exception ex)
+            {
+                await transaction.RollbackAsync(token);
+                Log.Error(ex, "Ошибка при сохранении статей");
+                throw; // Пробрасываем исключение дальше
+            }
         }
     }
 }

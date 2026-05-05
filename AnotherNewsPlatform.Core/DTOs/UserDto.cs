@@ -4,7 +4,7 @@ using System.Text;
 
 namespace AnotherNewsPlatform.Core.DTOs
 {
-    internal class UserDto
+    public class UserDto
     {
         public long Id { get; set; }
         public string Username { get; set; }

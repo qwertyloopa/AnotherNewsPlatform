@@ -1,18 +1,16 @@
-﻿using AnotherNewsPlatform.Core;
+﻿using AnotherNewsPlatform.Core.DTOs;
+using AnotherNewsPlatform.Core.Mappers.User;
 using AnotherNewsPlatform.Database;
 using MediatR;
+using BCrypt.Net;
 namespace AnotherNewsPlatform.Services.UserService;
 
-public class UserService : IUserService
+public class UserService(AnpDbContext dbContext, IMediator mediator, UserEntityToDtoMapper inputMapper, UserDtoToEntityMapper outputMapper) : IUserService
 {
-    private readonly AnpDbContext _dbContext;
-    private readonly IMediator _mediator;
-
-    public UserService(AnpDbContext dbContext, IMediator mediator)
+    public object Register(UserDto userDto)
     {
-        _dbContext = dbContext;
-        _mediator = mediator;
+        
     }
-
+    
 
 }

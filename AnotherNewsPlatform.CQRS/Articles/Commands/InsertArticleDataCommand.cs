@@ -3,7 +3,7 @@ using AnotherNewsPlatform.Core.DTOs;
 using AnotherNewsPlatform.Database;
 
 
-namespace AnotherNewsPlatform.CQS.Commands;
+namespace AnotherNewsPlatform.CQS.Articles.Commands;
 
 public record InsertArticleDataCommand(AnpDbContext context) : IRequest
 {

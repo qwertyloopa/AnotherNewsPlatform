@@ -1,4 +1,3 @@
-using AnotherNewsPlatform.CQS.Commands;
 using AnotherNewsPlatform.CQS;
 using AnotherNewsPlatform.Services.NewsService;
 using AnotherNewsPlatform.Services.SourceService;
@@ -14,6 +13,7 @@ using Microsoft.Extensions.ServiceDiscovery;
 using OpenTelemetry;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Trace;
+using AnotherNewsPlatform.CQS.Articles.Commands;
 
 namespace Microsoft.Extensions.Hosting;
 

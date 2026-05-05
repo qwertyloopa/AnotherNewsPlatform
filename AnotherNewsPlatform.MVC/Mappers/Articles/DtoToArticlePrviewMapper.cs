@@ -1,7 +1,7 @@
 ﻿using Riok.Mapperly.Abstractions;
 using AnotherNewsPlatform.Core.DTOs;
-using AnotherNewsPlatform.MVC.Models;
 using AnotherNewsPlatform.App.Models;
+using AnotherNewsPlatform.MVC.Models.Articles;
 
 namespace AnotherNewsPlatform.MVC.Mappers.Articles;
 
