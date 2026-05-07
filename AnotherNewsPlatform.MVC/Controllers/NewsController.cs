@@ -4,6 +4,7 @@ using AnotherNewsPlatform.MVC.Models;
 using AnotherNewsPlatform.Services.NewsService;
 using AnotherNewsPlatform.MVC.Mappers.Articles;
 using Microsoft.AspNetCore.Authorization;
+using AnotherNewsPlatform.MVC.Models.Articles;
 
 namespace AnotherNewsPlatform.MVC.Controllers
 {
@@ -22,7 +23,7 @@ namespace AnotherNewsPlatform.MVC.Controllers
         public async Task<IActionResult> Index()
         {
             var news = await _newsService.GetNewsAsync();
-            var newsViewModel = news.Select(n => _mapper.ToArticlePreview(n)).ToList();
+            var newsViewModel = news.Select(n => _mapper.Map(n)).ToList();
             return View(new ArticleMainPageModel
             {
                 AllArticles = newsViewModel

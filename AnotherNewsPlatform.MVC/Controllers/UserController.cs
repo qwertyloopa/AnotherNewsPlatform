@@ -2,6 +2,11 @@
 using AnotherNewsPlatform.MVC.Models.User;
 using AnotherNewsPlatform.Services.UserService;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+
 
 namespace AnotherNewsPlatform.MVC.Controllers
 {
@@ -26,23 +31,36 @@ namespace AnotherNewsPlatform.MVC.Controllers
         }
 
         [HttpPost]
-        public IActionResult LoginProcess(LoginModel model)
+        public async Task<IActionResult> LoginProcess(LoginModel model, CancellationToken token)
         {
             if(ModelState.IsValid)
             {
-                return RedirectToAction("Index", "Home");
+                if(await _userService.VerifyUserAsync(model.Email, model.Password, token))
+                {
+                    var claimsIdentity = await _userService.GetLoginDataAsync(model.Email, model.Password, token);
+                    
+                    if(claimsIdentity != null)
+                    {
+                        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));   
+                        return RedirectToAction("Index", "News");
+                    }
+                    ModelState.AddModelError(string.Empty, "Invalid user");
+
+                }
+                ModelState.AddModelError(string.Empty, "Invalid email or password");
             }
             return NotFound();
         }
 
         [HttpGet]
-        public IActionResult Logout()
+        public async Task<IActionResult> Logout()
         {
-            return View();
+            await HttpContext.SignOutAsync();
+            return RedirectToAction("LogoutProcessing", User);
         }
 
         [HttpPost]
-        public IActionResult LogoutProcess()
+        public IActionResult LogoutProcessing()
         {
             return RedirectToAction("Index", "Home");
         }
@@ -54,25 +72,21 @@ namespace AnotherNewsPlatform.MVC.Controllers
         }
 
         [HttpPost]
-        public IActionResult RegisterProcess(RegisterModel model)
+        public async Task<IActionResult> RegisterProcessing(RegisterModel model, CancellationToken token)
         {
             if(ModelState.IsValid)
             {
-                return RedirectToAction("Index", "Home");
+                //await _userService.RegisterAsync(model.Username, model.Email, model.Password, CancellationToken.None);
+                await _userService.RegisterAsync(model.Username, model.Email, model.Password, token);
             }
             return View("Register", model);
         }
 
         [HttpGet, HttpPost]
-        public IActionResult VerifyEmail(string email)
+        public async Task<IActionResult> VerifyEmail(string email, CancellationToken token)
         {
-            var emailInUse = _context.Users.Any(u => u.Email == email);
-
-            if (emailInUse)
-            {
-                return Json(false);
-            }
-            return Json(true);
+            bool isEmailExists = await _userService.VerifyEmailAsync(email, token);
+            return Json(isEmailExists);
         }
     }
 }

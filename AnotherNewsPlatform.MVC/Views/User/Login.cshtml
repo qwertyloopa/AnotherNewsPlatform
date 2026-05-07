@@ -1,0 +1,17 @@
+﻿@model AnotherNewsPlatform.MVC.Models.User.LoginModel
+ <h2>Login</h2>
+ <form asp-action="LoginProcess" asp-controller="User" method="post">
+    <div class="mb-3">
+        <label class="form-label" asp-for=@Model.Email>Email address</label>
+        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" asp-for=@Model.Email>
+    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+    </div>
+    <div class="mb-3">
+        <label class="form-label" asp-for=@Model.Password>Password</label>
+        <input type="password" class="form-control" id="exampleInputPassword1" asp-for=@Model.Password>
+    </div>
+    <div class="mb-3 column">
+        <button class="btn btn-primary" type="submit">Login</button>
+        @*<button class="btn btn-outline-primary" asp-action="Register" asp-controller="User">Register</button>*@
+    </div>
+ </form>
