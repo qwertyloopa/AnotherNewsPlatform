@@ -12,11 +12,11 @@ namespace AnotherNewsPlatform.MVC.Controllers
     public class NewsController : Controller
     {
         private readonly INewsService _newsService;
-        private readonly DtoToArticlePreviewMapper _mapper;
+        private readonly ArticleMapper _mapper;
         private readonly ILogger<NewsController> _logger;
 
 
-        public NewsController(INewsService newsService, DtoToArticlePreviewMapper mapper, ILogger<NewsController> logger)
+        public NewsController(INewsService newsService, ArticleMapper mapper, ILogger<NewsController> logger)
         {
             _newsService = newsService;
             _mapper = mapper;
@@ -30,9 +30,9 @@ namespace AnotherNewsPlatform.MVC.Controllers
             try
             {
                 var news = await _newsService.GetNewsAsync();
-                _logger.LogDebug("Retrieved {NewsCount} articles from news service", news.Count());
+                // _logger.LogDebug("Retrieved {NewsCount} articles from news service", news.Count());
                 
-                var newsViewModel = news.Select(n => _mapper.Map(n)).ToList();
+                var newsViewModel = news.Select(n => _mapper.ToPreviewModel(n)).ToList();
                 _logger.LogInformation("Successfully mapped {NewsCount} articles to view models", newsViewModel.Count);
                 
                 return View(new ArticleMainPageModel

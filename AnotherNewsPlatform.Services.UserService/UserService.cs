@@ -1,5 +1,5 @@
 ﻿using AnotherNewsPlatform.Core.DTOs;
-using AnotherNewsPlatform.Core.Mappers.User;
+using AnotherNewsPlatform.Core.Mappers;
 using AnotherNewsPlatform.Database;
 using AnotherNewsPlatform.Database.Entities;
 using MediatR;

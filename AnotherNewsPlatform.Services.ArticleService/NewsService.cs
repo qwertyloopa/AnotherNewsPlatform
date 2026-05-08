@@ -13,6 +13,7 @@ using System.Xml;
 using System.Xml.Serialization;
 using MediatR;
 using AnotherNewsPlatform.CQS.Articles.Commands;
+using AnotherNewsPlatform.CQS.Articles.Query;
 
 
 namespace AnotherNewsPlatform.Services.NewsService
@@ -47,20 +48,7 @@ namespace AnotherNewsPlatform.Services.NewsService
 
         public async Task<ArticleDto?> GetByIdAsync(Guid id)
         {
-            var result = await dbContext.Articles
-                .AsNoTracking()
-                .Where(n => n.Id == id)
-                .Select(n => new ArticleDto
-                {
-                    Id = n.Id,
-                    Title = n.Title,
-                    Content = n.Content,
-                    PublishDate = n.PublishDate,
-                    OriginalUrl = n.OriginalUrl,
-                    SourceId = n.SourceId,
-                    //Comments = n.Comments.Select(c => c.Text).ToList()
-                })
-                .FirstOrDefaultAsync();
+            var result = await mediator.Send(new GetArticleById(dbContext, id));
             return result;
         }
         public async Task AggregateNews(CancellationToken cancellationToken)

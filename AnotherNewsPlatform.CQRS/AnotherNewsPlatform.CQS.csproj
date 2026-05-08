@@ -11,11 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Articles\QueryHandlers\" />
-    <Folder Include="Articles\Query\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\AnotherNewsPlatform.Core\AnotherNewsPlatform.Core.csproj" />
     <ProjectReference Include="..\AnotherNewsPlatform.Database\AnotherNewsPlatform.Database.csproj" />
   </ItemGroup>

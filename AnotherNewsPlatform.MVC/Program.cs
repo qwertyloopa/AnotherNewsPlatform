@@ -30,8 +30,9 @@ builder.Services.AddDbContext<AnpDbContext>(opt => opt.UseNpgsql(builder.Configu
 builder.RegisterNewsService();
 builder.RegisterSourceService();
 builder.RegisterUserService();
-builder.Services.AddScoped<AnotherNewsPlatform.MVC.Mappers.Articles.DtoToArticlePreviewMapper>();
-builder.Services.AddScoped<AnotherNewsPlatform.MVC.Mappers.Articles.CreateArticleModelToDtoMapper>();
+builder.Services.AddScoped<AnotherNewsPlatform.MVC.Mappers.ArticleMapper>();
+builder.RegisterCoreMappers();
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
 
 

@@ -11,7 +11,7 @@ namespace AnotherNewsPlatform.CQS.Articles.CommandHandlers
         public async Task Handle(InsertArticleDataCommand request, CancellationToken token)
         {
             List<Article> articleEntities = new List<Article>();
-            var mapper = new ArticleDtoToEntity();
+            var mapper = new ArticleMapper();
             foreach (var article in request.Articles)
             {
                 var articleEntity = mapper.ToEntity(article);

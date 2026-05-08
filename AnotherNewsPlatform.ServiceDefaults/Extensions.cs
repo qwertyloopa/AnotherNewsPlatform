@@ -103,6 +103,13 @@ public static class Extensions
         return builder;
     }
 
+    public static TBuilder RegisterCoreMappers<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
+    {
+        builder.Services.AddScoped<AnotherNewsPlatform.Core.Mappers.ArticleMapper>();
+        builder.Services.AddScoped<AnotherNewsPlatform.Core.Mappers.UserMapper>();
+        return builder;
+    }
+    
     private static TBuilder AddOpenTelemetryExporters<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
     {
         var useOtlpExporter = !string.IsNullOrWhiteSpace(builder.Configuration["OTEL_EXPORTER_OTLP_ENDPOINT"]);
