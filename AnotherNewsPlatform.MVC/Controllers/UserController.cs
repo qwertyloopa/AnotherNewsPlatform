@@ -52,18 +52,13 @@ namespace AnotherNewsPlatform.MVC.Controllers
             return NotFound();
         }
 
-        [HttpGet]
+        [HttpGet, HttpPost]
         public async Task<IActionResult> Logout()
         {
-            await HttpContext.SignOutAsync();
-            return RedirectToAction("LogoutProcessing", User);
-        }
-
-        [HttpPost]
-        public IActionResult LogoutProcessing()
-        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Index", "Home");
         }
+            
 
         [HttpGet]
         public IActionResult Register()

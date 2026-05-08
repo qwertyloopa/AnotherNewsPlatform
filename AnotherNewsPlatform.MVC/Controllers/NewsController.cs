@@ -5,6 +5,7 @@ using AnotherNewsPlatform.Services.NewsService;
 using AnotherNewsPlatform.MVC.Mappers.Articles;
 using Microsoft.AspNetCore.Authorization;
 using AnotherNewsPlatform.MVC.Models.Articles;
+using Microsoft.Extensions.Logging;
 
 namespace AnotherNewsPlatform.MVC.Controllers
 {
@@ -12,26 +13,43 @@ namespace AnotherNewsPlatform.MVC.Controllers
     {
         private readonly INewsService _newsService;
         private readonly DtoToArticlePreviewMapper _mapper;
+        private readonly ILogger<NewsController> _logger;
 
 
-        public NewsController(INewsService newsService, DtoToArticlePreviewMapper mapper)
+        public NewsController(INewsService newsService, DtoToArticlePreviewMapper mapper, ILogger<NewsController> logger)
         {
             _newsService = newsService;
             _mapper = mapper;
+            _logger = logger;
         }
         // GET: NewsController
         public async Task<IActionResult> Index()
         {
-            var news = await _newsService.GetNewsAsync();
-            var newsViewModel = news.Select(n => _mapper.Map(n)).ToList();
-            return View(new ArticleMainPageModel
+            _logger.LogInformation("NewsController.Index called - retrieving news articles");
+            
+            try
             {
-                AllArticles = newsViewModel
-            });
+                var news = await _newsService.GetNewsAsync();
+                _logger.LogDebug("Retrieved {NewsCount} articles from news service", news.Count());
+                
+                var newsViewModel = news.Select(n => _mapper.Map(n)).ToList();
+                _logger.LogInformation("Successfully mapped {NewsCount} articles to view models", newsViewModel.Count);
+                
+                return View(new ArticleMainPageModel
+                {
+                    AllArticles = newsViewModel
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving news articles in NewsController.Index");
+                throw;
+            }
         }
         // GET: NewsController/Details/5
         public ActionResult Details(int id)
         {
+            _logger.LogDebug("NewsController.Details called with id: {ArticleId}", id);
             return View();
         }
         // GET: NewsController/Aggregate
@@ -39,6 +57,7 @@ namespace AnotherNewsPlatform.MVC.Controllers
         [Authorize]
         public ActionResult Aggregate()
         {
+            _logger.LogInformation("NewsController.Aggregate called by user: {UserName}", User?.Identity?.Name);
             return View();
         }
         // POST: NewsController/ProcessAggregation
@@ -46,9 +65,25 @@ namespace AnotherNewsPlatform.MVC.Controllers
         // [ValidateAntiForgeryToken]
         public async Task<IActionResult> ProcessAggregation()
         {
-            await _newsService.AggregateNews(HttpContext.RequestAborted);
-            await Index();
-            return Ok();
+            _logger.LogInformation("Starting news aggregation process");
+            
+            try
+            {
+                await _newsService.AggregateNews(HttpContext.RequestAborted);
+                _logger.LogInformation("News aggregation completed successfully");
+                
+                return RedirectToAction("Index", "News");
+            }
+            catch (OperationCanceledException ex)
+            {
+                _logger.LogWarning(ex, "News aggregation was cancelled");
+                return RedirectToAction("Index", "News");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error during news aggregation");
+                throw;
+            }
         }
     }
 }
