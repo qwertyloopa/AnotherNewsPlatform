@@ -51,6 +51,9 @@ namespace AnotherNewsPlatform.Services.NewsService
             var result = await mediator.Send(new GetArticleById(dbContext, id));
             return result;
         }
+
+        public async Task CreateNews(ArticleDto article) => await mediator.Send(new InsertArticleCommand(dbContext) { Article = article });
+
         public async Task AggregateNews(CancellationToken cancellationToken)
         {
             //1. Get data from RSS

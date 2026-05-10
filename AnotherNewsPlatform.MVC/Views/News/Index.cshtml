@@ -4,7 +4,7 @@
 }
 @model ArticleMainPageModel
 
-<h1>News</h1>
+<h1 class="text-center display-4">News</h1>
 <form>
     <a asp-action="Aggregate">Update</a>
     <a asp-action="Index" asp-controller="Home">Back to home</a>
@@ -16,9 +16,10 @@
     </form>
 </form>
 <hr />
+<div class="row">
 @if (Model.AllArticles.Count() == 0)
 {
-    <p align="center">No articles found.:(</p>
+    <h2 class="text-center display-3">Статьи не найдены.:(</h2>
 }
 else
 {
@@ -27,3 +28,4 @@ else
         <partial name="ArticlePreviewView" model="article" />
     }
 }
+</div>

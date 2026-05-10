@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 using AnotherNewsPlatform.MVC.Mappers;
 using AnotherNewsPlatform.MVC.Models;
 using AnotherNewsPlatform.Services.NewsService;
-using AnotherNewsPlatform.MVC.Mappers.Articles;
 using Microsoft.AspNetCore.Authorization;
 using AnotherNewsPlatform.MVC.Models.Articles;
 using Microsoft.Extensions.Logging;
@@ -46,10 +45,16 @@ namespace AnotherNewsPlatform.MVC.Controllers
                 throw;
             }
         }
-        // GET: NewsController/Details/5
-        public ActionResult Details(int id)
+        [HttpGet]
+        [Route("News/Details/{id}")]
+        public async Task<ActionResult> DetailsAsync(Guid id)
         {
             _logger.LogDebug("NewsController.Details called with id: {ArticleId}", id);
+            var article = await _newsService.GetByIdAsync(id);
+            if (article == null)
+            {
+                return NotFound();
+            }
             return View();
         }
         // GET: NewsController/Aggregate

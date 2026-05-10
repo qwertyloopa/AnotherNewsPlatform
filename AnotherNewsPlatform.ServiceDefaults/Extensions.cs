@@ -87,7 +87,7 @@ public static class Extensions
     public static TBuilder RegisterNewsService<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
     {
         builder.Services.AddScoped<INewsService, AnotherNewsPlatform.Services.NewsService.NewsService>();
-        builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<InsertArticleDataCommand>());
+        // ыbuilder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<InsertArticleDataCommand>());
         return builder;
     }
 
