@@ -1,7 +1,8 @@
-using Microsoft.EntityFrameworkCore;
+using AnotherNewsPlatform.CQS.Articles.Commands;
 using AnotherNewsPlatform.Database;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.EntityFrameworkCore;
 using Serilog;
 
 
@@ -31,8 +32,13 @@ builder.RegisterNewsService();
 builder.RegisterSourceService();
 builder.RegisterUserService();
 builder.Services.AddScoped<AnotherNewsPlatform.MVC.Mappers.ArticleMapper>();
+builder.Services.AddScoped<AnotherNewsPlatform.MVC.Mappers.UserMapper>();
 builder.RegisterCoreMappers();
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
+builder.Services.AddMediatR(cfg =>
+{
+    cfg.RegisterServicesFromAssembly(typeof(Program).Assembly);
+    cfg.RegisterServicesFromAssembly(typeof(InsertArticleDataCommand).Assembly);
+});
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
 
 

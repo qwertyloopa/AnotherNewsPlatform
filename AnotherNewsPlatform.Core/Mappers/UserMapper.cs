@@ -12,5 +12,6 @@ namespace AnotherNewsPlatform.Core.Mappers
         public partial UserDto ToDto(AnotherNewsPlatform.Database.Entities.User user);
 
         public partial AnotherNewsPlatform.Database.Entities.User ToEntity(UserDto userDto);
+
     }
 }

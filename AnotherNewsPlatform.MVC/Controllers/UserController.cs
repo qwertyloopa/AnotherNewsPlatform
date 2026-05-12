@@ -83,5 +83,12 @@ namespace AnotherNewsPlatform.MVC.Controllers
             bool isEmailExists = await _userService.VerifyEmailAsync(email, token);
             return Json(isEmailExists);
         }
+
+        [HttpGet]
+        [Route("[controller]/[action]/{id}")]
+        public IActionResult Profile(long id)
+        {
+            return View(new ChangeUserModel(id));
+        }
     }
 }
