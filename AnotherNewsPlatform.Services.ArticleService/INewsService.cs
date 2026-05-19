@@ -9,7 +9,7 @@ namespace AnotherNewsPlatform.Services.NewsService
     public interface INewsService
     {
         Task<List<ArticleDto>> GetNewsAsync();
-        Task<ArticleDto?> GetByIdAsync(Guid id);
+        Task<ArticleDto?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
         Task AggregateNews(CancellationToken cancellationToken);
     }
 }

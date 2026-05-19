@@ -12,6 +12,7 @@ builder.Services.AddDbContext<AnpDbContext>(opt => opt.UseNpgsql(builder.Configu
 builder.RegisterNewsService();
 builder.RegisterSourceService();
 builder.RegisterUserService();
+builder.RegisterTokenService();
 //builder.Services.AddScoped<AnotherNewsPlatform.MVC.Mappers.ArticleMapper>();
 //builder.Services.AddScoped<AnotherNewsPlatform.MVC.Mappers.UserMapper>();
 builder.RegisterCoreMappers();

@@ -46,16 +46,17 @@ namespace AnotherNewsPlatform.MVC.Controllers
             }
         }
         [HttpGet]
-        [Route("News/Details/{id}")]
-        public async Task<ActionResult> DetailsAsync(Guid id)
+        [Authorize]
+        public async Task<ActionResult> ArticleView(Guid id)
         {
             _logger.LogDebug("NewsController.Details called with id: {ArticleId}", id);
-            var article = await _newsService.GetByIdAsync(id);
+            var article = await _newsService.GetByIdAsync(id, HttpContext.RequestAborted);
+            var articleviewModel = _mapper.ToViewModel(article);
             if (article == null)
             {
                 return NotFound();
             }
-            return View();
+            return View(articleviewModel);
         }
         // GET: NewsController/Aggregate
         [HttpGet]

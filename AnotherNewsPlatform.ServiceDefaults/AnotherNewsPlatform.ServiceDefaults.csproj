@@ -29,6 +29,7 @@
     <ProjectReference Include="..\AnotherNewsPlatform.Services.ArticleService\AnotherNewsPlatform.Services.NewsService.csproj" />
     <ProjectReference Include="..\AnotherNewsPlatform.Services.UserService\AnotherNewsPlatform.Services.UserService.csproj" />
     <ProjectReference Include="..\AnotherNewsPlatform.SourceService\AnotherNewsPlatform.Services.SourceService.csproj" />
+    <ProjectReference Include="..\AnotherNewsPlatform.TokenService\AnotherNewsPlatform.TokenService.csproj" />
   </ItemGroup>
 
 </Project>
