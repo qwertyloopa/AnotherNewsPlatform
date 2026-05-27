@@ -20,7 +20,6 @@ namespace AnotherNewsPlatform.Database.Entities
         //public long CategoryId {  get; set; }
         //public Category Category { get; set; }
 
-        public List<Commentaries> Comments { get; set; }
     }
 }
 

@@ -15,7 +15,6 @@ namespace AnotherNewsPlatform.WebApi.Models
         public string OriginalUrl { get; set; } = string.Empty;
         public long SourceId { get; set; }
 
-        //public List<string> Comments { get; set; } = new();
     }
 }
 

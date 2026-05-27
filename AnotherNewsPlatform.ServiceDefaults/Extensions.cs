@@ -1,6 +1,7 @@
 using AnotherNewsPlatform.CQS;
 using AnotherNewsPlatform.Services.NewsService;
 using AnotherNewsPlatform.Services.SourceService;
+using AnotherNewsPlatform.TokenService;
 using AnotherNewsPlatform.Services.UserService;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -100,6 +101,12 @@ public static class Extensions
     public static TBuilder RegisterUserService<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
     {
         builder.Services.AddScoped<IUserService, UserService>();
+        return builder;
+    }
+
+    public static TBuilder RegisterTokenService<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
+    {
+        builder.Services.AddScoped<ITokenService, TokenService>();
         return builder;
     }
 

@@ -10,12 +10,10 @@ namespace AnotherNewsPlatform.Core.Mappers
     [Mapper]
     public partial class ArticleMapper
     {
-        [MapperIgnoreSource(nameof(articleEntity.Source))]
-        [MapperIgnoreSource(nameof(articleEntity.Comments))]
+        [MapperIgnoreSource(nameof(Article.Source))]
         public partial ArticleDto ToDto(Article articleEntity);
 
         [MapperIgnoreTarget(nameof(Article.Source))]
-        [MapperIgnoreTarget(nameof(Article.Comments))]
         public partial Article ToEntity(ArticleDto articleDto);
     }
 }

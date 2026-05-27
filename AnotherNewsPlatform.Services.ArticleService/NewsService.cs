@@ -28,7 +28,6 @@ namespace AnotherNewsPlatform.Services.NewsService
             .AsNoTracking()
             .Include(n => n.Source)
             //.Include(n => n.Category)
-            .Include(n => n.Comments)
             .OrderByDescending(n => n.PublishDate)
             .Select(n => new ArticleDto
             {
@@ -40,13 +39,12 @@ namespace AnotherNewsPlatform.Services.NewsService
                 SourceId = n.SourceId,
                 //CategoryId = n.CategoryId,
                 //CategoryName = n.Category.Name,
-                //Comments = n.Comments.Select(c => c.Text).ToList()
             })
             .ToListAsync();
             return result;
         }
 
-        public async Task<ArticleDto?> GetByIdAsync(Guid id)
+        public async Task<ArticleDto?> GetByIdAsync(Guid id, CancellationToken token)
         {
             var result = await mediator.Send(new GetArticleById(dbContext, id));
             return result;
@@ -156,16 +154,16 @@ namespace AnotherNewsPlatform.Services.NewsService
         {
             try
             {
-                var article = doc.DocumentNode.SelectSingleNode(".//div[@class='news-text']");
+                var article = doc.DocumentNode.SelectSingleNode("//div[@class='news-text']");
 
-                var unusedContent = doc.DocumentNode.SelectSingleNode(".//div[@class = 'ad']");
-                if (unusedContent != null) doc.DocumentNode.RemoveChild(unusedContent);
-                var unusedContent2 = doc.DocumentNode.SelectSingleNode(".//div[@class = 'news-reference']");
-                if (unusedContent2 != null) doc.DocumentNode.RemoveChild(unusedContent2);
-                var unusedContent3 = doc.DocumentNode.SelectSingleNode(".//div[@class = 'news-widget]");
-                if (unusedContent3 != null) doc.DocumentNode.RemoveChild(unusedContent3);
-                var unusedContent4 = doc.DocumentNode.SelectSingleNode(".//p[last()]");
-                if (unusedContent4 != null) doc.DocumentNode.RemoveChild(unusedContent4);
+                var unusedContent = doc.DocumentNode.SelectSingleNode("//div[@class = 'ad']");
+                //if (unusedContent != null) doc.DocumentNode.RemoveChild(unusedContent);
+                //var unusedContent2 = doc.DocumentNode.SelectSingleNode("//div[@class = 'news-reference']");
+                //if (unusedContent2 != null) doc.DocumentNode.RemoveChild(unusedContent2);
+                //var unusedContent3 = doc.DocumentNode.SelectSingleNode("//div[@class = 'news-widget]");
+                //if (unusedContent3 != null) doc.DocumentNode.RemoveChild(unusedContent3);
+                //var unusedContent4 = doc.DocumentNode.SelectSingleNode("//p[last()]");
+                //if (unusedContent4 != null) doc.DocumentNode.RemoveChild(unusedContent4);
 
 
 
@@ -184,10 +182,10 @@ namespace AnotherNewsPlatform.Services.NewsService
         {
             try
             {
-                var article = doc.DocumentNode.SelectSingleNode(".//div[@class='flex flex-col gap-10 overflow-visible h-full']");
+                var article = doc.DocumentNode.SelectSingleNode("//div[@class='flex flex-col gap-10 overflow-visible h-full']");
 
-                var unusedContent = doc.DocumentNode.SelectSingleNode(".//img");
-                if (unusedContent != null) doc.DocumentNode.RemoveChild(unusedContent);
+                var unusedContent = doc.DocumentNode.SelectSingleNode("//div[@class='flex flex-col gap-10 overflow-visible h-full']/img");
+                //if (unusedContent != null) doc.DocumentNode.RemoveChild(unusedContent);
                 /*var unusedContent2 = doc.DocumentNode.SelectSingleNode(".//div[@class = 'news-reference']");
                 if (unusedContent2 != null) doc.DocumentNode.RemoveChild(unusedContent2);
                 var unusedContent3 = doc.DocumentNode.SelectSingleNode(".//div[@class = 'news-widget]");

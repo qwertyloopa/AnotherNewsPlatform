@@ -13,7 +13,7 @@
         <div class="card-text">
             @Html.Raw(Model.Content)
         </div>
-        <a class="btn btn-primary" href=@Model.OriginalUrl>Читать далее</a>
+        <a class="btn btn-primary" href="@Url.Action("ArticleView", "News", new{ id = Model.Id })">Читать далее</a>
         <br />
         <div>
             <p>Publish date: @Model.PublishDate</p>

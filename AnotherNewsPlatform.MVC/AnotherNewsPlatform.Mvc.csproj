@@ -16,8 +16,4 @@
     <ProjectReference Include="..\AnotherNewsPlatform.ServiceDefaults\AnotherNewsPlatform.ServiceDefaults.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Models\Articles\" />
-  </ItemGroup>
-
 </Project>
