@@ -16,6 +16,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\AnotherNewsPlatform.Core\AnotherNewsPlatform.Core.csproj" />
+		<ProjectReference Include="..\AnotherNewsPlatform.CQRS\AnotherNewsPlatform.CQS.csproj" />
 	</ItemGroup>
 
 </Project>

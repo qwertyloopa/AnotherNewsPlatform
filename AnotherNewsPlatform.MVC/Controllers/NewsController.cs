@@ -25,15 +25,15 @@ namespace AnotherNewsPlatform.MVC.Controllers
         public async Task<IActionResult> Index()
         {
             _logger.LogInformation("NewsController.Index called - retrieving news articles");
-            
+
             try
             {
                 var news = await _newsService.GetNewsAsync();
                 // _logger.LogDebug("Retrieved {NewsCount} articles from news service", news.Count());
-                
+
                 var newsViewModel = news.Select(n => _mapper.ToPreviewModel(n)).ToList();
                 _logger.LogInformation("Successfully mapped {NewsCount} articles to view models", newsViewModel.Count);
-                
+
                 return View(new ArticleMainPageModel
                 {
                     AllArticles = newsViewModel
@@ -71,12 +71,12 @@ namespace AnotherNewsPlatform.MVC.Controllers
         public async Task<IActionResult> ProcessAggregation()
         {
             _logger.LogInformation("Starting news aggregation process");
-            
+
             try
             {
                 await _newsService.AggregateNews(HttpContext.RequestAborted);
                 _logger.LogInformation("News aggregation completed successfully");
-                
+
                 return RedirectToAction("Index", "News");
             }
             catch (OperationCanceledException ex)

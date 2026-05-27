@@ -15,6 +15,14 @@
     <ProjectReference Include="..\AnotherNewsPlatform.Database\AnotherNewsPlatform.Database.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Users\" />
+    <Folder Include="Users\CommandHandlers\" />
+    <Folder Include="Users\Commands\" />
+    <Folder Include="Users\QueryHandlers\" />
+    <Folder Include="Users\Queries\" />
+  </ItemGroup>
+
 
 
 

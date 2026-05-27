@@ -1,7 +1,6 @@
 ﻿using AnotherNewsPlatform.Core.DTOs;
 using AnotherNewsPlatform.Core.Mappers;
-using AnotherNewsPlatform.Database;
-using AnotherNewsPlatform.Database.Entities;
+using AnotherNewsPlatform.CQS.Users.Queries;
 using MediatR;
 using BCrypt.Net;
 using Microsoft.EntityFrameworkCore;
@@ -11,7 +10,7 @@ using System.Security.Claims;
 using System.Net;
 namespace AnotherNewsPlatform.Services.UserService;
 
-public class UserService(AnpDbContext dbContext/*, IMediator mediator, UserEntityToDtoMapper loginMapper*/) : IUserService
+public class UserService(AnpDbContext dbContext, IMediator mediator) : IUserService
 {
     public async Task RegisterAsync(string username, string email, string password, CancellationToken token)
     {
@@ -30,7 +29,7 @@ public class UserService(AnpDbContext dbContext/*, IMediator mediator, UserEntit
     }
     public async Task<ClaimsIdentity?> GetLoginDataAsync(string email, string password, CancellationToken token)
     {
-        var user = await dbContext.Users.AsNoTrackingWithIdentityResolution().Include(u => u.Role).SingleOrDefaultAsync(u => u.Email == email);
+        var user = await mediator.Send(new GetLoginDataQuery(dbContext){ Email = email , Password = password });
         if(user != null && BCrypt.Net.BCrypt.Verify(password, user.PasswordHash))
         {
             var claims = new List<Claim>
