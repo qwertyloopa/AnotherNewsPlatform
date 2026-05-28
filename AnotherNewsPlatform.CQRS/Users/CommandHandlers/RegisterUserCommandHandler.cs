@@ -1,15 +1,17 @@
-using System;
-using AnotherNewsPlatform.Core.DTOs;
 using AnotherNewsPlatform.Core.Mappers;
 using AnotherNewsPlatform.CQS.Users.Commands;
+using AnotherNewsPlatform.Database;
 using MediatR;
 
 namespace AnotherNewsPlatform.CQS.Users.CommandHandlers;
 
-public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand>
+public class RegisterUserCommandHandler(AnpDbContext dbContext) : IRequestHandler<RegisterUserCommand>
 {
-    public Task Handle(RegisterUserCommand request, CancellationToken cancellationToken)
+    public async Task Handle(RegisterUserCommand request, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var mapper = new UserMapper();
+        var userEntity = mapper.ToEntity(request.User);
+        dbContext.Users.Add(userEntity);
+        await dbContext.SaveChangesAsync(cancellationToken);
     }
 }

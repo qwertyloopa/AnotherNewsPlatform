@@ -3,7 +3,6 @@ using AnotherNewsPlatform.Core.Mappers;
 using AnotherNewsPlatform.CQS.Users.Queries;
 using AnotherNewsPlatform.CQS.Users.Commands;
 using MediatR;
-using BC = BCrypt.Net;
 using Microsoft.EntityFrameworkCore;
 using AnotherNewsPlatform.Database;
 using AnotherNewsPlatform.Database.Entities;
@@ -13,12 +12,14 @@ using System.Security.Claims;
 // using System.Net;
 namespace AnotherNewsPlatform.Services.UserService;
 
+using BCrypt.Net;
+
 public class UserService(AnpDbContext dbContext, IMediator mediator, UserMapper mapper) : IUserService
 {
     public async Task RegisterAsync(string username, string email, string password, CancellationToken token)
     {
         var role = await dbContext.Roles.SingleAsync(r => r.Name == "User");
-        var passwordHash = BC.Bcrypt.HashPassword(password);
+        var passwordHash = BCrypt.HashPassword(password);
         var user = new UserDto
         {
             Username = username,
@@ -26,19 +27,19 @@ public class UserService(AnpDbContext dbContext, IMediator mediator, UserMapper 
             PasswordHash = passwordHash,
             RoleId = role.Id,
         };
-        await mediator.Send(new RegisterUserCommand(){ User = user, DbContext = dbContext}, token);
+        await mediator.Send(new RegisterUserCommand { User = user }, token);
 
     }
     public async Task<ClaimsIdentity?> GetLoginDataAsync(string email, string password, CancellationToken token)
     {
-        var user = await mediator.Send(new GetLoginDataQuery(dbContext){ Email = email , Password = password });
-        if(user != null && BCrypt.Net.BCrypt.Verify(password, user.PasswordHash))
+        var user = await mediator.Send(new GetLoginDataQuery { Email = email, Password = password });
+        if(user != null && BCrypt.Verify(password, user.PasswordHash))
         {
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim(ClaimTypes.Name, user.Username),
-                // new Claim(ClaimTypes.Role, user.Role.Name),
+                new Claim(ClaimTypes.Role, dbContext.Roles.Single(r => r.Id == user.RoleId).Name),
                 new Claim("ID", user.Id.ToString()),
             };
             return new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -53,9 +54,7 @@ public class UserService(AnpDbContext dbContext, IMediator mediator, UserMapper 
 
     public async Task<bool> VerifyUserAsync(string email, string password, CancellationToken token)
     {
-        var userOnCheck = await dbContext.Users.AsNoTrackingWithIdentityResolution().SingleOrDefaultAsync(u => u.Email == email, token);
-        var passwordCheck = BC.Verify(password, userOnCheck.PasswordHash);
-        bool verification = userOnCheck != null && passwordCheck;
+        var verification = await mediator.Send(new VerifyUserQuery() { Email = email, Password = password});
         return verification;
     }
 

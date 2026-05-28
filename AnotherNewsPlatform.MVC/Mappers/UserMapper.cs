@@ -9,5 +9,7 @@ namespace AnotherNewsPlatform.MVC.Mappers;
 public partial class UserMapper
 {
     public partial UserDto FromRegisterModelToDto(RegisterModel model);
+
+    public partial UserDto FromChangeUserModelToDto(ChangeUserModel model);
     public partial ChangeUserModel ToModel(UserDto dto);
 }

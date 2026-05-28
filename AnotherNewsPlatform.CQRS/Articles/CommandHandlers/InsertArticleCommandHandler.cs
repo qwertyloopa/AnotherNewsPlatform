@@ -1,4 +1,3 @@
-using System;
 using AnotherNewsPlatform.Core.Mappers;
 using AnotherNewsPlatform.CQS.Articles.Commands;
 using AnotherNewsPlatform.Database;
@@ -6,7 +5,7 @@ using MediatR;
 
 namespace AnotherNewsPlatform.CQS.Articles.CommandHandlers;
 
-public class InsertArticleCommandHandler(AnpDbContext dbContext, ArticleMapper mapper): IRequestHandler<InsertArticleCommand>
+public class InsertArticleCommandHandler(AnpDbContext dbContext, ArticleMapper mapper) : IRequestHandler<InsertArticleCommand>
 {
     public async Task Handle(InsertArticleCommand request, CancellationToken cancellationToken)
     {

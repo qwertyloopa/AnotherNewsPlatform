@@ -1,4 +1,5 @@
 using AnotherNewsPlatform.CQS.Articles.Commands;
+using AnotherNewsPlatform.CQS.Users.Queries;
 using AnotherNewsPlatform.Database;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -34,11 +35,7 @@ builder.RegisterUserService();
 builder.Services.AddScoped<AnotherNewsPlatform.MVC.Mappers.ArticleMapper>();
 builder.Services.AddScoped<AnotherNewsPlatform.MVC.Mappers.UserMapper>();
 builder.RegisterCoreMappers();
-builder.Services.AddMediatR(cfg =>
-{
-    cfg.RegisterServicesFromAssembly(typeof(Program).Assembly);
-    cfg.RegisterServicesFromAssembly(typeof(InsertArticleDataCommand).Assembly);
-});
+builder.RegisterMediatr();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
 
 

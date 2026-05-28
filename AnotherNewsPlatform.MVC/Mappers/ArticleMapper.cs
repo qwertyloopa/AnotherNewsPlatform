@@ -14,7 +14,7 @@ namespace AnotherNewsPlatform.MVC.Mappers
 
         [MapperIgnoreSource(nameof(ArticleDto.SourceId))]
         [MapperIgnoreSource(nameof(ArticleDto.Content))]
-        [MapperIgnoreSource(nameof(ArticleDto.OriginalUrl))]
+        //[MapperIgnoreSource(nameof(ArticleDto.OriginalUrl))]
         [MapperIgnoreTarget(nameof(ArticleViewModel.Source))]
         public partial ArticleViewModel ToViewModel(ArticleDto dto);
     }

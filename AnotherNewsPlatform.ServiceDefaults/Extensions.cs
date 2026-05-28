@@ -1,8 +1,10 @@
 using AnotherNewsPlatform.CQS;
+using AnotherNewsPlatform.CQS.Articles.Commands;
+using AnotherNewsPlatform.CQS.Users.Queries;
 using AnotherNewsPlatform.Services.NewsService;
 using AnotherNewsPlatform.Services.SourceService;
-using AnotherNewsPlatform.TokenService;
 using AnotherNewsPlatform.Services.UserService;
+using AnotherNewsPlatform.TokenService;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -14,7 +16,6 @@ using Microsoft.Extensions.ServiceDiscovery;
 using OpenTelemetry;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Trace;
-using AnotherNewsPlatform.CQS.Articles.Commands;
 
 namespace Microsoft.Extensions.Hosting;
 
@@ -88,13 +89,32 @@ public static class Extensions
     public static TBuilder RegisterNewsService<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
     {
         builder.Services.AddScoped<INewsService, AnotherNewsPlatform.Services.NewsService.NewsService>();
-        // ыbuilder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<InsertArticleDataCommand>());
+        builder.Services.AddScoped<IRssReader, AnotherNewsPlatform.Services.NewsService.RssReader>();
+        builder.Services.AddScoped<IArticleContentParser, AnotherNewsPlatform.Services.NewsService.OnlinerParser>();
+        builder.Services.AddScoped<IArticleContentParser, AnotherNewsPlatform.Services.NewsService.BTParser>();
+        builder.Services.AddScoped<IArticleContentParser, AnotherNewsPlatform.Services.NewsService.LentaParser>();
+        builder.Services.AddHttpClient<IWebScraper, AnotherNewsPlatform.Services.NewsService.WebScraper>(client =>
+        {
+            client.DefaultRequestHeaders.UserAgent.ParseAdd("AnotherNewsPlatform/1.0");
+            client.Timeout = TimeSpan.FromSeconds(30);
+        });
         return builder;
     }
 
     public static TBuilder RegisterSourceService<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
     {
         builder.Services.AddScoped<ISourceService, SourceService>();
+        return builder;
+    }
+
+    public static TBuilder RegisterMediatr<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
+    {
+        builder.Services.AddMediatR(cfg =>
+        {
+            //cfg.RegisterServicesFromAssembly(typeof(Program).Assembly);
+            cfg.RegisterServicesFromAssembly(typeof(InsertArticleDataCommand).Assembly);
+            cfg.RegisterServicesFromAssembly(typeof(VerifyUserQuery).Assembly);
+        });
         return builder;
     }
 

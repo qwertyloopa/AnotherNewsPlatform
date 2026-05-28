@@ -58,7 +58,7 @@ public class GetArticleByIdHandlerTests
 
         _dbContextMock.Setup(db => db.Articles).Returns(mockSet.Object);
 
-        var request = new GetArticleById(_dbContextMock.Object, articleId);
+        var request = new GetArticleById(articleId);
 
         // Act
         var result = await _handler.Handle(request, CancellationToken.None);
@@ -93,7 +93,7 @@ public class GetArticleByIdHandlerTests
 
         _dbContextMock.Setup(db => db.Articles).Returns(mockSet.Object);
 
-        var request = new GetArticleById(_dbContextMock.Object, articleId);
+        var request = new GetArticleById(articleId);
 
         // Act
         var result = await _handler.Handle(request, CancellationToken.None);
@@ -132,7 +132,7 @@ public class GetArticleByIdHandlerTests
 
         _dbContextMock.Setup(db => db.Articles).Returns(mockSet.Object);
 
-        var request = new GetArticleById(_dbContextMock.Object, articleId);
+        var request = new GetArticleById(articleId);
 
         // Act
         var result = await _handler.Handle(request, CancellationToken.None);
@@ -156,7 +156,7 @@ public class GetArticleByIdHandlerTests
         var cancellationTokenSource = new CancellationTokenSource();
         cancellationTokenSource.Cancel();
 
-        var request = new GetArticleById(_dbContextMock.Object, articleId);
+        var request = new GetArticleById(articleId);
 
         // Act & Assert
         await Assert.ThrowsAsync<OperationCanceledException>(() =>

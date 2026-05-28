@@ -22,13 +22,13 @@ namespace AnotherNewsPlatform.MVC.Controllers
             _logger = logger;
         }
         // GET: NewsController
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(CancellationToken cancellationToken)
         {
             _logger.LogInformation("NewsController.Index called - retrieving news articles");
 
             try
             {
-                var news = await _newsService.GetNewsAsync();
+                var news = await _newsService.GetNewsAsync(cancellationToken);
                 // _logger.LogDebug("Retrieved {NewsCount} articles from news service", news.Count());
 
                 var newsViewModel = news.Select(n => _mapper.ToPreviewModel(n)).ToList();

@@ -9,6 +9,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AnotherNewsPlatform.BlazorApp\AnotherNewsPlatform.BlazorApp.Client\AnotherNewsPlatform.BlazorApp.Client.csproj" />
+    <ProjectReference Include="..\AnotherNewsPlatform.BlazorApp\AnotherNewsPlatform.BlazorApp\AnotherNewsPlatform.BlazorApp.csproj" />
     <ProjectReference Include="..\AnotherNewsPlatform.MVC\AnotherNewsPlatform.MVC.csproj" />
     <ProjectReference Include="..\AnotherNewsPlatform.WebApi\AnotherNewsPlatform.WebApi.csproj" />
   </ItemGroup>
