@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using AnotherNewsPlatform.MVC.Mappers;
 
 
 namespace AnotherNewsPlatform.MVC.Controllers
@@ -15,12 +16,14 @@ namespace AnotherNewsPlatform.MVC.Controllers
         private readonly AnpDbContext _context;
         private readonly ILogger<UserController> _logger;
         private readonly IUserService _userService;
+        private readonly UserMapper _mapper;
 
-        public UserController(AnpDbContext context, ILogger<UserController> logger, IUserService userService)
+        public UserController(AnpDbContext context, ILogger<UserController> logger, IUserService userService, UserMapper mapper)
         {
             _context = context;
             _logger = logger;
             _userService = userService;
+            _mapper = mapper;
         }
 
 
@@ -71,7 +74,6 @@ namespace AnotherNewsPlatform.MVC.Controllers
         {
             if(ModelState.IsValid)
             {
-                //await _userService.RegisterAsync(model.Username, model.Email, model.Password, CancellationToken.None);
                 await _userService.RegisterAsync(model.Username, model.Email, model.Password, token);
             }
             return View("Register", model);
@@ -86,9 +88,19 @@ namespace AnotherNewsPlatform.MVC.Controllers
 
         [HttpGet]
         [Route("[controller]/[action]/{id}")]
-        public IActionResult Profile(long id)
+        public async Task<IActionResult> Profile(string id)
         {
-            return View(new ChangeUserModel(id));
+            long idToSearch = Convert.ToInt64(id);
+            var user = await _userService.GetUserDtoAsync(idToSearch);
+            var changeUserModel = _mapper.FromUserDtoToModel(user);
+            return View(changeUserModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangeUserProcessing(ChangeUserModel model)
+        {
+            await _userService.UpdateUserAsync(_mapper.FromChangeUserModelToDto(model));
+            return RedirectToAction("Index", "Home");
         }
     }
 }

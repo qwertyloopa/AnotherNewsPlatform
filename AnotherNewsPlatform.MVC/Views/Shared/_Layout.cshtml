@@ -30,7 +30,7 @@
                         {
                             <div class="col d-flex justify-content-end">
                                 <li class="nav-item">
-                                    <a class="nav-link text-light">@User.Identity.Name</a>
+                                    <a class="nav-link text-light" href="@Url.Action("Profile", "User", new { id = User.Claims.Single(u => u.Type == "ID").ToString().Trim('I').Trim('D').Trim(':').Trim(' ') })">@User.Identity.Name</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link text-light" asp-area="" asp-controller="User" asp-action="Logout">Logout</a>

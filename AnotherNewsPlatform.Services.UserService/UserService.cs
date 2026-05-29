@@ -46,6 +46,22 @@ public class UserService(AnpDbContext dbContext, IMediator mediator, UserMapper 
         }
         throw new Exception("Invalid email or password");
     }
+
+    public async Task UpdateUserAsync(UserDto user)
+    {
+        await mediator.Send(new UpdateUserCommand { User = user });
+    }
+
+    public async Task<UserDto> GetUserDtoAsync(long id)
+    {
+        var result = await mediator.Send(new GetUserDataToChangeQuery { Id = id});
+        return result;
+    }
+
+    public async Task DeleteUserAsync()
+    {
+
+    }
     
     public async Task<bool> VerifyEmailAsync(string email, CancellationToken token)
     {
@@ -57,5 +73,4 @@ public class UserService(AnpDbContext dbContext, IMediator mediator, UserMapper 
         var verification = await mediator.Send(new VerifyUserQuery() { Email = email, Password = password});
         return verification;
     }
-
 }

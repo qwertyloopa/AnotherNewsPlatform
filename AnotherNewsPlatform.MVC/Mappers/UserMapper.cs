@@ -1,4 +1,5 @@
 using System;
+using System.Security.Claims;
 using AnotherNewsPlatform.Core.DTOs;
 using AnotherNewsPlatform.MVC.Models.User;
 using Riok.Mapperly.Abstractions;
@@ -11,5 +12,6 @@ public partial class UserMapper
     public partial UserDto FromRegisterModelToDto(RegisterModel model);
 
     public partial UserDto FromChangeUserModelToDto(ChangeUserModel model);
-    public partial ChangeUserModel ToModel(UserDto dto);
+
+    public partial ChangeUserModel FromUserDtoToModel(UserDto userDto);
 }
