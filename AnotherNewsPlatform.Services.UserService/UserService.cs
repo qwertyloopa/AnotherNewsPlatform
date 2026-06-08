@@ -58,9 +58,9 @@ public class UserService(AnpDbContext dbContext, IMediator mediator, UserMapper 
         return result;
     }
 
-    public async Task DeleteUserAsync()
+    public async Task DeleteUserAsync(long id)
     {
-
+        await mediator.Send(new DeleteUserCommand { Id = id });
     }
     
     public async Task<bool> VerifyEmailAsync(string email, CancellationToken token)

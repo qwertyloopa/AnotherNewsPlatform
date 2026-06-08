@@ -14,5 +14,6 @@ namespace AnotherNewsPlatform.Services.UserService
         Task<bool> VerifyUserAsync(string email, string password, CancellationToken token);
         Task UpdateUserAsync(UserDto user);
         Task<UserDto> GetUserDtoAsync(long id);
+        Task DeleteUserAsync(long id);
     }
 }

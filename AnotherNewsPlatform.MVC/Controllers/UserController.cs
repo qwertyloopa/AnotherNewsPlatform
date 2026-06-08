@@ -7,6 +7,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using AnotherNewsPlatform.MVC.Mappers;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace AnotherNewsPlatform.MVC.Controllers
@@ -28,6 +29,7 @@ namespace AnotherNewsPlatform.MVC.Controllers
 
 
         [HttpGet]
+        [Authorize]
         public IActionResult Login(string returnUrl)
         {
             return View();
@@ -96,11 +98,18 @@ namespace AnotherNewsPlatform.MVC.Controllers
             return View(changeUserModel);
         }
 
-        [HttpPost]
+        [HttpPatch]
         public async Task<IActionResult> ChangeUserProcessing(ChangeUserModel model)
         {
             await _userService.UpdateUserAsync(_mapper.FromChangeUserModelToDto(model));
             return RedirectToAction("Index", "Home");
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> DeleteUser(long id)
+        {
+            await _userService.DeleteUserAsync(id);
+            return RedirectToAction("Logout", "Home");
         }
     }
 }

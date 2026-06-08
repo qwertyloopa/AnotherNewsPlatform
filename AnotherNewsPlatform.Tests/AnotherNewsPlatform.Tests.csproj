@@ -22,6 +22,8 @@
     <ProjectReference Include="..\AnotherNewsPlatform.Core\AnotherNewsPlatform.Core.csproj" />
     <ProjectReference Include="..\AnotherNewsPlatform.Database\AnotherNewsPlatform.Database.csproj" />
     <ProjectReference Include="..\AnotherNewsPlatform.CQRS\AnotherNewsPlatform.CQS.csproj" />
+    <ProjectReference Include="..\AnotherNewsPlatform.MVC\AnotherNewsPlatform.Mvc.csproj" />
+    <ProjectReference Include="..\AnotherNewsPlatform.Services.UserService\AnotherNewsPlatform.Services.UserService.csproj" />
   </ItemGroup>
 
   <ItemGroup>

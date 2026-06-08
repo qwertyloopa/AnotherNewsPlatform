@@ -25,4 +25,5 @@
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
     <button class="btn btn-outline-primary" asp-action="News" asp-controller="News">Back to news</button>
+    <a class="btn btn-danger" href="@Url.Action("Profile", "User", new { id = Model.Id })">Delete</a>
 </form>
