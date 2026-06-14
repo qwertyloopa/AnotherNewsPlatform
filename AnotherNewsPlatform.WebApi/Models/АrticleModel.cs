@@ -4,7 +4,7 @@ using System.Text;
 
 namespace AnotherNewsPlatform.WebApi.Models
 {
-    public class АrticleModel
+    public class АrticleApiModel
     {
         public Guid Id { get; set; }
         public string Title { get; set; } = string.Empty;
