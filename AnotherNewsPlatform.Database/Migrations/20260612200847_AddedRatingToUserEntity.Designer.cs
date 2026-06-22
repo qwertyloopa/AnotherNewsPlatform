@@ -3,6 +3,7 @@ using System;
 using AnotherNewsPlatform.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AnotherNewsPlatform.Database.Migrations
 {
     [DbContext(typeof(AnpDbContext))]
-    partial class AnpDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260612200847_AddedRatingToUserEntity")]
+    partial class AddedRatingToUserEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -38,9 +41,6 @@ namespace AnotherNewsPlatform.Database.Migrations
 
                     b.Property<DateTime>("PublishDate")
                         .HasColumnType("timestamp with time zone");
-
-                    b.Property<decimal>("Rate")
-                        .HasColumnType("numeric");
 
                     b.Property<long>("SourceId")
                         .HasColumnType("bigint");
@@ -120,6 +120,9 @@ namespace AnotherNewsPlatform.Database.Migrations
                     b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<decimal>("Rate")
+                        .HasColumnType("numeric");
 
                     b.Property<long>("RoleId")
                         .HasColumnType("bigint");

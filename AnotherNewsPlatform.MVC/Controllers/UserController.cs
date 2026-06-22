@@ -29,7 +29,6 @@ namespace AnotherNewsPlatform.MVC.Controllers
 
 
         [HttpGet]
-        [Authorize]
         public IActionResult Login(string returnUrl)
         {
             return View();

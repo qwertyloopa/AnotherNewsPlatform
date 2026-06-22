@@ -12,6 +12,7 @@ public class ArticlePreviewModel
         public string Text { get; set; } 
         public DateTime PublishDate { get; set; }
         //public string SourceId { get; set; }
+        public decimal Rate { get; set; }
 
 }
 

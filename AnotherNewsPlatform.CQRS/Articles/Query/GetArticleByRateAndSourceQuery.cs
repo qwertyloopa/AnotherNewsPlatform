@@ -3,4 +3,4 @@ using MediatR;
 
 namespace AnotherNewsPlatform.CQS.Articles.Query;
 
-public record GetArticleByRateAndSource(decimal minRate, int sourceId): IRequest<IReadOnlyCollection<ArticleDto>>;
+public record GetArticleByRateAndSourceQuery(decimal? MinRate, int? SourceId): IRequest<IReadOnlyCollection<ArticleDto>>;

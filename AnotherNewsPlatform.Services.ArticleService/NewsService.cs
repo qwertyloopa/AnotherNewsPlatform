@@ -48,6 +48,17 @@ namespace AnotherNewsPlatform.Services.NewsService
             await mediator.Send(new InsertArticleCommand { Article = article }, cancellationToken);
         }
 
+        public async Task UpdatePartialArticleAsync(Guid id, string? updatedArticleTitle, decimal? updatedArticleRate, CancellationToken cancellationToken)
+        {
+            var command = new UpdatePartialArticleCommand(id: id, updatedArticleRate: updatedArticleRate,  updatedArticleTitle: updatedArticleTitle);
+            await mediator.Send(command, cancellationToken);
+        }
+
+        public async Task<IReadOnlyCollection<ArticleDto>> GetNewsByRateAndSource(decimal? minRate, int? sourceId, CancellationToken cancellationToken)
+        {
+            return await mediator.Send(new GetArticleByRateAndSourceQuery(minRate, sourceId), cancellationToken);
+        }
+
         public async Task AggregateNews(CancellationToken cancellationToken)
         {
             // 1. Получаем RSS-источники

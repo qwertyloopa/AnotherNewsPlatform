@@ -14,6 +14,8 @@ namespace AnotherNewsPlatform.Core.DTOs
 
         public string OriginalUrl { get; set; } = string.Empty;
         public long SourceId { get; set; }
+        
+        public decimal Rate { get; set; }
 
     }
 }

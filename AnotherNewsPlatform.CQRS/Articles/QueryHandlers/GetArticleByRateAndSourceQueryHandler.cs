@@ -7,24 +7,25 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AnotherNewsPlatform.CQS.Articles.QueryHandlers;
 
-public class GetArticleByRateAndSourceHandler(AnpDbContext dbContext): IRequestHandler<GetArticleByRateAndSourceQuery, IReadOnlyCollection<ArticleDto>>
+public class GetArticleByRateAndSourceQueryHandler(AnpDbContext dbContext): IRequestHandler<GetArticleByRateAndSourceQuery, IReadOnlyCollection<ArticleDto>>
 {
     public async Task<IReadOnlyCollection<ArticleDto>> Handle(GetArticleByRateAndSourceQuery request, CancellationToken cancellationToken)
     {
         var articles = dbContext.Articles.AsNoTrackingWithIdentityResolution().AsQueryable();
 
-        if (request.minRate != null)
+        if (request.MinRate != null)
         {
-            articles = articles.Where(a => a.Rate == request.minRate);
+            articles = articles.Where(a => a.Rate == request.MinRate);
         }
 
-        if (request.sourceId != null)
+        if (request.SourceId != null)
         {
-            articles = articles.Where(a => a.SourceId == request.sourceId);
+            articles = articles.Where(a => a.SourceId == request.SourceId);
         }
         
         var mapper = new ArticleMapper();
-        return (await articles.Select(a => mapper.ToDto(a)).ToArrayAsync<ArticleDto>(cancellationToken))
-            .AsReadOnly();
+        return (await articles.Select(a => mapper.ToDto(a))
+                .ToArrayAsync<ArticleDto>(cancellationToken))
+                .AsReadOnly();
     }
 }

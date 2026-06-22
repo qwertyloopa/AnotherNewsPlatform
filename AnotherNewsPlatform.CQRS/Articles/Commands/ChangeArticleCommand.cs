@@ -1,3 +1,6 @@
-﻿namespace AnotherNewsPlatform.CQS.Articles.Commands;
+﻿using AnotherNewsPlatform.Core.DTOs;
+using MediatR;
 
-public record ChangeArticleCommand();
+namespace AnotherNewsPlatform.CQS.Articles.Commands;
+
+public record ChangeArticleCommand(ArticleDto article): IRequest;

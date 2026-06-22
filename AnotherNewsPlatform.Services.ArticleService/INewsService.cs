@@ -8,5 +8,9 @@ namespace AnotherNewsPlatform.Services.NewsService
         Task<ArticleDto?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
         Task CreateNews(ArticleDto article, CancellationToken cancellationToken);
         Task AggregateNews(CancellationToken cancellationToken);
+        Task<IReadOnlyCollection<ArticleDto>> GetNewsByRateAndSource(decimal? minRate, int? sourceId, CancellationToken cancellationToken);
+
+        Task UpdatePartialArticleAsync(Guid id, string? updatedArticleTitle, decimal? updatedArticleRate,
+            CancellationToken cancellationToken);
     }
 }

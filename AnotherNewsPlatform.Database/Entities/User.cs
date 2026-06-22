@@ -15,6 +15,7 @@ namespace AnotherNewsPlatform.Database.Entities
 
         public long RoleId { get; set; }
         public Role Role { get; set; }
+        
     }
 }
 

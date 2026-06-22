@@ -1,4 +1,4 @@
-﻿<Project Sdk="Aspire.AppHost.Sdk/13.2.3">
+﻿<Project Sdk="Aspire.AppHost.Sdk/13.4.3">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -13,6 +13,11 @@
     <ProjectReference Include="..\AnotherNewsPlatform.BlazorApp\AnotherNewsPlatform.BlazorApp\AnotherNewsPlatform.BlazorApp.csproj" />
     <ProjectReference Include="..\AnotherNewsPlatform.MVC\AnotherNewsPlatform.MVC.csproj" />
     <ProjectReference Include="..\AnotherNewsPlatform.WebApi\AnotherNewsPlatform.WebApi.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Aspire.Hosting.PostgreSQL" Version="13.4.3" />
+    <PackageReference Include="MessagePack" Version="3.1.7" />
   </ItemGroup>
 
 </Project>

@@ -19,6 +19,8 @@ namespace AnotherNewsPlatform.Database.Entities
         public Source Source { get; set; }
         //public long CategoryId {  get; set; }
         //public Category Category { get; set; }
+        
+        public decimal Rate { get; set; }
 
     }
 }

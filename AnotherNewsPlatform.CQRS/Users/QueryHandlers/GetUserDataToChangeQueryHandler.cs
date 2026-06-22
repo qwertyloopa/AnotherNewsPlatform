@@ -14,7 +14,7 @@ namespace AnotherNewsPlatform.CQS.Users.QueryHandlers
     {
         public async Task<UserDto> Handle(GetUserDataToChangeQuery request, CancellationToken cancellationToken)
         {
-            var user = await dbContext.Users.FirstAsync(u => u.Id == request.Id);
+            var user = await dbContext.Users.AsNoTracking().SingleOrDefaultAsync(u => u.Id == request.Id);
             var mapper = new UserMapper();
             var userDto = mapper.ToDto(user);
             return userDto;

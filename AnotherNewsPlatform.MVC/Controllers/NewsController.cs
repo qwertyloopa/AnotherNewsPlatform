@@ -46,7 +46,7 @@ namespace AnotherNewsPlatform.MVC.Controllers
             }
         }
         [HttpGet]
-        [Authorize]
+        //[Authorize]
         public async Task<ActionResult> ArticleView(Guid id)
         {
             _logger.LogDebug("NewsController.Details called with id: {ArticleId}", id);
@@ -68,7 +68,7 @@ namespace AnotherNewsPlatform.MVC.Controllers
         }
         // POST: NewsController/ProcessAggregation
         [HttpPost]
-        // [ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> ProcessAggregation()
         {
             _logger.LogInformation("Starting news aggregation process");
