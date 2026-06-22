@@ -21,11 +21,13 @@ builder.Services.AddMediatR(cfg =>
     cfg.RegisterServicesFromAssembly(typeof(Program).Assembly);
     cfg.RegisterServicesFromAssembly(typeof(InsertArticleDataCommand).Assembly);
 });
+builder.Services.AddScoped<FluentValidatorActionFilter>();
+
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
 // Add CORS policy for Blazor client
-builder.Services.AddCors(options =>
+/*builder.Services.AddCors(options =>
 {
     options.AddPolicy("BlazorClient",
         policy =>
@@ -40,7 +42,7 @@ builder.Services.AddCors(options =>
             .AllowAnyMethod()
             .AllowCredentials();
         });
-});
+});*/
 
 var app = builder.Build();
 

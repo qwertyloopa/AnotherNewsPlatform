@@ -8,11 +8,15 @@ public class UpdateArticlePartsModelValidator: AbstractValidator<UpdateArticlePa
 {
     public UpdateArticlePartsModelValidator()
     {
-        RuleFor(model => model.Title)
-            .NotEmpty()
-            .WithMessage("Title is required");
-        RuleFor(model => model.Rate)
-            .InclusiveBetween(0, 10)
-            .WithMessage("Rate must be between 0 and 10");
+        RuleFor(model => model)
+            .Must(model => model.Title is not null || model.Rate.HasValue)
+            .WithMessage("At least title or rate must be provided!");
+
+        When(model => model.Rate is not null, () =>
+        {
+            RuleFor(model => model.Rate)
+                .InclusiveBetween(-10, 10)
+                .WithMessage("Rate must be between -10 and 10!");
+        } );
     }
 }
