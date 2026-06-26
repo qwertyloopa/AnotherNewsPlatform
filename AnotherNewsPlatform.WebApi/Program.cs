@@ -1,5 +1,6 @@
 using AnotherNewsPlatform.CQS.Articles.Commands;
 using AnotherNewsPlatform.Database;
+using AnotherNewsPlatform.WebApi.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
