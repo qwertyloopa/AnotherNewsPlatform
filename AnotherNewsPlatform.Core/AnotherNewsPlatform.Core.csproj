@@ -14,8 +14,4 @@
     <ProjectReference Include="..\AnotherNewsPlatform.Database\AnotherNewsPlatform.Database.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Infrastructure\" />
-  </ItemGroup>
-
 </Project>
