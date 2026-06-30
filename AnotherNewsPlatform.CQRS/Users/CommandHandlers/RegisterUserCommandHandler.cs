@@ -11,7 +11,7 @@ public class RegisterUserCommandHandler(AnpDbContext dbContext) : IRequestHandle
     {
         var mapper = new UserMapper();
         var userEntity = mapper.ToEntity(request.User);
-        dbContext.Users.Add(userEntity);
+        await dbContext.Users.AddAsync(userEntity, cancellationToken);
         await dbContext.SaveChangesAsync(cancellationToken);
     }
 }

@@ -63,6 +63,42 @@ namespace AnotherNewsPlatform.Database.Migrations
                     b.ToTable("Articles");
                 });
 
+            modelBuilder.Entity("AnotherNewsPlatform.Database.Entities.RefreshToken", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("Created")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Device")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("Expires")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsRevoked")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<long>("UserId1")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId1");
+
+                    b.ToTable("RefreshTokens");
+                });
+
             modelBuilder.Entity("AnotherNewsPlatform.Database.Entities.Role", b =>
                 {
                     b.Property<long>("Id")
@@ -144,6 +180,17 @@ namespace AnotherNewsPlatform.Database.Migrations
                         .IsRequired();
 
                     b.Navigation("Source");
+                });
+
+            modelBuilder.Entity("AnotherNewsPlatform.Database.Entities.RefreshToken", b =>
+                {
+                    b.HasOne("AnotherNewsPlatform.Database.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId1")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("AnotherNewsPlatform.Database.Entities.User", b =>

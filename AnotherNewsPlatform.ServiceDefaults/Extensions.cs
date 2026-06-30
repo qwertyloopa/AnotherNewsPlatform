@@ -1,11 +1,14 @@
+using System.Text;
 using AnotherNewsPlatform.CQS;
 using AnotherNewsPlatform.CQS.Articles.Commands;
+using AnotherNewsPlatform.CQS.Sources.Commands;
 using AnotherNewsPlatform.CQS.Users.Queries;
 using AnotherNewsPlatform.Services.NewsService;
 using AnotherNewsPlatform.Services.SourceService;
 using AnotherNewsPlatform.Services.UserService;
 using AnotherNewsPlatform.TokenService;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
@@ -13,6 +16,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.ServiceDiscovery;
+using Microsoft.IdentityModel.Tokens;
 using OpenTelemetry;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Trace;
@@ -114,6 +118,7 @@ public static class Extensions
             //cfg.RegisterServicesFromAssembly(typeof(Program).Assembly);
             cfg.RegisterServicesFromAssembly(typeof(InsertArticleDataCommand).Assembly);
             cfg.RegisterServicesFromAssembly(typeof(VerifyUserQuery).Assembly);
+            cfg.RegisterServicesFromAssembly(typeof(CreateSourceAsyncCommand).Assembly);
         });
         return builder;
     }
@@ -155,6 +160,30 @@ public static class Extensions
 
         return builder;
     }
+
+    public static TBuilder AddJwtAuthentication<TBuilder>(this TBuilder builder)
+        where TBuilder : IHostApplicationBuilder
+    {
+        builder.Services.AddAuthentication(options => 
+        {
+            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        }).AddJwtBearer(options =>
+        {
+            options.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = builder.Configuration["Jwt:Issuer"],
+                ValidAudience = builder.Configuration["Jwt:Audience"],
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:SecretKey"])),  
+            };
+
+        });
+        return builder;
+    } 
 
     public static TBuilder AddDefaultHealthChecks<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
     {

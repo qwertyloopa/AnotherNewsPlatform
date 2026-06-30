@@ -11,4 +11,15 @@
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.19.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="Microsoft.Extensions.Configuration.Abstractions">
+      <HintPath>C:\Program Files\dotnet\shared\Microsoft.AspNetCore.App\10.0.9\Microsoft.Extensions.Configuration.Abstractions.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AnotherNewsPlatform.Core\AnotherNewsPlatform.Core.csproj" />
+    <ProjectReference Include="..\AnotherNewsPlatform.CQRS\AnotherNewsPlatform.CQS.csproj" />
+  </ItemGroup>
+
 </Project>

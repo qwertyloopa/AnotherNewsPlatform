@@ -2,7 +2,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AnotherNewsPlatform.MVC.Models.User;
+namespace AnotherNewsPlatform.WebApi.Models;
 
 public class RegisterModel
 {
