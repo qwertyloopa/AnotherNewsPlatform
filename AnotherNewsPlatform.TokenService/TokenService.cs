@@ -1,27 +1,36 @@
 ﻿using MediatR;
-using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using AnotherNewsPlatform.Core.DTOs;
 using AnotherNewsPlatform.Core.Exceptions;
 using AnotherNewsPlatform.CQS.Users.Commands;
+using AnotherNewsPlatform.CQS.Users.Queries;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace AnotherNewsPlatform.TokenService
 {
     public class TokenService(IConfiguration configuration, IMediator mediator, ILogger<TokenService> logger): ITokenService
     {
-        public string GenerateAccessToken(ClaimsIdentity claimsIdentity)
+        public string GenerateAccessToken(UserDto userDto)
         {
             try
             {
                 var jwtTokenHandler = new JwtSecurityTokenHandler();
                 var secretKey = Encoding.UTF8.GetBytes(configuration["Jwt:SecretKey"]);
 
+                //var role = mediator.Send(new GetRoleOfUserQuery(userDto.RoleId));
                 var tokenDescriptor = new SecurityTokenDescriptor
                 {
-                    Subject = claimsIdentity,
+                    Subject = new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim("ID", userDto.Id.ToString()),
+                        new Claim(ClaimTypes.Name, userDto.Username),
+                        new Claim(ClaimTypes.Email, userDto.Email),
+                        new Claim(ClaimTypes.Role,  userDto.RoleName)
+                    }),
                     Expires = DateTime.UtcNow.AddMinutes(Convert.ToDouble(configuration["Jwt:ExpireMinutes"])),
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(secretKey), SecurityAlgorithms.HmacSha256Signature),
                     Audience = configuration["Jwt:Audience"],
@@ -40,7 +49,7 @@ namespace AnotherNewsPlatform.TokenService
             }
         }
 
-        public async Task<Guid> GenerateRefreshTokenAsync(Guid userId, string deviceName = null, CancellationToken cancellationToken = default)
+        public async Task<Guid> GenerateRefreshTokenAsync(long userId, string deviceName = null, CancellationToken cancellationToken = default)
         {
             var refreshToken = Guid.NewGuid();
             
@@ -52,6 +61,12 @@ namespace AnotherNewsPlatform.TokenService
             });
             
             return refreshToken;
+        }
+        
+
+        public async Task RemoveRefreshTokenAsync(Guid refreshToken, CancellationToken cancellationToken = default)
+        {
+            await mediator.Send(new RemoveRefreshTokenCommand(refreshToken));
         }
     }
 }

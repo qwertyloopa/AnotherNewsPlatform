@@ -12,7 +12,7 @@ public class GetLoginDataQueryHandler(AnpDbContext dbContext): IRequestHandler<G
 {
     public async Task<UserDto?> Handle(GetLoginDataQuery request, CancellationToken cancellationToken)
     {
-        var user = await dbContext.Users.AsNoTrackingWithIdentityResolution().SingleOrDefaultAsync(u => u.Email == request.Email, cancellationToken);
+        var user = await dbContext.Users.AsNoTrackingWithIdentityResolution().Include(u => u.Role).SingleOrDefaultAsync(u => u.Email == request.Email, cancellationToken);
         //if (user == null)
         //{
         //    throw new Exception("User not found");
@@ -24,6 +24,11 @@ public class GetLoginDataQueryHandler(AnpDbContext dbContext): IRequestHandler<G
         //    throw new Exception("Invalid password");
         //    // return null;
         //}
+
+        if (user == null)
+        {
+            return null;
+        }
 
         var mapper = new UserMapper();
         var userDto = mapper.ToDto(user);

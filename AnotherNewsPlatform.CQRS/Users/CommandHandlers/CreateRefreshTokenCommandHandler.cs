@@ -14,7 +14,8 @@ public class CreateRefreshTokenCommandHandler(AnpDbContext dbContext, IConfigura
         {
             UserId = request.UserId,
             Device = request.DeviceName,
-            Expires = DateTime.UtcNow.AddDays(Convert.ToInt32(configuration["Jwt:RefreshTokenExpiryDays"])),
+            ExpiryTime = DateTime.UtcNow.AddDays(Convert.ToInt32(configuration["Jwt:RefreshTokenExpiryDays"])),
+            CreationTime =  DateTime.UtcNow,
             IsRevoked = false,
             Id = request.Token,
         };

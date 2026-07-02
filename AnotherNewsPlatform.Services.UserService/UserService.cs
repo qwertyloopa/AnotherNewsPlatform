@@ -39,7 +39,7 @@ public class UserService(AnpDbContext dbContext, IMediator mediator, UserMapper 
             {
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim(ClaimTypes.Name, user.Username),
-                new Claim(ClaimTypes.Role, dbContext.Roles.Single(r => r.Id == user.RoleId).Name),
+                new Claim(ClaimTypes.Role, user.RoleName),
                 new Claim("ID", user.Id.ToString()),
             };
             return new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -47,14 +47,32 @@ public class UserService(AnpDbContext dbContext, IMediator mediator, UserMapper 
         throw new Exception("Invalid email or password");
     }
 
+    public async Task<UserDto> GetUserDtoByEmailAndPasswordAsync(string email, string password, CancellationToken token)
+    {
+        var user = await mediator.Send(new GetLoginDataQuery() { Email = email, Password = password });
+        if (user != null && BCrypt.Verify(password, user.PasswordHash) )
+        {
+            return user;
+        }
+        throw new Exception("Invalid email or password");
+    }
+
+    public async Task<UserDto> GetUserDtoByRefreshTokenAsync(Guid refreshToken, CancellationToken token)
+    {
+        var user = await mediator.Send(new GetUserByRefreshTokenQuery(RefreshToken: refreshToken));
+        return user;
+    }
+
     public async Task UpdateUserAsync(UserDto user)
     {
         await mediator.Send(new UpdateUserCommand { User = user });
     }
+    
+    
 
     public async Task<UserDto> GetUserDtoAsync(long id)
     {
-        var result = await mediator.Send(new GetUserDataToChangeQuery { Id = id});
+        var result = await mediator.Send(new GetUserDataQuery { Id = id});
         return result;
     }
 

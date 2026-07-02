@@ -3,6 +3,7 @@ using System;
 using AnotherNewsPlatform.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AnotherNewsPlatform.Database.Migrations
 {
     [DbContext(typeof(AnpDbContext))]
-    partial class AnpDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260701192524_RemovedRefreshTokenEnity")]
+    partial class RemovedRefreshTokenEnity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -61,35 +64,6 @@ namespace AnotherNewsPlatform.Database.Migrations
                         .IsUnique();
 
                     b.ToTable("Articles");
-                });
-
-            modelBuilder.Entity("AnotherNewsPlatform.Database.Entities.RefreshToken", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Device")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("ExpiryTime")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<bool>("IsRevoked")
-                        .HasColumnType("boolean");
-
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("RefreshTokens");
                 });
 
             modelBuilder.Entity("AnotherNewsPlatform.Database.Entities.Role", b =>
@@ -173,17 +147,6 @@ namespace AnotherNewsPlatform.Database.Migrations
                         .IsRequired();
 
                     b.Navigation("Source");
-                });
-
-            modelBuilder.Entity("AnotherNewsPlatform.Database.Entities.RefreshToken", b =>
-                {
-                    b.HasOne("AnotherNewsPlatform.Database.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("AnotherNewsPlatform.Database.Entities.User", b =>

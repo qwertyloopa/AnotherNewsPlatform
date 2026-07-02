@@ -18,14 +18,15 @@ namespace AnotherNewsPlatform.WebApi.Controllers
         {
             if (await userService.VerifyUserAsync(model.Email, model.Password, cancellationToken))
             {
-                var tokenIdentity =  await userService.GetLoginDataAsync(model.Email, model.Password, cancellationToken);
+                var userIdentity =  await userService.GetUserDtoByEmailAndPasswordAsync(model.Email, model.Password, cancellationToken);
+                var clientIp = HttpContext.Connection.RemoteIpAddress.ToString() ?? "Unknown";
 
-                if (tokenIdentity != null)
+                if (userIdentity != null)
                 {
-                    return Ok(new
+                    return Ok(new TokenPairModel()
                     {
-                        AccessToken = tokenService.GenerateAccessToken(tokenIdentity),
-                        //RefreshToken = tokenService.GenerateRefreshToken()
+                        AccessToken = tokenService.GenerateAccessToken(userIdentity),
+                        RefreshToken = await tokenService.GenerateRefreshTokenAsync(userId: userIdentity.Id, deviceName: clientIp, cancellationToken: cancellationToken)
                     });
                 }
                 logger.LogError($"ClaimsIdentity for {model.Email} is null");
@@ -33,5 +34,26 @@ namespace AnotherNewsPlatform.WebApi.Controllers
             }
             return Unauthorized();
         }
-    }
+
+        [HttpPost("refresh")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
+        [ProducesResponseType(500)]
+        public async Task<IActionResult> RefreshToken(RefreshTokenModel model, CancellationToken cancellationToken)
+        {
+            var clientIp = HttpContext.Connection.RemoteIpAddress.ToString() ?? "Unknown";
+            var user = await userService.GetUserDtoByRefreshTokenAsync(model.RefreshToken,  cancellationToken);
+            
+            if (user == null) return Unauthorized();
+
+            await tokenService.RemoveRefreshTokenAsync(model.RefreshToken, cancellationToken);
+            var jwt = tokenService.GenerateAccessToken(user);
+            var refreshToken = tokenService.GenerateRefreshTokenAsync(userId: user.Id, deviceName: clientIp, cancellationToken);
+            return Ok(new TokenPairModel()
+            {
+                AccessToken = jwt,
+                RefreshToken = await refreshToken,
+            });
+        }
+    } 
 }

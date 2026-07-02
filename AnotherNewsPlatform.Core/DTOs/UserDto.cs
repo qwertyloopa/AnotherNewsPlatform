@@ -12,5 +12,6 @@ namespace AnotherNewsPlatform.Core.DTOs
         public string PasswordHash { get; set; }
 
         public long RoleId { get; set; }
+        public string RoleName { get; set; }
     }
 }

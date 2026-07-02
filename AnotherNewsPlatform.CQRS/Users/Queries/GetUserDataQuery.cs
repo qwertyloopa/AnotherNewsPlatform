@@ -6,7 +6,7 @@ using System.Text;
 
 namespace AnotherNewsPlatform.CQS.Users.Queries
 {
-    public record GetUserDataToChangeQuery: IRequest<UserDto>
+    public record GetUserDataQuery: IRequest<UserDto>
     {
         public long Id { get; set; }
     }

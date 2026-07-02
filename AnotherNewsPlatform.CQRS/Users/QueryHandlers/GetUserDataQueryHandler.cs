@@ -10,11 +10,12 @@ using System.Text;
 
 namespace AnotherNewsPlatform.CQS.Users.QueryHandlers
 {
-    public class GetUserDataToChangeQueryHandler(AnpDbContext dbContext) : IRequestHandler<GetUserDataToChangeQuery, UserDto>
+    public class GetUserDataQueryHandler(AnpDbContext dbContext) : IRequestHandler<GetUserDataQuery, UserDto>
     {
-        public async Task<UserDto> Handle(GetUserDataToChangeQuery request, CancellationToken cancellationToken)
+        public async Task<UserDto> Handle(GetUserDataQuery request, CancellationToken cancellationToken)
         {
-            var user = await dbContext.Users.AsNoTracking().SingleOrDefaultAsync(u => u.Id == request.Id);
+            var user = await dbContext.Users.AsNoTrackingWithIdentityResolution().Include(u => u.Role)
+                .SingleOrDefaultAsync(u => u.Id == request.Id);
             var mapper = new UserMapper();
             var userDto = mapper.ToDto(user);
             return userDto;
