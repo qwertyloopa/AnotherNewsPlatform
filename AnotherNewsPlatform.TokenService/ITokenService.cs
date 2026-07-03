@@ -11,5 +11,6 @@ namespace AnotherNewsPlatform.TokenService
         string GenerateAccessToken(UserDto userDto);
         Task<Guid> GenerateRefreshTokenAsync(long userId, string deviceName = null, CancellationToken cancellationToken = default );
         Task RemoveRefreshTokenAsync(Guid refreshToken, CancellationToken cancellationToken);
+        Task RevokeRefreshTokenAsync(Guid modelRefreshToken, CancellationToken cancellationToken);
     }
 }

@@ -68,5 +68,10 @@ namespace AnotherNewsPlatform.TokenService
         {
             await mediator.Send(new RemoveRefreshTokenCommand(refreshToken));
         }
+
+        public async Task RevokeRefreshTokenAsync(Guid modelRefreshToken, CancellationToken cancellationToken)
+        {
+            await mediator.Send(new RevokeRefreshTokenCommand(modelRefreshToken),  cancellationToken);
+        }
     }
 }

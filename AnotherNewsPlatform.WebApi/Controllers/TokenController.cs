@@ -10,7 +10,7 @@ namespace AnotherNewsPlatform.WebApi.Controllers
     [ApiController]
     public class TokenController(ITokenService tokenService, IUserService userService, ILogger<TokenController> logger) : ControllerBase
     {
-        [HttpPost]
+        [HttpPost("login")]
         [ProducesResponseType(200)]
         [ProducesResponseType(401)]
         [ProducesResponseType(500)]
@@ -54,6 +54,22 @@ namespace AnotherNewsPlatform.WebApi.Controllers
                 AccessToken = jwt,
                 RefreshToken = await refreshToken,
             });
+        }
+        
+        [HttpPost("revoke")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
+        [ProducesResponseType(500)]
+        public async Task<IActionResult> RevokeToken(RefreshTokenModel model, CancellationToken cancellationToken)
+        {
+            var clientIp = HttpContext.Connection.RemoteIpAddress.ToString() ?? "Unknown";
+            var user = await userService.GetUserDtoByRefreshTokenAsync(model.RefreshToken,  cancellationToken);
+            
+            if (user == null) return Unauthorized();
+
+            await tokenService.RevokeRefreshTokenAsync(model.RefreshToken, cancellationToken);
+            
+            return NoContent();
         }
     } 
 }

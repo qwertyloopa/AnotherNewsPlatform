@@ -31,6 +31,14 @@ namespace AnotherNewsPlatform.WebApi.Controllers
             var foundedArticles =  await articleService.GetNewsByRateAndSource(minRate, sourceId, cancellationToken);
             return Ok(foundedArticles);
         }
+
+        // [HttpGet("[action]")]
+        // [ProducesResponseType<АrticleModel[]>(200)]
+        // [ProducesResponseType(500)]
+        // public async Task<IActionResult> GetByPage(string? title, int? sourceId, CancellationToken cancellationToken)
+        // {
+        //     var articles = await 
+        // }
         
         [HttpPatch("{id}")]
         [ProducesResponseType(200)]

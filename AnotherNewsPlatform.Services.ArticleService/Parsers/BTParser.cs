@@ -27,7 +27,7 @@ public sealed class BTParser : IArticleContentParser
         }
         catch (Exception ex)
         {
-            Log.Error(ex, "Error parsing data from sb.by");
+            Log.Error(ex, "Error parsing data from news.by");
             return string.Empty;
         }
     }

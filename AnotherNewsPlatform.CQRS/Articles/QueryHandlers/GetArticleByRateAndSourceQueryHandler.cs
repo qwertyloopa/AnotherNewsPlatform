@@ -11,7 +11,7 @@ public class GetArticleByRateAndSourceQueryHandler(AnpDbContext dbContext): IReq
 {
     public async Task<IReadOnlyCollection<ArticleDto>> Handle(GetArticleByRateAndSourceQuery request, CancellationToken cancellationToken)
     {
-        var articles = dbContext.Articles.AsNoTrackingWithIdentityResolution().AsQueryable();
+        var articles = dbContext.Articles.AsNoTracking().AsQueryable();
 
         if (request.MinRate != null)
         {

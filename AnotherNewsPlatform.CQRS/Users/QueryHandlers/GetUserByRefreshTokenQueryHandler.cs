@@ -11,7 +11,10 @@ public class GetUserByRefreshTokenQueryHandler(AnpDbContext dbContext): IRequest
 {
     public async Task<UserDto?> Handle(GetUserByRefreshTokenQuery request, CancellationToken cancellationToken)
     {
-        var token = await dbContext.RefreshTokens.AsNoTrackingWithIdentityResolution().Include(rt => rt.User)
+        var token = await dbContext.RefreshTokens
+            .AsNoTrackingWithIdentityResolution()
+            .Include(rt => rt.User)
+            .ThenInclude(u => u.Role)
             .SingleOrDefaultAsync(token => token.Id == request.RefreshToken, cancellationToken);
         if (token == null) return null;
         var user = token.User;

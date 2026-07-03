@@ -15,5 +15,7 @@ namespace AnotherNewsPlatform.Core.Mappers
 
         [MapperIgnoreTarget(nameof(Article.Source))]
         public partial Article ToEntity(ArticleDto articleDto);
+
+        
     }
 }

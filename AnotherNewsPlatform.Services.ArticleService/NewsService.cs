@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using MediatR;
 using AnotherNewsPlatform.CQS.Articles.Commands;
 using AnotherNewsPlatform.CQS.Articles.Query;
+using AnotherNewsPlatform.CQS.Articles.QueryHandlers;
 
 namespace AnotherNewsPlatform.Services.NewsService
 {
@@ -57,6 +58,11 @@ namespace AnotherNewsPlatform.Services.NewsService
         public async Task<IReadOnlyCollection<ArticleDto>> GetNewsByRateAndSource(decimal? minRate, int? sourceId, CancellationToken cancellationToken)
         {
             return await mediator.Send(new GetArticleByRateAndSourceQuery(minRate, sourceId), cancellationToken);
+        }
+
+        public async Task<IReadOnlyCollection<ArticleDto>> GetNewsByPage(int pageNumber, int pageSize)
+        {
+            return await mediator.Send(new GetArticleByPageQuery(pageNumber, pageSize));
         }
 
         public async Task AggregateNews(CancellationToken cancellationToken)
