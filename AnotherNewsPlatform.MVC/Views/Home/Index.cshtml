@@ -8,3 +8,23 @@
     <br>
     <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
+
+@if (ViewBag.Horoscope != null)
+{
+    var horoscope = ViewBag.Horoscope as AnotherNewsPlatform.MVC.Models.HoroscopeResponse;
+    <div class="card mt-4">
+        <div class="card-header">
+            <h3>🌟 Today's Horoscope — @horoscope!.Sign.ToUpper()</h3>
+            <small class="text-muted">@horoscope.Date</small>
+        </div>
+        <div class="card-body">
+            <p class="card-text">@horoscope.Horoscope</p>
+        </div>
+    </div>
+}
+else
+{
+    <div class="alert alert-info mt-4" role="alert">
+        🌟 Horoscope is not available at the moment. Check back later!
+    </div>
+}

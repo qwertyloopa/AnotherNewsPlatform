@@ -1,0 +1,16 @@
+import { Component, Input } from '@angular/core';
+import { ArticleComponent } from '../../app/articles/article.component';
+import { Article } from '../../models/article';
+import {CommonModule, NgComponentOutlet} from '@angular/common';
+import { RouterLink } from '@angular/router';
+
+
+@Component({
+  selector: 'app-article-preview',
+  imports: [CommonModule, RouterLink],
+  templateUrl: './article-preview.html',
+  styleUrl: './article-preview.css',
+})
+export class ArticlePreviewComponent {
+  @Input() article?: Article;
+}

@@ -366,4 +366,7 @@ FodyWeavers.xsd
 .aspire
 .vs
 .idea
-.vscode
+anp-client/node_modules/  
+anp-client/dist/  
+anp-client/.angular/  
+anp-client/package-lock.json  

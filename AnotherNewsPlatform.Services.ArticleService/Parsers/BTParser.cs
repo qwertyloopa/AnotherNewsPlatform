@@ -11,7 +11,7 @@ public sealed class BTParser : IArticleContentParser
     {
         try
         {
-            var article = doc.DocumentNode.SelectSingleNode("//div[@class='flex flex-col gap-10 overflow-visible h-full']");
+            var article = doc.DocumentNode.SelectSingleNode("//div[@class='flex flex-col gap-10 news-main-text-color']");
             if (article is null)
             {
                 Log.Warning("BTParser: article div not found");

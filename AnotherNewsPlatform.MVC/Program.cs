@@ -38,6 +38,13 @@ builder.RegisterCoreMappers();
 builder.RegisterMediatr();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
 
+// Horoscope service
+builder.Services.AddMemoryCache();
+builder.Services.AddHttpClient<AnotherNewsPlatform.MVC.Services.IHoroscopeService, AnotherNewsPlatform.MVC.Services.HoroscopeService>(client =>
+{
+    client.Timeout = TimeSpan.FromSeconds(10);
+});
+
 
 var app = builder.Build();
 

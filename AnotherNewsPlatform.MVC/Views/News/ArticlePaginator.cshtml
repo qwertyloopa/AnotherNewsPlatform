@@ -1,0 +1,29 @@
+﻿@model ArticlePaginationModel
+
+<ul class="pagination">
+    @if (Model.ActualPage != 1)
+    {
+        <li class="page-item"><a class="page-link" asp-action="index" asp-route-pageNumber="@(Model.ActualPage - 1)">Previous</a></li>
+    }
+    @for (int i = 1; i <= Model.PageCount; i++)
+    {
+       if (i == Model.ActualPage)
+        {   
+            <li class="page-item active">
+                @i
+            </li>
+        }
+        else if(Math.Abs(Model.ActualPage -i) > 2)
+        {
+            continue;
+        }
+        else
+        {
+            <li class="page-item"><a class="page-link" asp-action="index" asp-route-pageNumber="@i">@i</a></li>
+        }
+    }
+    @if (Model.ActualPage != Model.PageCount)
+    {
+        <li class="page-item"><a class="page-link" asp-action="index" asp-route-pageNumber="@(Model.ActualPage + 1)">Next</a></li>
+    }
+</ul>

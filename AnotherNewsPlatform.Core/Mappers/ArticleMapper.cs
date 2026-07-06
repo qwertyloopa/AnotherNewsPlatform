@@ -1,9 +1,6 @@
-﻿using AnotherNewsPlatform.Core.DTOs;
+using AnotherNewsPlatform.Core.DTOs;
 using AnotherNewsPlatform.Database.Entities;
 using Riok.Mapperly.Abstractions;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace AnotherNewsPlatform.Core.Mappers
 {
@@ -14,6 +11,7 @@ namespace AnotherNewsPlatform.Core.Mappers
         public partial ArticleDto ToDto(Article articleEntity);
 
         [MapperIgnoreTarget(nameof(Article.Source))]
+        [MapProperty(nameof(ArticleDto.SourceId), nameof(Article.SourceId))]
         public partial Article ToEntity(ArticleDto articleDto);
 
         

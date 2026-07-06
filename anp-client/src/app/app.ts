@@ -1,13 +1,18 @@
 import { TuiRoot } from '@taiga-ui/core';
 import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterLink, RouterOutlet } from '@angular/router';
+import { ArticleComponent } from './articles/article.component';
+import routeConfig from '../route-config';
+
+import { ArticlesDetailsComponent } from '../views/articles-details-component/articles-details-component';
+
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, TuiRoot],
+  imports: [RouterOutlet, RouterLink, TuiRoot],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
 export class App {
-  protected readonly title = signal('anp-client');
+  title: string = 'Another News Platform';
 }

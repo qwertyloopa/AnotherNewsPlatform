@@ -11,11 +11,17 @@ public class GetArticleByPageQueryHandler(AnpDbContext dbContext): IRequestHandl
 {
     public async Task<IReadOnlyCollection<ArticleDto>> Handle(GetArticleByPageQuery request, CancellationToken cancellationToken)
     {
-        var articles = dbContext.Articles.AsNoTracking().OrderByDescending(a => a.PublishDate)
+
+        var mapper = new ArticleMapper();
+        var dtos = dbContext.Articles
+            .AsNoTracking()
+            .OrderByDescending(a => a.PublishDate)
             .Skip((request.pageNumber - 1) * request.pageSize)
             .Take(request.pageSize)
-            .AsQueryable();
-        var mapper = new ArticleMapper();
-        return (await articles.Select(a => mapper.ToDto(a)).OrderByDescending(a => a.PublishDate).ToArrayAsync(cancellationToken)).AsReadOnly();
+            .AsEnumerable()                // дальше — в памяти
+            .Select(a => mapper.ToDto(a))
+            .OrderByDescending(d => d.PublishDate)
+            .ToArray();
+        return (dtos).AsReadOnly();
     }
 }

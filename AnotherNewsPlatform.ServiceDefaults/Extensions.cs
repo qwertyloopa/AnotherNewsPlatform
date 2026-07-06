@@ -7,11 +7,14 @@ using AnotherNewsPlatform.Services.NewsService;
 using AnotherNewsPlatform.Services.SourceService;
 using AnotherNewsPlatform.Services.UserService;
 using AnotherNewsPlatform.TokenService;
+using Hangfire;
+using Hangfire.PostgreSql;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Logging;
@@ -90,13 +93,52 @@ public static class Extensions
         return builder;
     }
 
+    public static TBuilder SetupHangfire<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
+    {
+        builder.Services.AddHangfire(configuration => configuration
+            .SetDataCompatibilityLevel(CompatibilityLevel.Version_180)
+            .UseSimpleAssemblyNameTypeSerializer()
+            .UseRecommendedSerializerSettings()
+            .UsePostgreSqlStorage(c => c.UseNpgsqlConnection(builder.Configuration.GetConnectionString("HangfireConnection")))
+            .WithJobExpirationTimeout(TimeSpan.FromDays(7))
+            .UseFilter(new AutomaticRetryAttribute
+            {
+                Attempts = 3,
+                DelaysInSeconds = [60, 300, 600],
+                OnAttemptsExceeded = AttemptsExceededAction.Fail
+            }));
+
+        builder.Services.AddHangfireServer(options =>
+        {
+            options.WorkerCount = Environment.ProcessorCount * 2;
+            options.Queues = ["default"];
+        });
+
+        return builder;
+    }
+
+    //public static TBuilder AddCorsSetup<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
+    //{
+    //    builder.Services.AddCors(options =>
+    //    {
+    //        options.AddDefaultPolicy(builder =>
+    //        {
+    //            builder.AllowAnyOrigin()
+    //                .AllowAnyHeader()
+    //                .AllowAnyMethod();
+    //        });
+    //    });
+    //    return builder;
+    //} 
+
     public static TBuilder RegisterNewsService<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
     {
         builder.Services.AddScoped<INewsService, AnotherNewsPlatform.Services.NewsService.NewsService>();
+        builder.Services.AddScoped<IAggregateNewsService, AnotherNewsPlatform.Services.NewsService.AggregateNewsService>();
         builder.Services.AddScoped<IRssReader, AnotherNewsPlatform.Services.NewsService.RssReader>();
         builder.Services.AddScoped<IArticleContentParser, AnotherNewsPlatform.Services.NewsService.OnlinerParser>();
         builder.Services.AddScoped<IArticleContentParser, AnotherNewsPlatform.Services.NewsService.BTParser>();
-        builder.Services.AddScoped<IArticleContentParser, AnotherNewsPlatform.Services.NewsService.LentaParser>();
+        //builder.Services.AddScoped<IArticleContentParser, AnotherNewsPlatform.Services.NewsService.LentaParser>();
         builder.Services.AddHttpClient<IWebScraper, AnotherNewsPlatform.Services.NewsService.WebScraper>(client =>
         {
             client.DefaultRequestHeaders.UserAgent.ParseAdd("AnotherNewsPlatform/1.0");

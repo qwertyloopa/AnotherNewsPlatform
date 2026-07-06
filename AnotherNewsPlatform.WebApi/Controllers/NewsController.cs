@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace AnotherNewsPlatform.WebApi.Controllers
 {
     [Route("api/[controller]")]
-    [Authorize]
+    //[Authorize]
     [ApiController]
     public class NewsController(ILogger<NewsController> logger, INewsService? articleService, ArticleMapper mapper) : ControllerBase
     {
