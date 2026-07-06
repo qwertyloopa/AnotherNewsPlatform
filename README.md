@@ -106,7 +106,7 @@ RSS-источники (Onliner, Lenta, BT и др.)
 
 ### Требования
 
-- .NET 9 SDK
+- .NET 10 SDK
 - Node.js 22+
 - PostgreSQL 16+
 - Ollama (опционально, для рейтинга)
