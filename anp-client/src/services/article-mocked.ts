@@ -1,0 +1,76 @@
+import { Article } from '../models/article'
+
+export const ArticlesMock: Article[] = [
+  {
+    id: "1",
+    title: "Article 1",
+    content: "This is the article 1",
+    sourceId: 1,
+    rate: 1,
+    text: "Lorem ipsum",
+  },
+  {
+    id: "2",
+    title: "Article 1",
+    content: "This is the article 1",
+    sourceId: 1,
+    rate: 1,
+    text: "Lorem ipsum",
+  },
+  {
+    id: "3",
+    title: "Article 1",
+    content: "This is the article 1",
+    sourceId: 1,
+    rate: 1,
+    text: "Lorem ipsum",
+  },
+  {
+    id: "4",
+    title: "Article 1",
+    content: "This is the article 1",
+    sourceId: 1,
+    rate: 1,
+    text: "Lorem ipsum",
+  },
+  {
+    id: "5",
+    title: "Article 1",
+    content: "This is the article 1",
+    sourceId: 1,
+    rate: 1,
+    text: "Lorem ipsum",
+  },
+  {
+    id: "6",
+    title: "Article 1",
+    content: "This is the article 1",
+    sourceId: 1,
+    rate: 1,
+    text: "Lorem ipsum",
+  },
+  {
+    id: "7",
+    title: "Article 1",
+    content: "This is the article 1",
+    sourceId: 1,
+    rate: 1,
+    text: "Lorem ipsum",
+  },
+  {
+    id: "8",
+    title: "Article 1",
+    content: "This is the article 1",
+    sourceId: 1,
+    rate: 1,
+    text: "Lorem ipsum",
+  },
+  {
+    id: "9",
+    title: "Article 1",
+    content: "This is the article 1",
+    sourceId: 1,
+    rate: 1,
+    text: "Lorem ipsum",
+  }
+]

@@ -1,6 +1,0 @@
-@if (articles | async; as articles) {
-  @for (article of articles; track article.id) {
-    <app-article-preview [article]="article"></app-article-preview>
-    <hr>
-  }
-}
