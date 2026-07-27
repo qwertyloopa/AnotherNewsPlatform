@@ -4,6 +4,7 @@ import {Article} from '../../models/article';
 import { TuiAppearance, TuiButton, TuiTitle } from '@taiga-ui/core';
 import {TuiCardLarge, TuiHeader} from '@taiga-ui/layout'
 import {ArticleService} from '../../services/article-service';
+import {TuiTile} from '@taiga-ui/kit';
 
 
 @Component({
@@ -15,10 +16,11 @@ import {ArticleService} from '../../services/article-service';
     TuiHeader,
     TuiTitle,
     TuiButton,
+    TuiTile,
 
   ],
   templateUrl: './article-card-component.html',
-  styleUrl: './article-card-component.less',
+  styleUrl: './article-card-component.css',
 })
 export class ArticleCardComponent {
   @Input() article!: Article;

@@ -1,5 +1,9 @@
 .page {
+  display: grid ;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1rem;
-  grid-auto-rows: minmax(6.25rem, auto);
+  grid-auto-rows: minmax(280px, 1fr);
 }
+
+
 
