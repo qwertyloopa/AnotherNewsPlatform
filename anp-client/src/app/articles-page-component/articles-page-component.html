@@ -1,6 +1,5 @@
-<div>
+<div class="page">
   @for (article of articles; track article.id){
-    <app-article-card-component class="grid-item" [article]="article" [style.grid-auto-columns]="'auto'"></app-article-card-component>
-    <br>
+    <app-article-card-component class="grid-item" [article]="article"></app-article-card-component>
   }
 </div>

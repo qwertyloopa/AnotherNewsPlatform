@@ -6,7 +6,7 @@ import {ArticlesPageComponent} from './articles-page-component/articles-page-com
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, TuiRoot, ArticleCardComponent, ArticlesPageComponent],
+  imports: [RouterOutlet, TuiRoot,  ArticlesPageComponent],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
