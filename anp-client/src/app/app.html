@@ -1,7 +1,33 @@
 <tui-root>
-  <header>
-    <h1>Another News Platform</h1>
-  </header>
-  <router-outlet></router-outlet>
+  <div [style.justify-items]="'center'">
+    <header tuiNavigationHeader>
+      <span tuiNavigationLogo>
+        <h1>Another News Platform</h1>
+      </span>
+      <span tuiNaviagationSegments>
+        <button
+          appearance="secondary-grayscale"
+          [iconStart]="'@tui.home'"
+          [style.gap.rem]="1"
+          tuiButton
+          type="button"
+          routerLink="/"
+        >
+            Main Page
+        </button>
+        <button
+          appearance="secondary-grayscale"
+          [style.gap.rem]="1"
+          tuiButton
+          type="button"
+        >
+            Link 2
+        </button>
+      </span>
+    </header>
+    <main tuiNavigationMain>
+        <router-outlet />
+    </main>
+  </div>
 </tui-root>
 

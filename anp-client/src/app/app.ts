@@ -1,15 +1,18 @@
-import { TuiRoot } from '@taiga-ui/core';
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import {ArticleCardComponent} from './article-card-component/article-card-component';
-import {ArticlesPageComponent} from './articles-page-component/articles-page-component';
+import { TuiRoot, TuiButton } from '@taiga-ui/core';
+import { Component } from '@angular/core';
+import {RouterLink, RouterOutlet} from '@angular/router';
+import {TuiElasticContainer, TuiMainComponent, TuiNavigation} from '@taiga-ui/layout';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, TuiRoot,  ArticlesPageComponent],
+  imports: [TuiRoot, RouterOutlet, TuiMainComponent, TuiNavigation, TuiElasticContainer, TuiButton, RouterLink],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
 export class App {
-  protected readonly title = signal('Another News Platform');
+  protected sidebarOpen = false;
+
+  toggleSidebar(): void {
+    this.sidebarOpen = !this.sidebarOpen;
+  }
 }

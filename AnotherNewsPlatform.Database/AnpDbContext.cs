@@ -14,7 +14,9 @@ namespace AnotherNewsPlatform.Database
         public DbSet<Role> Roles { get; set; }
         public DbSet<Source> Sources { get; set; }
         public DbSet<User> Users { get; set; }
-
+        
+        public DbSet<Commentary> Commentaries { get; set; }
+        
         
         public AnpDbContext(DbContextOptions<AnpDbContext> options) : base(options) { }
     }
