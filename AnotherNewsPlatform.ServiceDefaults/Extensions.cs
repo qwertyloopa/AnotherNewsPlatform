@@ -3,6 +3,7 @@ using AnotherNewsPlatform.CQS;
 using AnotherNewsPlatform.CQS.Articles.Commands;
 using AnotherNewsPlatform.CQS.Sources.Commands;
 using AnotherNewsPlatform.CQS.Users.Queries;
+using AnotherNewsPlatform.Database;
 using AnotherNewsPlatform.Services.NewsService;
 using AnotherNewsPlatform.Services.SourceService;
 using AnotherNewsPlatform.Services.UserService;
@@ -144,6 +145,12 @@ public static class Extensions
             client.DefaultRequestHeaders.UserAgent.ParseAdd("AnotherNewsPlatform/1.0");
             client.Timeout = TimeSpan.FromSeconds(30);
         });
+        return builder;
+    }
+    
+    public static TBuilder AddDatabase<TBuilder>(this TBuilder builder, string connectionName) where TBuilder : IHostApplicationBuilder
+    {
+        builder.AddNpgsqlDbContext<AnpDbContext>(connectionName: connectionName);
         return builder;
     }
 

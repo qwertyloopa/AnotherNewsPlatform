@@ -12,8 +12,9 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.7.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.8.1" />
     <PackageReference Include="Moq" Version="4.20.72" />
+    <PackageReference Include="System.Security.Cryptography.Xml" Version="10.0.10" />
     <PackageReference Include="xunit.runner.visualstudio" Version="3.1.5">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -25,7 +26,6 @@
     <ProjectReference Include="..\AnotherNewsPlatform.Core\AnotherNewsPlatform.Core.csproj" />
     <ProjectReference Include="..\AnotherNewsPlatform.Database\AnotherNewsPlatform.Database.csproj" />
     <ProjectReference Include="..\AnotherNewsPlatform.CQRS\AnotherNewsPlatform.CQS.csproj" />
-    <ProjectReference Include="..\AnotherNewsPlatform.MVC\AnotherNewsPlatform.Mvc.csproj" />
     <ProjectReference Include="..\AnotherNewsPlatform.Services.UserService\AnotherNewsPlatform.Services.UserService.csproj" />
     <ProjectReference Include="..\AnotherNewsPlatform.TokenService\AnotherNewsPlatform.TokenService.csproj" />
     <ProjectReference Include="..\AnotherNewsPlatform.WebApi\AnotherNewsPlatform.WebApi.csproj" />
@@ -33,6 +33,10 @@
 
   <ItemGroup>
     <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Controllers\" />
   </ItemGroup>
 
 </Project>

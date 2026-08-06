@@ -18,7 +18,10 @@ namespace AnotherNewsPlatform.Database
         public DbSet<Commentary> Commentaries { get; set; }
         
         
-        public AnpDbContext(DbContextOptions<AnpDbContext> options) : base(options) { }
+        public AnpDbContext(DbContextOptions<AnpDbContext> options) : base(options)
+        {
+            Database.Migrate();
+        }
     }
 }
 

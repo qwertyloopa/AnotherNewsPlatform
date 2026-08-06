@@ -41,7 +41,7 @@ builder.Services.AddSwaggerGen(opt =>
 
     
 });
-builder.Services.AddDbContext<AnpDbContext>(opt => opt.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.AddNpgsqlDbContext<AnpDbContext>("AnotherNewsPlatformDb");
 builder.RegisterNewsService();
 builder.RegisterSourceService();
 builder.RegisterUserService();
@@ -83,14 +83,14 @@ app.MapControllers();
 app.UseHangfireDashboard();
 
 // Регистрация рекуррентных задач Hangfire при старте приложения
-app.Services.GetRequiredService<IRecurringJobManager>().AddOrUpdate<HangfireJobs>(
-    "AggregateNewsJob",
-    job => job.AggregateNewsJob(CancellationToken.None),
-    Cron.MinuteInterval(15));
-
-app.Services.GetRequiredService<IRecurringJobManager>().AddOrUpdate<HangfireJobs>(
-    "RateUnratedNewsJob",
-    job => job.RateUnratedNewsJob(CancellationToken.None),
-    Cron.Hourly());
+// app.Services.GetRequiredService<IRecurringJobManager>().AddOrUpdate<HangfireJobs>(
+//     "AggregateNewsJob",
+//     job => job.AggregateNewsJob(CancellationToken.None),
+//     Cron.MinuteInterval(15));
+//
+// app.Services.GetRequiredService<IRecurringJobManager>().AddOrUpdate<HangfireJobs>(
+//     "RateUnratedNewsJob",
+//     job => job.RateUnratedNewsJob(CancellationToken.None),
+//     Cron.Hourly());
 
 app.Run();

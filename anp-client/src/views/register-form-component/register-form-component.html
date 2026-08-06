@@ -1,0 +1,21 @@
+<h2>Register</h2>
+<form [formGroup]="registerFormData">
+  <div>
+    <label for="username">Username</label>
+    <input type="text" formControlName="username">
+  </div>
+  <div>
+    <label for="email">Email</label>
+    <input type="email" formControlName="email">
+  </div>
+  <div>
+    <label for="password">Password</label>
+    <input type="password" formControlName="password">
+  </div>
+  <div>
+    <label for="confirmPassword">Confirm Password</label>
+    <input type="password" formControlName="passwordConfirmation">
+  </div>
+  <button type="submit" [disabled]="!registerFormData.valid">Register</button>
+  <button routerLink="/login">Login</button>
+</form>

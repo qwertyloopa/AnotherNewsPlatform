@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AnotherNewsPlatform.MVC\AnotherNewsPlatform.MVC.csproj" />
+    <ProjectReference Include="..\AnotherNewsPlatform.MigrationService\AnotherNewsPlatform.MigrationService.csproj" />
     <ProjectReference Include="..\AnotherNewsPlatform.WebApi\AnotherNewsPlatform.WebApi.csproj" />
   </ItemGroup>
 
@@ -18,13 +18,8 @@
     <PackageReference Include="Aspire.Hosting.Docker" Version="13.4.6" />
     <PackageReference Include="Aspire.Hosting.JavaScript" Version="13.4.6" />
     <PackageReference Include="Aspire.Hosting.PostgreSQL" Version="13.4.6" />
-    <PackageReference Include="MessagePack" Version="3.1.7" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="..\.dockerignore">
-      <Link>.dockerignore</Link>
-    </Content>
+    <PackageReference Include="CommunityToolkit.Aspire.Hosting.PostgreSQL.Extensions" Version="13.4.0" />
+    <PackageReference Include="MessagePack" Version="3.1.8" />
   </ItemGroup>
 
 </Project>

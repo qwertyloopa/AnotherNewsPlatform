@@ -28,7 +28,7 @@ builder.Host.UseSerilog((context, services, configuration) => configuration
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddDbContext<AnpDbContext>(opt => opt.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.AddNpgsqlDbContext<AnpDbContext>("AnotherNewsPlatformDb");
 builder.RegisterNewsService();
 builder.RegisterSourceService();
 builder.RegisterUserService();
