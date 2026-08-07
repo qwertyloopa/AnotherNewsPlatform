@@ -39,7 +39,7 @@ public class UserService(AnpDbContext dbContext, IMediator mediator, UserMapper 
             {
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim(ClaimTypes.Name, user.Username),
-                new Claim(ClaimTypes.Role, user.RoleName),
+                new Claim(ClaimTypes.Role, mediator.Send(new GetRoleOfUserQuery(user.RoleId), token).Result),
                 new Claim("ID", user.Id.ToString()),
             };
             return new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -61,6 +61,12 @@ public class UserService(AnpDbContext dbContext, IMediator mediator, UserMapper 
     {
         var user = await mediator.Send(new GetUserByRefreshTokenQuery(RefreshToken: refreshToken));
         return user;
+    }
+
+    public async Task<string> GetRoleOfUser(long roleId)
+    {
+        var result = await mediator.Send(new GetRoleOfUserQuery(roleId));
+        return result;
     }
 
     public async Task UpdateUserAsync(UserDto user)

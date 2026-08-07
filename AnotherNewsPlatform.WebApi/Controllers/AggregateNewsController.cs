@@ -14,7 +14,7 @@ namespace AnotherNewsPlatform.WebApi.Controllers
         [HttpPost("aggregate")]
         public IActionResult TriggerAggregation()
         {
-            RecurringJob.Trigger("AggregateNewsJob");
+            RecurringJob.TriggerJob("AggregateNewsJob");
             return Accepted("AggregateNewsJob triggered");
         }
 
@@ -24,7 +24,7 @@ namespace AnotherNewsPlatform.WebApi.Controllers
         [HttpPost("rate")]
         public IActionResult TriggerRating()
         {
-            RecurringJob.Trigger("RateUnratedNewsJob");
+            RecurringJob.TriggerJob("RateUnratedNewsJob");
             return Accepted("RateUnratedNewsJob triggered");
         }
     }

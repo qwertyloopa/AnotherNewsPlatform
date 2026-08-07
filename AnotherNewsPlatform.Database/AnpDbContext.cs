@@ -20,7 +20,7 @@ namespace AnotherNewsPlatform.Database
         
         public AnpDbContext(DbContextOptions<AnpDbContext> options) : base(options)
         {
-            Database.Migrate();
+            
         }
     }
 }

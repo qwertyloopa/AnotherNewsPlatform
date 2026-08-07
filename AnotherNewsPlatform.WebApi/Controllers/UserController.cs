@@ -10,7 +10,7 @@ namespace AnotherNewsPlatform.WebApi.Controllers
     [ApiController]
     public class UserController(IUserService userService) : ControllerBase
     {
-        [HttpPut]
+        [HttpPut("register")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]

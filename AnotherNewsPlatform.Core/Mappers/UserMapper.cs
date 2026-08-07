@@ -8,10 +8,10 @@ namespace AnotherNewsPlatform.Core.Mappers
     [Mapper]
     public partial class UserMapper
     {
-        [MapProperty(nameof(User.Role.Name), nameof(UserDto.RoleName))]
+        [MapperIgnoreSource(nameof(User.Role))]
         public partial UserDto ToDto(User user);
-        
-        [MapProperty(nameof(UserDto.RoleName), nameof(User.Role.Name))]
+
+        [MapperIgnoreTarget(nameof(User.Role))]
         public partial User ToEntity(UserDto userDto);
 
     }

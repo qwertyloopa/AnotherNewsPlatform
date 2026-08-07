@@ -9,10 +9,11 @@ using AnotherNewsPlatform.CQS.Users.Commands;
 using AnotherNewsPlatform.CQS.Users.Queries;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using AnotherNewsPlatform.Database;
 
 namespace AnotherNewsPlatform.TokenService
 {
-    public class TokenService(IConfiguration configuration, IMediator mediator, ILogger<TokenService> logger): ITokenService
+    public class TokenService(IConfiguration configuration, IMediator mediator, AnpDbContext dbContext,  ILogger<TokenService> logger): ITokenService
     {
         public string GenerateAccessToken(UserDto userDto)
         {
@@ -29,7 +30,7 @@ namespace AnotherNewsPlatform.TokenService
                         new Claim("ID", userDto.Id.ToString()),
                         new Claim(ClaimTypes.Name, userDto.Username),
                         new Claim(ClaimTypes.Email, userDto.Email),
-                        new Claim(ClaimTypes.Role,  userDto.RoleName)
+                        new Claim(ClaimTypes.Role, mediator.Send(new GetRoleOfUserQuery(userDto.RoleId)).Result)
                     }),
                     Expires = DateTime.UtcNow.AddMinutes(Convert.ToDouble(configuration["Jwt:ExpireMinutes"])),
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(secretKey), SecurityAlgorithms.HmacSha256Signature),
