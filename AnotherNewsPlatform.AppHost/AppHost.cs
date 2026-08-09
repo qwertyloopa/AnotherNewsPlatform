@@ -3,10 +3,10 @@
 
 
 var postgres = builder.AddPostgres("postgres").WithDbGate().WithDataVolume();
-var ollama = builder.AddOllama("ollama");
+var ollama = builder.AddOllama("ollama").WithGPUSupport();
 
 var database = postgres.AddDatabase("AnotherNewsPlatformDb");
-var gemma3 = ollama.AddModel("gemma3:270m").WithGp;
+var gemma3 = ollama.AddModel("gemma3:270m");
 
 //когда надо будет ставить всю эту байду заново, то строку ниже надо расскомментировать
 //var migrations = builder.AddProject<Projects.AnotherNewsPlatform_MigrationService>("migrations").WithReference(database).WaitFor(database);
