@@ -94,8 +94,11 @@ public static class Extensions
         return builder;
     }
 
+    
+
     public static TBuilder SetupHangfire<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
     {
+        
         builder.Services.AddHangfire(configuration => configuration
             .SetDataCompatibilityLevel(CompatibilityLevel.Version_180)
             .UseSimpleAssemblyNameTypeSerializer()
@@ -130,7 +133,7 @@ public static class Extensions
     //        });
     //    });
     //    return builder;
-    //} 
+    //}
 
     public static TBuilder RegisterNewsService<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
     {

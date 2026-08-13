@@ -5,7 +5,7 @@ namespace AnotherNewsPlatform.Services.NewsService;
 
 public sealed class BTParser : IArticleContentParser
 {
-    public bool CanParse(long sourceId) => sourceId == 2;
+    public bool CanParse(long sourceId) => sourceId == 1;
 
     public string Parse(HtmlDocument doc)
     {

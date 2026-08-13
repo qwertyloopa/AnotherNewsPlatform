@@ -5,7 +5,7 @@ namespace AnotherNewsPlatform.Services.NewsService;
 
 public sealed class OnlinerParser : IArticleContentParser
 {
-    public bool CanParse(long sourceId) => sourceId == 1;
+    public bool CanParse(long sourceId) => sourceId == 2;
 
     public string Parse(HtmlDocument doc)
     {
