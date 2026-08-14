@@ -1,0 +1,7 @@
+﻿services:
+  anothernewsplatform.apphost:
+    image: anothernewsplatform.apphost
+    build:
+      context: .
+      dockerfile: AnotherNewsPlatform.AppHost/Dockerfile
+
