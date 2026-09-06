@@ -1,22 +1,23 @@
 import { Component } from '@angular/core';
-import { LoginModel } from '../../models/login-model';
-import { FormBuilder, FormsModule } from '@angular/forms';
-import { parseJson } from '@angular/cli/src/utilities/json-file';
+import {FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import {TuiCard, TuiElasticContainer, TuiForm, TuiHeader} from "@taiga-ui/layout";
+import {TuiButton, TuiError, TuiIcon, TuiInput, TuiLabel, TuiTextfieldComponent} from "@taiga-ui/core";
+import {TuiAnimated} from "@taiga-ui/cdk";
 
 @Component({
   selector: 'app-login-form-component',
-  imports: [FormsModule, RouterLink],
+  imports: [FormsModule, RouterLink, TuiCard, TuiForm, TuiHeader, TuiButton, TuiIcon, TuiElasticContainer, TuiTextfieldComponent, TuiLabel, ReactiveFormsModule, TuiAnimated, TuiInput, TuiError],
   templateUrl: './login-form-component.html',
   styleUrl: './login-form-component.css',
 })
 export class LoginFormComponent {
-  loginModel: LoginModel;
-  constructor(private formBuilder: FormBuilder) {
-    this.loginModel = new LoginModel();
-  }
+  protected readonly form: FormGroup = new FormGroup({
+    email: new FormControl('', [Validators.required, Validators.email]),
+    password: new FormControl('', [Validators.required]),
+  });
 
   login(): void {
-    console.log(`Login attempted with ${this.loginModel.email}, ${this.loginModel.password}`);
+    console.log(`Login attempted with ${this.form.get("email")}, ${this.form.get("password")}`);
   }
 }

@@ -38,10 +38,9 @@ builder.Services.AddSwaggerGen(opt =>
         Scheme = "Bearer",
         BearerFormat = "JWT"
     });
-
-    
 });
-builder.Services.AddDbContext<AnpDbContext>(с => с.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+//builder.Services.AddDbContext<AnpDbContext>(с => с.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.AddNpgsqlDbContext<AnpDbContext>(connectionName: "DefaultConnection");
 builder.RegisterNewsService();
 builder.RegisterSourceService();
 builder.RegisterUserService();

@@ -67,6 +67,25 @@ public class Worker(
                     Users = null,
                 }
         );
+        var sources = new List<Source>();
+        sources.AddRange(
+                new Source()
+                {
+                    Id= 1,
+                    Name= "NEWS.BY | Белтелерадиокомпания",
+                    DomainUrl = "https://news.by",
+                    RssUrl = "https://news.by/feed/rss-google.xml",
+                    Articles = null,
+                },
+                new Source()
+                {
+                    Id = 2,
+                    Name = "Onliner",
+                    DomainUrl = "https://onliner.by/",
+                    RssUrl = "https://onliner.by/feed",
+                    Articles = null,
+                }
+            );
         
 
         var strategy = dbContext.Database.CreateExecutionStrategy();
@@ -76,6 +95,7 @@ public class Worker(
             await using var transaction = await dbContext.Database
                 .BeginTransactionAsync(cancellationToken);
 
+            await dbContext.Sources.AddRangeAsync(sources, cancellationToken);
             await dbContext.Roles.AddRangeAsync(roles, cancellationToken);
             await dbContext.SaveChangesAsync(cancellationToken);
             await transaction.CommitAsync(cancellationToken);

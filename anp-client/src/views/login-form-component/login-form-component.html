@@ -1,16 +1,27 @@
-<h2>Login</h2>
-<form (ngSubmit)="login()">
-  <div>
-    <label for="email">Email:</label>
-    <input type="email" [(ngModel)]="loginModel.email" name="email" required>
-  </div>
-  <div>
-    <label for="password">Password:</label>
-    <input type="password" [(ngModel)]="loginModel.password" name="password" required>
-  </div>
-  <br>
-  <div>
-    <button type="submit">Login</button>
-    <button routerLink="/register">Register</button>
-  </div>
+<br>
+<form tuiCardLarge tuiForm="m" [formGroup]="form" (ngSubmit)="login()">
+    <header tuiHeader>
+        Login
+    </header>
+    <br>
+    <main>
+        <tui-textfield tuiAnimated>
+            <label tuiLabel>Email</label>
+            <input tuiInput formControlName="email" placeholder="example@email.com" type="email"/>
+        </tui-textfield>
+        <br>
+        <tui-error formControlName="email" />
+        <br>
+        <br>
+        <tui-textfield tuiAnimated>
+            <label tuiLabel>Password</label>
+            <input tuiInput formControlName="password" placeholder="Your password" type="password"/>
+        </tui-textfield>
+        <br>
+        <tui-error formControlName="password" />
+    </main>
+  <footer>
+      <button tuiButton type="submit" [disabled]="!form.valid">Login</button>
+      <button tuiButton appearance="secondary" routerLink="/register">Register</button>
+  </footer>
 </form>

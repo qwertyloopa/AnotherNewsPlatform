@@ -8,7 +8,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Serilog;
 using System.Net.Http.Json;
+using System.Text;
 using System.Text.Json;
+using OllamaSharp;
+using OllamaSharp.Models;
 
 namespace AnotherNewsPlatform.Services.NewsService
 {
@@ -17,7 +20,9 @@ namespace AnotherNewsPlatform.Services.NewsService
         IConfiguration configuration, 
         AnpDbContext dbContext,
         IRssReader rssReader,
-        IWebScraper webScraper) : IAggregateNewsService
+        IWebScraper webScraper,
+        IOllamaApiClient ollama
+        ) : IAggregateNewsService
     {
 
         public async Task AggregateNews(CancellationToken cancellationToken)
@@ -168,58 +173,28 @@ namespace AnotherNewsPlatform.Services.NewsService
 
         private async Task<decimal> RateArticleTextAsync(string textToRate, CancellationToken cancellationToken)
         {
-            var apiUrl = configuration["Ollama:BaseUrl"];
-            using (HttpClient httpClient = new HttpClient())
+            var prompt = $"Оцени по шкале от -10 до 10, насколько статья позитивна. Ответ надо дать только числом. Текст статьи: {textToRate}";
+
+            var request = new GenerateRequest
             {
-                var request = new HttpRequestMessage(HttpMethod.Post, apiUrl);
-                request.Headers.Add("Accept", "application/json");
+                Model = "gemma3:270m", // если модель уже настроена в client, можно убрать
+                Prompt = prompt
+            };
 
-                request.Content = JsonContent.Create(new OllamaChatRequest()
-                {
-                    Model = configuration["Ollama:ModelName"],
-                    Messages = new List<OllamaChatMessage>()
-                    {
-                        new  OllamaChatMessage()
-                        {
-                            Role = "user",
-                            Content = $"Rate this article by positivity rate from -10 to 10 and provide only value as a response.{Environment.NewLine} Article {textToRate}"
-                        }
-                    },
-                    Stream = false,
-                });
+            var sb = new StringBuilder();
 
-                var response = await httpClient.SendAsync(request, cancellationToken);
-                if (response.IsSuccessStatusCode)
-                {
-                    var responseContent = await response.Content.ReadFromJsonAsync<OllamaChatResponse>(cancellationToken: cancellationToken);
-
-                    // Fallback: если ReadFromJsonAsync вернул null, пробуем ручную десериализацию
-                    if (responseContent == null)
-                    {
-                        try
-                        {
-                            var json = await response.Content.ReadAsStringAsync(cancellationToken);
-                            if (!string.IsNullOrWhiteSpace(json))
-                            {
-                                responseContent = JsonSerializer.Deserialize<OllamaChatResponse>(json);
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            Log.Error(ex, "Failed to deserialize OllamaChatResponse from fallback");
-                        }
-                    }
-
-                    if (responseContent != null)
-                    {
-                        // Получаем ответ либо из Message.Content (новый формат), либо из Response (старый формат)
-                        string? rateText = responseContent.Message?.Content ?? responseContent.Response;
-                        return decimal.TryParse(rateText?.Trim(), out decimal rate) ? rate : 0;
-                    }
-                }
+            await foreach (var chunk in ollama.GenerateAsync(request, cancellationToken))
+            {
+                sb.Append(chunk.Response); // кусок ответа
+                if (chunk.Done) break;    // когда ответ закончен
             }
 
-            throw new Exception("Error to rate");
+            var text = sb.ToString().Trim();
+
+            if (!decimal.TryParse(text, out var rate))
+                throw new InvalidOperationException($"Ollama вернула не число: '{text}'");
+
+            return rate;
         }
     }
 }

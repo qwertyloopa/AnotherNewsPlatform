@@ -143,6 +143,7 @@ public static class Extensions
         builder.Services.AddScoped<IArticleContentParser, AnotherNewsPlatform.Services.NewsService.OnlinerParser>();
         builder.Services.AddScoped<IArticleContentParser, AnotherNewsPlatform.Services.NewsService.BTParser>();
         //builder.Services.AddScoped<IArticleContentParser, AnotherNewsPlatform.Services.NewsService.LentaParser>();
+        builder.AddOllamaApiClient("ollama-gemma3");
         builder.Services.AddHttpClient<IWebScraper, AnotherNewsPlatform.Services.NewsService.WebScraper>(client =>
         {
             client.DefaultRequestHeaders.UserAgent.ParseAdd("AnotherNewsPlatform/1.0");

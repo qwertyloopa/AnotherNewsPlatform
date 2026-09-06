@@ -4,10 +4,11 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { RegisterModel } from '../../models/register-model';
+import {TuiCard} from "@taiga-ui/layout";
 
 @Component({
   selector: 'app-register-form-component',
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [ReactiveFormsModule, RouterLink, TuiCard],
   templateUrl: './register-form-component.html',
   styleUrl: './register-form-component.css',
 })
