@@ -39,8 +39,8 @@ builder.Services.AddSwaggerGen(opt =>
         BearerFormat = "JWT"
     });
 });
-//builder.Services.AddDbContext<AnpDbContext>(с => с.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
-builder.AddNpgsqlDbContext<AnpDbContext>(connectionName: "DefaultConnection");
+builder.Services.AddDbContext<AnpDbContext>(с => с.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+//builder.AddNpgsqlDbContext<AnpDbContext>(connectionName: "DefaultConnection");
 builder.RegisterNewsService();
 builder.RegisterSourceService();
 builder.RegisterUserService();
@@ -91,5 +91,12 @@ app.Services.GetRequiredService<IRecurringJobManager>().AddOrUpdate<HangfireJobs
     "RateUnratedNewsJob",
     job => job.RateUnratedNewsJob(CancellationToken.None),
     Cron.Hourly());
+
+// Apply pending EF Core migrations at startup to ensure DB schema exists
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AnpDbContext>();
+    db.Database.Migrate();
+}
 
 app.Run();

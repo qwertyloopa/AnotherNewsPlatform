@@ -115,7 +115,7 @@ namespace AnotherNewsPlatform.Services.NewsService
 
             Log.Information("Начало обработки {Count} статей", newsList.Count);
 
-            using var transaction = await dbContext.Database
+            await using var transaction = await dbContext.Database
                 .BeginTransactionAsync(System.Data.IsolationLevel.Serializable, token);
 
             try

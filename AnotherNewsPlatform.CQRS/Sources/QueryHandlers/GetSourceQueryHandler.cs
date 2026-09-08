@@ -15,6 +15,7 @@ namespace AnotherNewsPlatform.CQS.Sources.QueryHandlers
         public async Task<SourceDto> Handle(GetSourceQuery request, CancellationToken cancellationToken)
         {
             var result = await dbContext.Sources.FirstOrDefaultAsync(s => s.Id == request.SourceId, cancellationToken);
+            if (result == null) return null;
             var mapper = new SourceMapper();
             return mapper.ToDto(result);
         }

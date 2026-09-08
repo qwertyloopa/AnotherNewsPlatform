@@ -22,6 +22,12 @@ namespace AnotherNewsPlatform.Database
         {
             
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(AnpDbContext).Assembly);
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }
 

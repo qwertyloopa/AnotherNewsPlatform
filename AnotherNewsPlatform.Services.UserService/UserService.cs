@@ -18,7 +18,12 @@ public class UserService(AnpDbContext dbContext, IMediator mediator, UserMapper 
 {
     public async Task RegisterAsync(string username, string email, string password, CancellationToken token)
     {
-        var role = await dbContext.Roles.SingleAsync(r => r.Name == "User");
+        var role = await dbContext.Roles.AsNoTracking().SingleOrDefaultAsync(r => r.Name == "User");
+        if (role == null)
+        {
+            throw new InvalidOperationException("Required role 'User' was not found in the database. Ensure roles are seeded before registering users.");
+        }
+
         var passwordHash = BCrypt.HashPassword(password);
         var user = new UserDto
         {

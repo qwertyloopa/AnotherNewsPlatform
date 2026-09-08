@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.EntityFrameworkCore;
+// using Microsoft.EntityFrameworkCore; // moved configuration to Fluent API
 
 namespace AnotherNewsPlatform.Database.Entities
 {
-    [Index(nameof(OriginalUrl), Name = "Index_OriginalUrl", IsUnique = true)]
     public class Article
     { 
         public Guid Id { get; set; }
