@@ -13,7 +13,6 @@ namespace AnotherNewsPlatform.WebApi.Controllers
     public class NewsController(ILogger<NewsController> logger, INewsService? articleService, ArticleMapper mapper) : ControllerBase
     {
         [HttpGet("{id}")]
-
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]

@@ -173,11 +173,11 @@ namespace AnotherNewsPlatform.Services.NewsService
 
         private async Task<decimal> RateArticleTextAsync(string textToRate, CancellationToken cancellationToken)
         {
-            var prompt = $"Оцени по шкале от -10 до 10, насколько статья позитивна. Ответ надо дать только числом. Текст статьи: {textToRate}";
+            var prompt = $"Оцени по шкале от 0 до 10, насколько статья позитивна. Ответ надо дать только числом (можно дробным). Текст статьи: {textToRate}";
 
             var request = new GenerateRequest
             {
-                Model = "gemma3:270m", // если модель уже настроена в client, можно убрать
+                //Model = "gemma3",  если модель уже настроена в client, можно убрать
                 Prompt = prompt
             };
 
@@ -193,7 +193,8 @@ namespace AnotherNewsPlatform.Services.NewsService
 
             if (!decimal.TryParse(text, out var rate))
                 throw new InvalidOperationException($"Ollama вернула не число: '{text}'");
-
+            if (rate < 0) rate = 0;
+            if (rate > 10) rate = 10;
             return rate;
         }
     }

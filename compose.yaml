@@ -5,3 +5,21 @@
       context: .
       dockerfile: AnotherNewsPlatform.AppHost/Dockerfile
 
+  anothernewsplatform.adminpanel:
+    image: anothernewsplatform.adminpanel
+    build:
+      context: .
+      dockerfile: AnotherNewsPlatform.AdminPanel/AnotherNewsPlatform.AdminPanel/Dockerfile
+
+  anothernewsplatform.adminpanel.client:
+    image: anothernewsplatform.adminpanel.client
+    build:
+      context: .
+      dockerfile: AnotherNewsPlatform.AdminPanel/AnotherNewsPlatform.AdminPanel.Client/Dockerfile
+
+  blazorapp1:
+    image: blazorapp1
+    build:
+      context: .
+      dockerfile: BlazorApp1/Dockerfile
+
