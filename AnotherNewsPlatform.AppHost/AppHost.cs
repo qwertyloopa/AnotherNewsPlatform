@@ -26,7 +26,7 @@ var api = builder.AddProject<Projects.AnotherNewsPlatform_WebApi>("web-api")
         service.Name = "api";
     });
 
-builder.AddViteApp(name:"client", appDirectory:"../anp-client", runScriptName: "start")
+var client = builder.AddViteApp(name:"client", appDirectory:"../anp-client", runScriptName: "start")
     .WithReference(api)
     .WaitFor(api)
     .WithExternalHttpEndpoints()

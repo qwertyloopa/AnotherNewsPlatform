@@ -7,6 +7,7 @@ using Microsoft.OpenApi;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
 builder.Host.UseSerilog((context, services, configuration) => configuration
     .ReadFrom.Configuration(context.Configuration)
@@ -57,6 +58,15 @@ builder.Services.AddScoped<FluentValidatorActionFilter>();
 builder.AddJwtAuthentication();
 builder.SetupHangfire();
 builder.Services.AddScoped<HangfireJobs>();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(MyAllowSpecificOrigins,
+        policy =>
+        {
+            policy.WithOrigins().AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
+        });
+});
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();

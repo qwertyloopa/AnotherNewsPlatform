@@ -1,18 +1,14 @@
-import {TuiButton, TuiRoot} from "@taiga-ui/core";
-import {TuiHeaderComponent, TuiMainComponent, TuiNavigation} from "@taiga-ui/layout";
-import {ChangeDetectionStrategy, Component} from "@angular/core";
-import { RouterLink, RouterOutlet } from "@angular/router";
-import { ArticleComponent } from "./articles/article.component";
-import routeConfig from "../route-config";
-
-import { ArticlesDetailsComponent } from "../views/articles-details-component/articles-details-component";
+import { TuiRoot } from '@taiga-ui/core';
+import { Component, signal } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+import { MenuComponent } from './components/ui/menu-component/menu-component';
 
 @Component({
-  selector: "app-root",
-  imports: [RouterOutlet, RouterLink, TuiRoot, TuiMainComponent, TuiHeaderComponent, TuiButton],
-  templateUrl: "./app.html",
-  styleUrl: "./app.css",
+  imports: [RouterOutlet, TuiRoot, MenuComponent],
+  selector: 'app-root',
+  styleUrl: './app.less',
+  templateUrl: './app.html',
 })
 export class App {
-  title: string = "Another News Platform";
+  protected readonly title = signal('anp-client');
 }

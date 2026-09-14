@@ -1,20 +1,4 @@
 <tui-root>
-    <header tuiNavigationHeader>
-        <h1>{{ title }}</h1>
-        <div>
-            <button tuiButton [iconStart]="'@tui.house'" routerLink="/">
-                Main Page
-            </button>
-            <button tuiButton routerLink="/login">
-                Login
-            </button>
-        </div>
-    </header>
-
-    <main tuiNavigationMain>
-        <div>
-            <router-outlet></router-outlet>
-        </div>
-    </main>
-  <!-- <router-outlet /> -->
+  <app-menu-component  />
+  <router-outlet />
 </tui-root>
