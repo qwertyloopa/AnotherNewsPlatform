@@ -1,11 +1,12 @@
 import { Component, Input } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { TuiCard, TuiHeader } from '@taiga-ui/layout';
 import { TuiButton } from '@taiga-ui/core';
 import { Article } from '../../../models/article-model';
 import { ArticleService } from '../../../services/article-service';
 
 @Component({
-  imports: [TuiCard, TuiHeader, TuiButton],
+  imports: [TuiCard, TuiHeader, TuiButton, RouterLink],
   selector: 'app-article-card-component',
   styleUrl: './article-card-component.less',
   templateUrl: './article-card-component.html',

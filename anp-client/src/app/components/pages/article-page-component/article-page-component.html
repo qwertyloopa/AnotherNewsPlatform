@@ -1,4 +1,5 @@
-@for (article of articles; track article.id){
-  <app-article-card-component [article]="article"/>
-  <br/>
-}
+<div class="newsgrid">
+  @for (article of articles; track article.id) {
+    <app-article-card-component [article]="article" />
+  }
+</div>

@@ -3,7 +3,9 @@
     <h3>{{ article.title }}</h3>
   </header>
   <p>{{ article.content }}</p>
+  <br>
+  <p>{{ article.sourceId }}</p>
   <footer>
-    <button tuiButton appearance="secondary">Read more</button>
+    <a tuiButton appearance="secondary" [routerLink]="['/article', article.id]">Read more</a>
   </footer>
 </div>

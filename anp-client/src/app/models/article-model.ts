@@ -3,6 +3,7 @@ export interface Article {
   title: string;
   content: string;
   text: string;
+  publishDate: Date;
   originalUrl: string;
   sourceId: number;
   rate: number;
