@@ -13,7 +13,7 @@ var database = postgres.AddDatabase("AnotherNewsPlatformDb");
 var gemma3 = ollama.AddModel("gemma3:270m"); // модель подключена, осталось дописать логику работы с ней и всё
 
 //когда надо будет ставить всю эту байду заново (или для применения миграций), то строку ниже надо расскомментировать
-var migrations = builder.AddProject<Projects.AnotherNewsPlatform_MigrationService>("migrations").WithReference(database).WaitFor(database);
+//var migrations = builder.AddProject<Projects.AnotherNewsPlatform_MigrationService>("migrations").WithReference(database).WaitFor(database);
 
 var api = builder.AddProject<Projects.AnotherNewsPlatform_WebApi>("web-api")
     .WithReference(database)
@@ -26,10 +26,11 @@ var api = builder.AddProject<Projects.AnotherNewsPlatform_WebApi>("web-api")
         service.Name = "api";
     });
 
-var client = builder.AddViteApp(name:"client", appDirectory:"../anp-client", runScriptName: "start")
+builder.AddViteApp(name:"client", appDirectory:"../anp-client", runScriptName: "start")
     .WithReference(api)
     .WaitFor(api)
     .WithExternalHttpEndpoints()
+    .WithHttpEndpoint(name: "http", port:4200)
     .PublishAsDockerComposeService((resource, service)=>
     {
         service.Image = "anothernewsplatform/frontend:latest";

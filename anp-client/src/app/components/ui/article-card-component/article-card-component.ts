@@ -13,4 +13,9 @@ import { ArticleService } from '../../../services/article-service';
 })
 export class ArticleCardComponent {
   @Input() article!: Article;
+
+  constructor(private articleService: ArticleService) {}
+  getArticle() {
+    return this.articleService.getById(this.article.id);
+  }
 }

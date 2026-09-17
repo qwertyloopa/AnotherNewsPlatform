@@ -1,11 +1,11 @@
-@if (article) {
+@if (article(); as currentArticle) {
   <div class="article-details-page">
     <div tuiCardLarge>
       <header tuiHeader>
-        <h2>{{ article.title }}</h2>
+        <h2>{{ currentArticle.title }}</h2>
       </header>
-      <span>{{ article.publishDate }}</span>
-      <p>{{ article.text }}</p>
+      <span>{{ currentArticle.publishDate }}</span>
+      <p>{{ currentArticle.text }}</p>
       <br>
       <footer>
         <a tuiButton routerLink="/article">Read original article</a>

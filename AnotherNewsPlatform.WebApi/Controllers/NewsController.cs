@@ -22,7 +22,7 @@ namespace AnotherNewsPlatform.WebApi.Controllers
             return article == null ? NotFound() : Ok(mapper.FromDtoToModel(article));
         }
 
-        [HttpGet("[action]")]
+        [HttpGet("get-articles")]
         [ProducesResponseType<АrticleModel[]>(200)]
         [ProducesResponseType(500)]
         public async Task<IActionResult> GetByRateAndSource(decimal? minRate, int? sourceId, CancellationToken cancellationToken)
