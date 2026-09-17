@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { ArticleService } from '../../../services/article-service';
 import { Article } from '../../../models/article-model';
 import { ArticleCardComponent } from '../../ui/article-card-component/article-card-component';
@@ -10,14 +11,10 @@ import { ArticleCardComponent } from '../../ui/article-card-component/article-ca
   templateUrl: './article-page-component.html',
 })
 export class ArticlePageComponent {
-  articles: Article[] = [];
-  constructor(
-    private articleService: ArticleService,
-  ) {}
 
-  ngOnInit() {
-    this.articles = this.articleService.getMockedArticles();
-  }
+  articleService = inject(ArticleService);
+
+  articles = toSignal(this.articleService.getArticles(), { initialValue: [] as Article[] });
 }
 
 

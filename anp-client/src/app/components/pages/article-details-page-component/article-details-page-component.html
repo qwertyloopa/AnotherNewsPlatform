@@ -1,13 +1,30 @@
-@if (article) {
-  <div tuiCardLarge>
-    <header tuiHeader>
-      <h2>{{ article.title }}</h2>
-    </header>
-    <span>{{ article.publishDate }}</span>
-    <p>{{ article.text }}</p>
-    <br>
-    <footer>
-      <a tuiButton routerLink="/article">Back</a>
-    </footer>
+@if (article(); as currentArticle) {
+  <div class="article-details-page">
+    <div tuiCardLarge>
+      <header tuiHeader>
+        <h2>{{ currentArticle.title }}</h2>
+      </header>
+      <span>{{ currentArticle.publishDate }}</span>
+      <p>{{ currentArticle.text }}</p>
+      <br>
+      <footer>
+        <a tuiButton routerLink="/article">Read original article</a>
+      </footer>
+    </div>
+    <div tuiCardLarge>
+      <header tuiHeader>
+        <h5>Commentaries</h5>
+      </header>
+      <div class="commentary-section">
+        <tui-textfield>
+          <label tuiLabel>Leave your commentary</label>
+          <textarea tuiTextarea></textarea>
+        </tui-textfield>
+        <button tuiButton>Send</button>
+        <div class="commentary-list">
+          <p>Тут будут комментарии</p>
+        </div>
+      </div>
+    </div>
   </div>
 }

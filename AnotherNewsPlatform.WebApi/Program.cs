@@ -7,7 +7,13 @@ using Microsoft.OpenApi;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
-var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
+// Источники, которым разрешено обращаться к API, - фронтенд на Angular
+var AllowedOrigins = new[]
+{
+    "http://localhost:4200",
+    "https://localhost:4200"
+};
 
 builder.Host.UseSerilog((context, services, configuration) => configuration
     .ReadFrom.Configuration(context.Configuration)
@@ -61,11 +67,13 @@ builder.Services.AddScoped<HangfireJobs>();
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy(MyAllowSpecificOrigins,
-        policy =>
-        {
-            policy.WithOrigins().AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
-        });
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.WithOrigins(AllowedOrigins)
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials();
+    });
 });
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
@@ -83,7 +91,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-//app.UseCors();
+app.UseCors();
 
 app.UseAuthentication();
 app.UseAuthorization();
