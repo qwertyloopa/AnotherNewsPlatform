@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace AnotherNewsPlatform.Database
 {
-    public class AnpDbContext : DbContext
+    public class AnpDbContext(DbContextOptions<AnpDbContext> options) : DbContext(options)
     {
         public DbSet<Article> Articles { get; set; }
         public DbSet<RefreshToken> RefreshTokens { get; set; }
@@ -16,12 +16,7 @@ namespace AnotherNewsPlatform.Database
         public DbSet<User> Users { get; set; }
         
         public DbSet<Commentary> Commentaries { get; set; }
-        
-        
-        public AnpDbContext(DbContextOptions<AnpDbContext> options) : base(options)
-        {
-            
-        }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

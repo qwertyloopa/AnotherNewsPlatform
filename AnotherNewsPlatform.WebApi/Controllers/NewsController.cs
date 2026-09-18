@@ -40,6 +40,7 @@ namespace AnotherNewsPlatform.WebApi.Controllers
         // }
         
         [HttpPatch("{id}")]
+        [Authorize]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]

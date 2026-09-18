@@ -4,11 +4,12 @@
       <header tuiHeader>
         <h2>{{ currentArticle.title }}</h2>
       </header>
-      <span>{{ currentArticle.publishDate }}</span>
+      <span>{{ currentArticle.sourceId }}</span>
       <div [innerHTML]="currentArticle.text"></div>
+      <span>{{ currentArticle.rate }}</span>
       <br>
       <footer>
-        <a tuiButton href={{currentArticle.originalUrl}}>Read original article</a>
+        <a tuiButton [href]="currentArticle.originalUrl">Read original article</a>
       </footer>
     </div>
     <div tuiCardLarge>

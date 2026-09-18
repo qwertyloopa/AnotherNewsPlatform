@@ -25,7 +25,7 @@ namespace AnotherNewsPlatform.WebApi.Controllers
             return BadRequest(ModelState);
         }
         
-        [HttpPatch("[action]/{id}")]
+        [HttpPatch("change-user-data")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]

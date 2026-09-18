@@ -5,5 +5,12 @@
     <a tuiButton appearance="secondary-grayscale" type="button">About</a>
   </span>
   <hr>
-  <div tuiAvatar="@tui.door-open"></div>
+  <div tuiAvatar="@tui.door-open" t></div>
 </header>
+
+<ng-template>
+  <tui-data-list>
+    <a tuiOption routerLink="/">Profile</a>
+    <a tuiOption routerLink="/about">About</a>
+  </tui-data-list>
+</ng-template>

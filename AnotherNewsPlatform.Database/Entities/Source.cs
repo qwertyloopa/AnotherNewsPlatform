@@ -11,6 +11,8 @@ namespace AnotherNewsPlatform.Database.Entities
         public string Name { get; set; }
         public string DomainUrl { get; set; }
         public string RssUrl { get; set; }
+        public string NewsTags { get; set; }
+        public string RemoveTags { get; set; }
         public ICollection<Article> Articles { get; set; }
 
     }

@@ -9,10 +9,12 @@ using Serilog;
 var builder = WebApplication.CreateBuilder(args);
 
 // Источники, которым разрешено обращаться к API, - фронтенд на Angular
-var AllowedOrigins = new[]
+var allowedOrigins = new[]
 {
     "http://localhost:4200",
-    "https://localhost:4200"
+    "https://localhost:4200",
+    "https://localhost:7238",
+    "http://localhost:5027"
 };
 
 builder.Host.UseSerilog((context, services, configuration) => configuration
@@ -36,14 +38,19 @@ builder.Host.UseSerilog((context, services, configuration) => configuration
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen(opt =>
 {
-    opt.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.OpenApiSecurityScheme
+    opt.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
-        In = Microsoft.OpenApi.ParameterLocation.Header,
+        In = ParameterLocation.Header,
         Description = "Please enter a valid token",
         Name = "Authorization",
-        Type = Microsoft.OpenApi.SecuritySchemeType.Http,
+        Type = SecuritySchemeType.Http,
         Scheme = "Bearer",
         BearerFormat = "JWT"
+    });
+
+    opt.AddSecurityRequirement(document => new OpenApiSecurityRequirement
+    {
+        [new OpenApiSecuritySchemeReference("Bearer", document)] = []
     });
 });
 builder.Services.AddDbContext<AnpDbContext>(с => с.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -57,6 +64,7 @@ builder.Services.AddScoped<AnotherNewsPlatform.WebApi.Mappers.UserMapper>();
 builder.RegisterCoreMappers();
 builder.Services.AddMediatR(cfg =>
 {
+    cfg.LicenseKey = builder.Configuration["MediatR:LicenseKey"];
     cfg.RegisterServicesFromAssembly(typeof(Program).Assembly);
     cfg.RegisterServicesFromAssembly(typeof(InsertArticleDataCommand).Assembly);
 });
@@ -69,7 +77,7 @@ builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
     {
-        policy.WithOrigins(AllowedOrigins)
+        policy.WithOrigins(allowedOrigins)
             .AllowAnyHeader()
             .AllowAnyMethod()
             .AllowCredentials();
