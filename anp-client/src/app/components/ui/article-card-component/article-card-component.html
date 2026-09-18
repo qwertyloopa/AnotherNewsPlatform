@@ -2,9 +2,12 @@
   <header tuiHeader>
     <h3>{{ article.title }}</h3>
   </header>
-  <p>{{ article.content }}</p>
+  <div [innerHTML]="article.content"></div>
   <br>
-  <p>{{ article.sourceId }}</p>
+  <label>
+    Rating
+    <tui-rating class="rating" [readonly]="true" [ngModel]="article.rate" icon="@tui.face-slightly-smiling" [max]="10"></tui-rating>
+  </label>
   <footer>
     <a tuiButton appearance="secondary" [routerLink]="['/article', article.id]">Read more</a>
   </footer>

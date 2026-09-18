@@ -1,0 +1,18 @@
+<form tuiCardLarge tuiForm="m" [formGroup]="loginForm">
+  <header tuiHeader>
+    <h2 tuiTitle>Login</h2>
+  </header>
+  <tui-textfield>
+    <label tuiLabel>Email</label>
+    <input tuiInput type="email" formControlName="email" />
+  </tui-textfield>
+  <tui-textfield>
+    <label tuiLabel>Password</label>
+    <input tuiInput type="password" formControlName="password" />
+  </tui-textfield>
+  <footer>
+    <button tuiButton type="submit">Login</button>
+    <button tuiButton appearance="secondary" type="button">Register</button>
+  </footer>
+</form>
+

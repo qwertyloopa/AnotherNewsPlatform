@@ -9,7 +9,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { catchError, map, of, switchMap } from 'rxjs';
 
 @Component({
-  imports: [TuiButton, RouterLink, TuiCardLarge, TuiHeader, TuiInput, TuiTextarea, TuiIcon],
+  imports: [TuiButton, TuiCardLarge, TuiHeader, TuiInput, TuiTextarea],
   selector: 'app-article-details-page-component',
   styleUrl: './article-details-page-component.less',
   templateUrl: './article-details-page-component.html',

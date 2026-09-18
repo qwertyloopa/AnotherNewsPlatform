@@ -10,7 +10,7 @@ var postgres = builder.AddPostgres("postgres")
 var ollama = builder.AddOllama("ollama", 11343).WithGPUSupport();
 
 var database = postgres.AddDatabase("AnotherNewsPlatformDb");
-var gemma3 = ollama.AddModel("gemma3:270m"); // модель подключена, осталось дописать логику работы с ней и всё
+var gemma3 = ollama.AddModel("gemma3:270m");
 
 //когда надо будет ставить всю эту байду заново (или для применения миграций), то строку ниже надо расскомментировать
 //var migrations = builder.AddProject<Projects.AnotherNewsPlatform_MigrationService>("migrations").WithReference(database).WaitFor(database);
@@ -31,6 +31,7 @@ builder.AddViteApp(name:"client", appDirectory:"../anp-client", runScriptName: "
     .WaitFor(api)
     .WithExternalHttpEndpoints()
     .WithHttpEndpoint(name: "http", port:4200)
+    .PublishAsDockerFile()
     .PublishAsDockerComposeService((resource, service)=>
     {
         service.Image = "anothernewsplatform/frontend:latest";
